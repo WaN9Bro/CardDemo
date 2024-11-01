@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEditor.UI;
@@ -9,35 +10,45 @@ namespace MyGame
 {
     public class BattleManager : MonoBehaviour,IPreGameService
     {
-        private GameManager _gameManager;
         private Faction _playerFaction;
+        
         private Faction _enemyFaction;
-
+        
         private CancellationTokenSource cts;
+
+        private int _round;
+        
         public EBattleState BattleState { get; private set; }
         public bool IsPause { get; private set; }
+
+        public List<BattlePlace> PlayerBattlePlaces = new List<BattlePlace>();
         
-        public void Init(GameManager gameManager)
+        public List<BattlePlace> EnemtyBattlePlaces = new List<BattlePlace>();
+        
+        
+        public void Init()
         {
-            _gameManager = gameManager;
             cts = new CancellationTokenSource();
             BattleState = EBattleState.None;
         }
         
-        public void StartBattle(Faction playerFaction,Faction enemyFaction)
+        public void RunBattle(Faction playerFaction,Faction enemyFaction)
         {
+            _round = 0;
             _playerFaction = playerFaction;
             _enemyFaction = enemyFaction;
-            PreBattle();
+            PrepareBattle();
         }
         
-        private void PreBattle()
+        private void PrepareBattle()
         {
-            _playerFaction.PreBattle();
-            _enemyFaction.PreBattle();
+            _playerFaction.PrepareBattle();
+            _playerFaction.SetHeroTransfrom(PlayerBattlePlaces);
+            _enemyFaction.PrepareBattle();
+            _enemyFaction.SetHeroTransfrom(EnemtyBattlePlaces);
+            
             BattleState = EBattleState.Running;
             InternalStartBattle(cts.Token).Forget();
-            
         }
 
         private async UniTask InternalStartBattle(CancellationToken token)
@@ -48,6 +59,7 @@ namespace MyGame
                 while (!token.IsCancellationRequested || (_playerFaction.HasEntityAlive && _enemyFaction.HasEntityAlive))
                 {
                     if (IsPause) continue;
+                    _round++;
                     
                     // 玩家阵营 攻击 敌方阵营
 

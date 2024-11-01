@@ -11,7 +11,7 @@ namespace MyGame
     {
         public string ConfigPath = Application.dataPath + "/GenerateDatas/Json";
         public Tables Tables { get; private set; }
-        public void Init(GameManager gameManager)
+        public void Init()
         {
             Tables = new cfg.Tables(LoadJson);
         }

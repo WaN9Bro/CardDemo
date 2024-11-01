@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace MyGame
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : MonoSingleton<GameManager>
     {
         private IReadOnlyDictionary<Type,IPreGameService> preGameServices = new Dictionary<Type,IPreGameService>();
         private IReadOnlyDictionary<Type,IPostGameService> postGameServices = new Dictionary<Type,IPostGameService>();
@@ -19,22 +19,24 @@ namespace MyGame
             // 初始化前服务
             foreach (var service in preGameServices.Values)
             {
-                service.Init(this);
+                service.Init();
             }
             
             // 初始化后服务
             foreach (var service in postGameServices.Values)
             {
-                service.Init(this);
+                service.Init();
             }
+
+            GetService(out PlayerManager playerManager);
+            HeroModel heroModel = new HeroModel();
+            playerManager.AddHero(heroModel);
             
-            if (GetService<PlayerManager>(out PlayerManager playerManager))
-            {
-                HeroModel heroModel = new HeroModel();
-                playerManager.
-            }
-            
-            BattleManager.StartBattle();
+            Faction playerFaction = FactionHelper.CreatePlayerFaction(playerManager.PlayerData.Faction);
+            Faction enemyFaction = FactionHelper.CreateEnemyFaction(1);
+
+            GetService(out BattleManager battleManager);
+            battleManager.RunBattle(playerFaction, enemyFaction);
         }
         
         public bool GetService<T>(out T service) where T : IGameService

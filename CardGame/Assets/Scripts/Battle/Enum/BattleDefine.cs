@@ -1,4 +1,6 @@
-﻿namespace MyGame
+﻿using System;
+
+namespace MyGame
 {
     public enum EAttackType
     {
@@ -14,6 +16,7 @@
         Ended = 3,
     }
     
+    [Serializable]
     public enum EProfession
     {
         Warrior, // 战士
@@ -22,6 +25,7 @@
         Auxiliary,  // 辅助
     }
     
+    [Serializable]
     public enum EStanding
     {
         L1,
@@ -30,5 +34,12 @@
         R1,
         R2,
         R3
+    }
+
+    [Serializable]
+    public enum EFaction
+    {
+        Player = 0,
+        Enemy = 1,
     }
 }

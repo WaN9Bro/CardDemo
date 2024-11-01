@@ -7,7 +7,6 @@ namespace MyGame
 {
     public class HeroObj : MonoBehaviour
     {
-        public bool IsInitialized { get; private set; }
         public EStanding Standing { get; private set; }
         
         private Dictionary<string, IHeroComponent> _components;
@@ -46,6 +45,14 @@ namespace MyGame
             private set => _controlState = value;
         }
 
+        private HeroModel _model;
+
+        public HeroModel Model
+        {
+            get => _model;
+            private set => _model = value;
+        }
+
         /// <summary>
         /// 技能组件
         /// </summary>
@@ -72,15 +79,29 @@ namespace MyGame
             EquipmentComComponent = GetEntityComponent<HeroEquipmentCom>();
         }
 
+        public void Init(HeroModel model,EStanding standing)
+        {
+            _model = model;
+            Standing = standing;
+
+            foreach (var com in _components.Values)
+            {
+                com.Initialize(this);
+            }
+            
+            InitProperty(_model.BaseProperty);
+        }
+
         public void InitProperty(HeroProperty baseProp)
         {
             BaseProperty = baseProp;
+            RecheckProperty();
             Resource.Hp = Property.Hp;
             Resource.Angry = 0;
             Resource.Shield = 0;
         }
 
-        private void RefreshData()
+        private void RecheckProperty()
         {
             ControlState = HeroControlState.Default;
             Property = HeroProperty.Default;

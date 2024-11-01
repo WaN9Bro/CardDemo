@@ -7,7 +7,7 @@
     {
         HeroObj HeroObj { get; }
         
-        void Initialize(HeroObj heroObj,GameManager gameManager);
+        void Initialize(HeroObj heroObj);
 
         void CleanUp();
     }

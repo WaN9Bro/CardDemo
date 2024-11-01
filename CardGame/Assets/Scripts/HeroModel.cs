@@ -1,26 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace MyGame
 {
-    public struct HeroModel
+    [Serializable]
+    public class HeroModel : IReference
     {
         public int Id;
+
+        public int Uid;
         
         public int Level;
+
+        public string Prefab;
         
         public List<EquipmentData> Equipment;
         
         public List<SkillData> Skill;
 
-        public static void Create(int id,int level,GameManager manager)
+        [JsonIgnore]
+        public HeroProperty BaseProperty
         {
-            if (manager.GetService(out ConfigManager configManager))
+            get
             {
-                
+                //TODO:读配置表内容进行生成
+                return HeroProperty.Default;
             }
         }
-        
+
+        public static void Create(int id,int level)
+        {
+            if (GameManager.Instance.GetService(out ConfigManager configManager))
+            {
+                //TODO：创建英雄表、技能表
+            }
+        }
+
+        public void Clear()
+        {
+            
+        }
     }
 
     [Serializable]

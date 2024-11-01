@@ -2,6 +2,6 @@
 {
     public interface IGameService
     {
-        void Init(GameManager gameManager);
+        void Init();
     }
 }
