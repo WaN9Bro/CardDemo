@@ -2,7 +2,7 @@
 
 namespace MyGame
 {
-    public class HeroSkill : MonoBehaviour,IHeroComponent
+    public class HeroSkillCom : MonoBehaviour,IHeroComponent
     {
         public HeroObj HeroObj { get; }
         public void Initialize(HeroObj heroObj, GameManager gameManager)

@@ -63,14 +63,14 @@ namespace MyGame
                     
                     // 玩家阵营 攻击 敌方阵营
 
-                    await _playerFaction.FactionAciton(_enemyFaction);
+                    await _playerFaction.StartBattle(_enemyFaction);
                     if (!_enemyFaction.HasEntityAlive)
                     {
                         EndBattle(true);
                         return;
                     }
                     
-                    await _playerFaction.FactionAciton(_enemyFaction);
+                    await _playerFaction.StartBattle(_enemyFaction);
                     
                     if (!_enemyFaction.HasEntityAlive)
                     {
@@ -82,7 +82,7 @@ namespace MyGame
             }
             catch (OperationCanceledException e)
             {
-                
+                EndBattle(false);
             }
             
         }

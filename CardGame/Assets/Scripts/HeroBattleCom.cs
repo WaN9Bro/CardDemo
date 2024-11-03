@@ -35,7 +35,7 @@
             // 当前血量、当前护盾、当前怒气
             
             
-            HeroObj.SkillComponent
+            HeroObj.SkillCom
             
             
             

@@ -52,21 +52,26 @@ namespace MyGame
             get => _model;
             private set => _model = value;
         }
+        
+        /// <summary>
+        /// 战斗组件
+        /// </summary>
+        public HeroBattleCom BattleCom { get; private set; }
 
         /// <summary>
         /// 技能组件
         /// </summary>
-        public HeroSkill SkillComponent { get; private set; }
+        public HeroSkillCom SkillCom { get; private set; }
         
         /// <summary>
         /// Buff组件
         /// </summary>
-        public HeroBuffCom BuffComComponent { get; private set; }
+        public HeroBuffCom BuffCom { get; private set; }
         
         /// <summary>
         /// 装备组件
         /// </summary>
-        public HeroEquipmentCom EquipmentComComponent { get; private set; }
+        public HeroEquipmentCom EquipmentCom { get; private set; }
         
         
         public bool IsDead => Property.Hp <= 0;
@@ -74,9 +79,9 @@ namespace MyGame
         private void Awake()
         {
             _components = GetComponentsInChildren<IHeroComponent>().ToDictionary(com => nameof(com), com => com);
-            SkillComponent = GetEntityComponent<HeroSkill>();
-            BuffComComponent = GetEntityComponent<HeroBuffCom>();
-            EquipmentComComponent = GetEntityComponent<HeroEquipmentCom>();
+            SkillCom = GetEntityComponent<HeroSkillCom>();
+            BuffCom = GetEntityComponent<HeroBuffCom>();
+            EquipmentCom = GetEntityComponent<HeroEquipmentCom>();
         }
 
         public void Init(HeroModel model,EStanding standing)
@@ -112,17 +117,17 @@ namespace MyGame
 
         public HeroProperty GetPropertyFromBuff()
         {
-            return BuffComComponent.GetProperty();
+            return BuffCom.GetProperty();
         }
 
         public HeroProperty GetPropertyFromSkill()
         {
-            return SkillComponent.GetProperty();
+            return SkillCom.GetProperty();
         }
 
         public HeroProperty GetPropertyFromEquipment()
         {
-            return EquipmentComComponent.GetProperty();
+            return EquipmentCom.GetProperty();
         }
 
         public T GetEntityComponent<T>() where T : IHeroComponent

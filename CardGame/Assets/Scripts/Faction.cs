@@ -86,37 +86,17 @@ namespace MyGame
                 i++;
             }
         }
-
-        public HeroObj FindActionTarget(EStanding standing)
+        
+        public async UniTask StartBattle(Faction otherFaction)
         {
-            // 如果是普通攻击
-            if (_placeHeros.TryGetValue(standing, out HeroObj entity))
-            {
-                if (entity != null)
-                {
-                    return entity;
-                }
-            }
-
-            foreach (HeroObj _entity in _placeHeros.Values)
-            {
-                if (_entity != null)
-                    return _entity;
-            }
-
-            return null;
-        }
-
-        public async UniTask FactionAciton(Faction otherFaction)
-        {
-            foreach (KeyValuePair<EStanding, HeroObj> pair in _heroObjs)
+            // 要处理战斗逻辑： 针对性
+            foreach (var kv in _heroObjs)
             {
                 if (!otherFaction.HasEntityAlive) return;
-                if (pair.Value == null) continue;
-                if(pair.Value.IsDead) continue;                                                         
-                HeroBattleCom heroBattleCom = pair.Value.GetEntityComponent<HeroBattleCom>();
-                heroBattleCom.Active(this,otherFaction);
-            }
+                if (kv.Value == null) continue;
+                if(kv.Value.Obj.IsDead) continue;                                                         
+                kv.Value.Obj.BattleCom.Active(this,otherFaction);
+            } 
         }
     }
 }
