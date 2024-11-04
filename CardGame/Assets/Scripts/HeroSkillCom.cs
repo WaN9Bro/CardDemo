@@ -1,24 +1,28 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Pool;
 
 namespace MyGame
 {
-    public class HeroSkillCom : MonoBehaviour,IHeroComponent
+    public class HeroSkillCom : IHeroComponent
     {
         public HeroObj HeroObj { get; }
-        public void Initialize(HeroObj heroObj, GameManager gameManager)
+        public List<SkillObj> SkillObjs;
+        
+        public void Initialize(HeroObj heroObj)
+        {
+            SkillObjs = ListPool<SkillObj>.Get();
+        }
+        
+        public HeroProperty GetProperty()
+        
         {
             
         }
 
-        public void CleanUp()
+        public void Clear()
         {
-            
+            ListPool<SkillObj>.Release(SkillObjs);
         }
-        
-        public HeroProperty GetProperty()
-        {
-            
-        }
-        
     }
 }

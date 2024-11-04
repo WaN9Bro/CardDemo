@@ -17,7 +17,7 @@
     {
         public string Id { get; private set; }
         
-        public HeroResource Condition { get; private set; }
+        public SkillCastCondition Condition { get; private set; }
         
         public HeroResource Cost { get; private set; }
         
@@ -25,7 +25,7 @@
         
         public AddBuffInfo[] AddBuffs { get; private set; }
 
-        public SkillModel(string id, HeroResource condition, HeroResource cost, string effect, AddBuffInfo[] addBuffs)
+        public SkillModel(string id, SkillCastCondition condition, HeroResource cost, string effect, AddBuffInfo[] addBuffs)
         {
             Id = id;
             Condition = condition;

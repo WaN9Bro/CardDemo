@@ -29,8 +29,6 @@ namespace MyGame
             }
 
             GetService(out PlayerManager playerManager);
-            HeroModel heroModel = new HeroModel();
-            playerManager.AddHero(heroModel);
             
             Faction playerFaction = FactionHelper.CreatePlayerFaction(playerManager.PlayerData.Faction);
             Faction enemyFaction = FactionHelper.CreateEnemyFaction(1);

@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 
 
 
-namespace cfg
+namespace MyGame
 {
 
 public partial struct vector3

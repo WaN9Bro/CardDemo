@@ -9,8 +9,6 @@ namespace MyGame
     {
         public EStanding Standing { get; private set; }
         
-        private Dictionary<string, IHeroComponent> _components;
-
         /// <summary>
         /// 玩家当前资源
         /// </summary>
@@ -72,27 +70,28 @@ namespace MyGame
         /// 装备组件
         /// </summary>
         public HeroEquipmentCom EquipmentCom { get; private set; }
-        
-        
+
+        public HeroUICom UiCom { get; private set; } 
+
+
         public bool IsDead => Property.Hp <= 0;
         
-        private void Awake()
-        {
-            _components = GetComponentsInChildren<IHeroComponent>().ToDictionary(com => nameof(com), com => com);
-            SkillCom = GetEntityComponent<HeroSkillCom>();
-            BuffCom = GetEntityComponent<HeroBuffCom>();
-            EquipmentCom = GetEntityComponent<HeroEquipmentCom>();
-        }
-
         public void Init(HeroModel model,EStanding standing)
         {
             _model = model;
             Standing = standing;
-
-            foreach (var com in _components.Values)
-            {
-                com.Initialize(this);
-            }
+            
+            BattleCom = ReferencePool.Acquire<HeroBattleCom>();
+            SkillCom = ReferencePool.Acquire<HeroSkillCom>();
+            BuffCom = ReferencePool.Acquire<HeroBuffCom>();
+            EquipmentCom = ReferencePool.Acquire<HeroEquipmentCom>();
+            UiCom = ReferencePool.Acquire<HeroUICom>();
+            
+            BattleCom.Initialize(this);
+            SkillCom.Initialize(this);
+            BuffCom.Initialize(this);
+            EquipmentCom.Initialize(this);
+            UiCom.Initialize(this);
             
             InitProperty(_model.BaseProperty);
         }
@@ -102,7 +101,6 @@ namespace MyGame
             BaseProperty = baseProp;
             RecheckProperty();
             Resource.Hp = Property.Hp;
-            Resource.Angry = 0;
             Resource.Shield = 0;
         }
 
@@ -128,17 +126,6 @@ namespace MyGame
         public HeroProperty GetPropertyFromEquipment()
         {
             return EquipmentCom.GetProperty();
-        }
-
-        public T GetEntityComponent<T>() where T : IHeroComponent
-        {
-            if (_components.TryGetValue(nameof(T), out IHeroComponent component))
-            {
-                return (T)component;
-            }
-
-            Debug.LogError($"[Entity]component '{nameof(T)}' not found");
-            return default;
         }
     }
 }

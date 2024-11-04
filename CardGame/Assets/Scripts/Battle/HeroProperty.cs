@@ -47,45 +47,55 @@ namespace MyGame
 
     public class HeroResource
     {
-        public int Hp { get; set;}
-        
-        public int Angry { get; set; }
-        
-        public int Shield { get; set; }
+        public int Hp;
 
-        public HeroResource(int hp, int angry, int shield)
+        public int Shield;
+
+        public HeroResource(int hp, int shield)
         {
             Hp = hp;
-            Angry = angry;
             Shield = shield;
         }
 
         public bool Enought(HeroResource requireResource)
         {
             return Hp >= requireResource.Hp &&
-                   Angry >= requireResource.Angry && 
                    Shield >= requireResource.Shield;
         }
         
-        public static HeroResource Empty = new HeroResource(0, 0, 0);
+        public static HeroResource Empty = new HeroResource(0, 0);
         
-        public static HeroResource Normal = new HeroResource(0, 100, 0);
+        public static HeroResource Normal = new HeroResource(0, 0);
 
         public static HeroResource operator +(HeroResource a, HeroResource b)
         {
-            return new HeroResource(a.Hp + b.Hp,a.Angry + b.Angry,a.Shield + b.Shield);
+            return new HeroResource(a.Hp + b.Hp,a.Shield + b.Shield);
         }
         
         public static HeroResource operator -(HeroResource a, HeroResource b)
         {
-            return new HeroResource(a.Hp - b.Hp,a.Angry - b.Angry,a.Shield - b.Shield);
+            return new HeroResource(a.Hp - b.Hp,a.Shield - b.Shield);
         }
 
         public static HeroResource operator *(float a, HeroResource b)
         {
-            return new HeroResource(Mathf.FloorToInt(b.Hp * a), Mathf.FloorToInt(b.Angry * a), Mathf.FloorToInt(b.Shield * a));
+            return new HeroResource(Mathf.FloorToInt(b.Hp * a), Mathf.FloorToInt(b.Shield * a));
         }
 
  
+    }
+
+    public struct SkillCastCondition
+    {
+        public int FirstRound;
+        public int CdRound;
+
+        public static SkillCastCondition Default = new SkillCastCondition(1, 2);
+
+        public SkillCastCondition(int firstRound, int cdRound)
+        {
+            FirstRound = firstRound;
+            CdRound = cdRound;
+        }
     }
 }

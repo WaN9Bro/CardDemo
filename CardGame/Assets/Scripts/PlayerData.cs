@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace MyGame
 {
+    [Serializable]
     public class PlayerData
     {
         public string Name;

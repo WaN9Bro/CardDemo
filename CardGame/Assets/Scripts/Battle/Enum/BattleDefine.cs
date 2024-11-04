@@ -17,15 +17,6 @@ namespace MyGame
     }
     
     [Serializable]
-    public enum EProfession
-    {
-        Warrior, // 战士
-        Assassin, // 刺客
-        Tank,   // 坦克
-        Auxiliary,  // 辅助
-    }
-    
-    [Serializable]
     public enum EStanding
     {
         L1,

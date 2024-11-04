@@ -26,7 +26,7 @@ namespace MyGame
             m_ObjectPoolComparer = ObjectPoolComparer;
         }
         
-        public void Init(GameManager gameManager)
+        public void Init()
         {
             
         }

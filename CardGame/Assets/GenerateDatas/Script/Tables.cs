@@ -9,22 +9,22 @@
 
 using Newtonsoft.Json.Linq;
 
-namespace cfg
+namespace MyGame
 {
 public partial class Tables
 {
-    public Test.TbReward TbReward {get; }
+    public TbHero TbHero {get; }
 
 
       public Tables(System.Func<string, JArray> loader)
     {
-        TbReward = new Test.TbReward(loader("test_tbreward"));
+        TbHero = new TbHero(loader("tbhero"));
         ResolveRef();
     }
     
      private void ResolveRef()
     {
-        TbReward.ResolveRef(this);
+        TbHero.ResolveRef(this);
     }
 }
 

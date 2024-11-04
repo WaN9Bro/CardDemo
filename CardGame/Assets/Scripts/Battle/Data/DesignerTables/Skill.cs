@@ -6,7 +6,7 @@ namespace MyGame.Data.DesignerTables
     {
         public static Dictionary<string, SkillModel> Data = new Dictionary<string, SkillModel>
         {
-            {"Attack",new SkillModel("Attack",HeroResource.Normal,HeroResource.Normal,"Attack",
+            {"Attack",new SkillModel("Attack",SkillCastCondition.Default,HeroResource.Normal,"Attack",
                 new AddBuffInfo[] { }
                 
             )}

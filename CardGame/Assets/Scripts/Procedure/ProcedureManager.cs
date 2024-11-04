@@ -20,7 +20,7 @@ namespace MyGame
             m_ProcedureFsm = null;
         }
         
-        public void Init(GameManager gameManager)
+        public void Init()
         {
             
         }

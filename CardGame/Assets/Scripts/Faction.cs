@@ -89,13 +89,12 @@ namespace MyGame
         
         public async UniTask StartBattle(Faction otherFaction)
         {
-            // 要处理战斗逻辑： 针对性
             foreach (var kv in _heroObjs)
             {
                 if (!otherFaction.HasEntityAlive) return;
                 if (kv.Value == null) continue;
                 if(kv.Value.Obj.IsDead) continue;                                                         
-                kv.Value.Obj.BattleCom.Active(this,otherFaction);
+                await kv.Value.Obj.BattleCom.Active(this,otherFaction);
             } 
         }
     }

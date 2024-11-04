@@ -62,7 +62,6 @@ namespace MyGame
                     _round++;
                     
                     // 玩家阵营 攻击 敌方阵营
-
                     await _playerFaction.StartBattle(_enemyFaction);
                     if (!_enemyFaction.HasEntityAlive)
                     {

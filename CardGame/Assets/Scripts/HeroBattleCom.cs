@@ -1,44 +1,26 @@
-﻿namespace MyGame
+﻿using Cysharp.Threading.Tasks;
+
+namespace MyGame
 {
     public class HeroBattleCom : IHeroComponent
     {
         public HeroObj HeroObj { get; private set; }
-        public bool IsActive { get; private set; }
         
-        private GameManager _gameManager;
-
         private Faction _selfFaction;
         private Faction _otherFaction;
-        
-        public void Initialize(HeroObj heroObj, GameManager gameManager)
+        private IReference _referenceImplementation;
+
+        public void Initialize(HeroObj heroObj)
         {
             HeroObj = heroObj;
-            _gameManager = gameManager;
         }
-
-        public void CleanUp()
+        public async UniTask Active(Faction selfFaction, Faction otherFaction = null)
         {
-            
-        }
-
-        public void Active(Faction selfFaction, Faction otherFaction = null)
-        {
-            if (IsActive) return;
-            IsActive = true;
             _selfFaction = selfFaction;
             _otherFaction = otherFaction;
-            
-            // 根据玩家的情况
-            // 突（入场时有高额怒气）、攻（普攻回复怒气）、防（收到普攻后回复怒气）、辅（友方普攻后回复怒气）
-            // 首先判断自己的怒气
-            // 如果是突，
-            // 当前血量、当前护盾、当前怒气
-            
-            
-            HeroObj.SkillCom
-            
-            
-            
+            // 要么是普攻、 要么是放技能
+            // 首先是技能释放判断。没有可以释放的技能，就进入普攻完结
+            HeroObj.SkillCom.A
             
         }
 
@@ -63,6 +45,11 @@
         }
 
         public void Idle()
+        {
+            
+        }
+
+        public void Clear()
         {
             
         }

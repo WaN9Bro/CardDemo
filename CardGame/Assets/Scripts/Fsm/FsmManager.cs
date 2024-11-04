@@ -390,7 +390,7 @@ namespace MyGame
             return false;
         }
 
-        public void Init(GameManager gameManager)
+        public void Init()
         {
             throw new NotImplementedException();
         }

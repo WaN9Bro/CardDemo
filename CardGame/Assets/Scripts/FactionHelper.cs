@@ -28,7 +28,7 @@ namespace MyGame
         {
             
             // TODO: 从配置里 读取 阵营英雄
-            return new Faction();
+            return default;
         }
     }
 }

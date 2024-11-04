@@ -2,17 +2,22 @@
 
 namespace MyGame
 {
-    public class HeroUI : MonoBehaviour,IHeroComponent
+    public class HeroUICom : IHeroComponent
     {
         public HeroObj HeroObj { get; }
+        public void Initialize(HeroObj heroObj)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Initialize(HeroObj heroObj, GameManager gameManager)
         {
             throw new System.NotImplementedException();
         }
 
-        public void CleanUp()
+        public void Clear()
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

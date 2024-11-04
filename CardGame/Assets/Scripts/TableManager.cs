@@ -1,19 +1,16 @@
-﻿using System.IO;
-using cfg;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SimpleJSON;
 using UnityEngine;
 
 namespace MyGame
 {
-    public class ConfigManager : MonoBehaviour, IPreGameService
+    public class TableManager : MonoBehaviour, IPreGameService
     {
         public string ConfigPath = Application.dataPath + "/GenerateDatas/Json";
         public Tables Tables { get; private set; }
         public void Init()
         {
-            Tables = new cfg.Tables(LoadJson);
+            Tables = new Tables(LoadJson);
         }
         private JArray LoadJson(string file)
         {
