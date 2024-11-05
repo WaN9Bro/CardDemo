@@ -94,7 +94,7 @@ namespace MyGame
                 if (!otherFaction.HasEntityAlive) return;
                 if (kv.Value == null) continue;
                 if(kv.Value.Obj.IsDead) continue;                                                         
-                await kv.Value.Obj.BattleCom.Active(this,otherFaction);
+                await kv.Value.Obj.BattleCom.StartBattle(this,otherFaction);
             } 
         }
     }

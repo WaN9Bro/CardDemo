@@ -13,10 +13,9 @@ namespace MyGame
 {
 public partial class Tables
 {
-    public TbHero TbHero {get; }
+    public TbHero TbHero {get; } 
 
-
-      public Tables(System.Func<string, JArray> loader)
+    public Tables(System.Func<string, JArray> loader)
     {
         TbHero = new TbHero(loader("tbhero"));
         ResolveRef();

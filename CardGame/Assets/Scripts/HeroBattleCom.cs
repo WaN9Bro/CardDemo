@@ -14,14 +14,13 @@ namespace MyGame
         {
             HeroObj = heroObj;
         }
-        public async UniTask Active(Faction selfFaction, Faction otherFaction = null)
+        public async UniTask StartBattle(Faction selfFaction, Faction otherFaction = null)
         {
             _selfFaction = selfFaction;
             _otherFaction = otherFaction;
             // 要么是普攻、 要么是放技能
             // 首先是技能释放判断。没有可以释放的技能，就进入普攻完结
-            HeroObj.SkillCom.A
-            
+            HeroObj.SkillCom.CastSkill();
         }
 
         public void Inactive()

@@ -10,7 +10,7 @@
         
         public HeroProperty GetProperty()
         {
-            
+            return default;
         }
 
         public void Clear()

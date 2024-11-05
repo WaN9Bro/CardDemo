@@ -6,9 +6,10 @@ namespace MyGame
     {
         public static HeroObj CreateHeroObj(HeroModel model)
         {
-            HeroObj gObj = Resources.Load<HeroObj>(model.Prefab);
-            HeroObj heroObj = GameObject.Instantiate(gObj);
-            return heroObj;
+            // HeroObj gObj = Resources.Load<HeroObj>();
+            // HeroObj heroObj = GameObject.Instantiate(gObj);
+            // return heroObj;
+            return null;
         }
     }
 }
