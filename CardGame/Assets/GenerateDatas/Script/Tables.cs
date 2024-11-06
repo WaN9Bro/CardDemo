@@ -13,17 +13,27 @@ namespace MyGame
 {
 public partial class Tables
 {
-    public TbHero TbHero {get; } 
+    public TbHero TbHero {get; }
+    public TbSkill TbSkill {get; }
+    public TbEffectTime TbEffectTime {get; }
+    public TbAoe TbAoe {get; }
 
-    public Tables(System.Func<string, JArray> loader)
+
+      public Tables(System.Func<string, JArray> loader)
     {
         TbHero = new TbHero(loader("tbhero"));
+        TbSkill = new TbSkill(loader("tbskill"));
+        TbEffectTime = new TbEffectTime(loader("tbeffecttime"));
+        TbAoe = new TbAoe(loader("tbaoe"));
         ResolveRef();
     }
     
      private void ResolveRef()
     {
         TbHero.ResolveRef(this);
+        TbSkill.ResolveRef(this);
+        TbEffectTime.ResolveRef(this);
+        TbAoe.ResolveRef(this);
     }
 }
 

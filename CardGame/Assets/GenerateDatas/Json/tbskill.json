@@ -1,0 +1,209 @@
+[
+  {
+    "Id": 10101,
+    "Group": 1010,
+    "Rule": {
+      "Cast": 1,
+      "CD": 0
+    },
+    "Condition": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "Cost": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "EffectTimeKey": "FarAttack",
+    "EffectTimeParams": [
+      {
+        "type": "int",
+        "data": "1"
+      },
+      {
+        "type": "string",
+        "data": "hahaha"
+      }
+    ]
+  },
+  {
+    "Id": 10111,
+    "Group": 1011,
+    "Rule": {
+      "Cast": 1,
+      "CD": 1
+    },
+    "Condition": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "Cost": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "EffectTimeKey": "Hua",
+    "EffectTimeParams": []
+  },
+  {
+    "Id": 10112,
+    "Group": 1011,
+    "Rule": {
+      "Cast": 1,
+      "CD": 1
+    },
+    "Condition": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "Cost": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "EffectTimeKey": "",
+    "EffectTimeParams": []
+  },
+  {
+    "Id": 10113,
+    "Group": 1011,
+    "Rule": {
+      "Cast": 1,
+      "CD": 1
+    },
+    "Condition": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "Cost": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "EffectTimeKey": "",
+    "EffectTimeParams": []
+  },
+  {
+    "Id": 10114,
+    "Group": 1011,
+    "Rule": {
+      "Cast": 1,
+      "CD": 1
+    },
+    "Condition": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "Cost": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "EffectTimeKey": "",
+    "EffectTimeParams": []
+  },
+  {
+    "Id": 10115,
+    "Group": 1011,
+    "Rule": {
+      "Cast": 1,
+      "CD": 1
+    },
+    "Condition": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "Cost": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "EffectTimeKey": "",
+    "EffectTimeParams": []
+  },
+  {
+    "Id": 10121,
+    "Group": 1012,
+    "Rule": {
+      "Cast": 1,
+      "CD": 3
+    },
+    "Condition": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "Cost": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "EffectTimeKey": "",
+    "EffectTimeParams": []
+  },
+  {
+    "Id": 10122,
+    "Group": 1012,
+    "Rule": {
+      "Cast": 1,
+      "CD": 3
+    },
+    "Condition": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "Cost": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "EffectTimeKey": "",
+    "EffectTimeParams": []
+  },
+  {
+    "Id": 10123,
+    "Group": 1012,
+    "Rule": {
+      "Cast": 1,
+      "CD": 3
+    },
+    "Condition": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "Cost": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "EffectTimeKey": "",
+    "EffectTimeParams": []
+  },
+  {
+    "Id": 10124,
+    "Group": 1012,
+    "Rule": {
+      "Cast": 1,
+      "CD": 3
+    },
+    "Condition": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "Cost": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "EffectTimeKey": "",
+    "EffectTimeParams": []
+  },
+  {
+    "Id": 10125,
+    "Group": 1012,
+    "Rule": {
+      "Cast": 1,
+      "CD": 3
+    },
+    "Condition": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "Cost": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "EffectTimeKey": "",
+    "EffectTimeParams": []
+  }
+]

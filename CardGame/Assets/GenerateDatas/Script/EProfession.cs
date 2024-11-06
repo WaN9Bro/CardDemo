@@ -14,15 +14,15 @@ namespace MyGame
     public enum EProfession
     {
         /// <summary>
-        /// 战士
+        /// 物理输出
         /// </summary>
-        Warrior = 0,
+        Physics = 0,
         /// <summary>
-        /// 刺客
+        /// 魔法输出
         /// </summary>
-        Assassin = 1,
+        Magic = 1,
         /// <summary>
-        /// 坦克
+        /// 前排肉盾
         /// </summary>
         Tank = 2,
         /// <summary>

@@ -13,7 +13,9 @@
 
         public HeroControlMod(bool canAttack, bool canAddAngry, bool canUseSkill)
         {
-            
+            object o = new object();
+            o = 1;
+            o = "";
         }
     }
 }
