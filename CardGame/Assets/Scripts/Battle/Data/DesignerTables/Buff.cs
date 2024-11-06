@@ -6,7 +6,7 @@ namespace MyGame.Data.DesignerTables
     {
         public static Dictionary<string, BuffModel> Data = new Dictionary<string, BuffModel>
         {
-            {"gongjitisheng",new BuffModel("gongjitisheng",0,1, new string[]{},0,HeroProperty.Default, HeroControlState.Default,
+            {"gongjitisheng",new BuffModel("gongjitisheng",0,1, new string[]{},0,HeroProperty.Default, HeroControlMod.Default,
                 "",new object[]{},
                 "",new object[]{},
                 "",new object[]{},

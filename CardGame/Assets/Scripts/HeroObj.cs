@@ -36,11 +36,11 @@ namespace MyGame
         /// <summary>
         /// 当前行动状态
         /// </summary>
-        private HeroControlState _controlState;
-        public HeroControlState ControlState
+        private HeroControlMod _controlMod;
+        public HeroControlMod ControlMod
         {
-            get =>_controlState; 
-            private set => _controlState = value;
+            get =>_controlMod; 
+            private set => _controlMod = value;
         }
 
         private HeroModel _model;
@@ -106,7 +106,7 @@ namespace MyGame
 
         private void RecheckProperty()
         {
-            ControlState = HeroControlState.Default;
+            ControlMod = HeroControlMod.Default;
             Property = HeroProperty.Default;
             Property += GetPropertyFromBuff();
             Property += GetPropertyFromSkill();

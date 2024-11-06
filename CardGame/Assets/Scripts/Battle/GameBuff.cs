@@ -38,7 +38,7 @@ namespace MyGame
         
         public HeroProperty PropMod { get;private set; }
         
-        public HeroControlState StateMod { get;private set; }
+        public HeroControlMod ModMod { get;private set; }
         
         public BuffOnOccur OnOccur { get;private set; }
         
@@ -72,7 +72,7 @@ namespace MyGame
         
         public object[] OnBeKilledParams { get;private set; }
 
-        public BuffModel(string id, int priority, int maxStack, string[] tags, float tickTime, HeroProperty propMod, HeroControlState stateMod, 
+        public BuffModel(string id, int priority, int maxStack, string[] tags, float tickTime, HeroProperty propMod, HeroControlMod modMod, 
             string onOccur, object[] onOccurParams, 
             string onTick, object[] onTickParams, 
             string onRemoved, object[] onRemovedParams, 
@@ -88,7 +88,7 @@ namespace MyGame
             Tags = tags;
             TickTime = tickTime;
             PropMod = propMod;
-            StateMod = stateMod;
+            ModMod = modMod;
             OnOccur = string.IsNullOrEmpty(onOccur) ? null : Data.DesignerScripts.Buff.OnOccurFunc[onOccur];
             OnOccurParams = onOccurParams;
             OnTick = string.IsNullOrEmpty(onTick) ? null : Data.DesignerScripts.Buff.OnTickFunc[onTick];
