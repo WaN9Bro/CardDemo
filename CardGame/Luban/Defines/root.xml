@@ -1,0 +1,24 @@
+<module name="">
+    <bean name="mObject">
+        <bean name="mInt">
+            <var name="data" type="int"/>         
+        </bean>
+
+        <bean name="mFloat">
+            <var name="data" type="float"/>         
+        </bean>
+
+        <bean name="mString">
+            <var name="data" type="string"/>        
+        </bean>
+
+        <bean name="mCreateDamageWarp">
+            <var name="data" type="CreateDamageWarp#sep=#"/>        
+        </bean>
+
+        <bean name="mAddBuffWarp">
+            <var name="data" type="AddBuffWarp#sep=,"/>        
+        </bean>
+
+  </bean>
+</module>

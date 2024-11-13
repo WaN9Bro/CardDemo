@@ -14,71 +14,11 @@
     "PhysicalDefenseDelta": 5,
     "MagicDefenseDelta": 5,
     "SkillGroupIds": [
-      "NormalAtk",
-      "1010"
-    ]
-  },
-  {
-    "Id": 1002,
-    "Name": "测试2",
-    "Prefab": "",
-    "Quality": 1,
-    "Profession": 0,
-    "Hp": 1000,
-    "Attack": 100,
-    "PhysicalDefense": 10,
-    "MagicDefense": 10,
-    "HpDelta": 500,
-    "AttackDelta": 50,
-    "PhysicalDefenseDelta": 5,
-    "MagicDefenseDelta": 5,
-    "SkillGroupIds": [
-      "90001",
-      "10201",
-      "10202"
-    ]
-  },
-  {
-    "Id": 1003,
-    "Name": "测试3",
-    "Prefab": "",
-    "Quality": 2,
-    "Profession": 0,
-    "Hp": 1000,
-    "Attack": 100,
-    "PhysicalDefense": 10,
-    "MagicDefense": 10,
-    "HpDelta": 500,
-    "AttackDelta": 50,
-    "PhysicalDefenseDelta": 5,
-    "MagicDefenseDelta": 5,
-    "SkillGroupIds": [
-      "90002",
-      "10301",
-      "10302",
-      "10303"
-    ]
-  },
-  {
-    "Id": 1004,
-    "Name": "测试4",
-    "Prefab": "",
-    "Quality": 3,
-    "Profession": 0,
-    "Hp": 1000,
-    "Attack": 100,
-    "PhysicalDefense": 10,
-    "MagicDefense": 10,
-    "HpDelta": 500,
-    "AttackDelta": 50,
-    "PhysicalDefenseDelta": 5,
-    "MagicDefenseDelta": 5,
-    "SkillGroupIds": [
-      "90002",
-      "10401",
-      "10402",
-      "10403",
-      "10404"
+      90001,
+      1011,
+      1021,
+      1031,
+      1041
     ]
   }
 ]

@@ -15,20 +15,32 @@ namespace MyGame
                 return null;
             }
 
-            List<HeroModel> models = new List<HeroModel>();
+            List<HeroData> models = new List<HeroData>();
             GameManager.Instance.GetService(out PlayerManager playerManager);
             for (int i = 0; i < faction.Length; i++)
             {
+                if (faction[i] == 0) continue;
+                HeroData heroData = playerManager.GetHeroModel(faction[i]);
+                if (heroData == null)
+                {
+                    Debug.LogErrorFormat("[FactionHelper] hero [{0}] is invalid", faction[i]);
+                    continue;
+                }
                 models.Add(playerManager.GetHeroModel(faction[i]));
             }
-            return new Faction(models, EFaction.Player);
+
+            Faction fa = ReferencePool.Acquire<Faction>();
+            fa.Init(models, EFaction.Player);
+            return fa;
         }
 
         public static Faction CreateEnemyFaction(int stage)
         {
-            
-            // TODO: 从配置里 读取 阵营英雄
-            return default;
+            HeroData data = Helper.Create(1001);
+            List<HeroData> models = new List<HeroData> { data };
+            Faction fa = ReferencePool.Acquire<Faction>();
+            fa.Init(models, EFaction.Enemy);
+            return fa;
         }
     }
 }

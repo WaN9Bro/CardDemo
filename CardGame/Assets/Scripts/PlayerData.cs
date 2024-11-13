@@ -27,7 +27,7 @@ namespace MyGame
         /// <summary>
         /// 拥有的英雄列表
         /// </summary>
-        public List<HeroModel> Heroes = new List<HeroModel>();
+        public List<HeroData> Heroes = new List<HeroData>();
 
         /// <summary>
         /// 拥有的物品
@@ -41,7 +41,7 @@ namespace MyGame
         
         public static PlayerData Default = new PlayerData("Default",0,0,100,100,100,null,null,null);
 
-        public PlayerData(string name, int level, int exp, int energy, int money, int coin, List<HeroModel> heroes, List<ItemData> items,int[] faction)
+        public PlayerData(string name, int level, int exp, int energy, int money, int coin, List<HeroData> heroes, List<ItemData> items,int[] faction)
         {
             Name = name;
             Level = level;

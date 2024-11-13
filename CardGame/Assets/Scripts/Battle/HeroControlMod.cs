@@ -9,13 +9,14 @@
         
         public bool CanBeHurt { get; private set; }
 
-        public static HeroControlMod Default = new HeroControlMod(true, true, true);
-
-        public HeroControlMod(bool canAttack, bool canAddAngry, bool canUseSkill)
+        public static HeroControlMod Default = new HeroControlMod(true, true, true,true);
+        
+        public HeroControlMod(bool canAttack, bool canUseSkill, bool canDead, bool canBeHurt)
         {
-            object o = new object();
-            o = 1;
-            o = "";
+            CanAttack = canAttack;
+            CanUseSkill = canUseSkill;
+            CanDead = canDead;
+            CanBeHurt = canBeHurt;
         }
     }
 }

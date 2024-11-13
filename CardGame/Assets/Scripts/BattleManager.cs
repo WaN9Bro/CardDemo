@@ -15,7 +15,7 @@ namespace MyGame
         
         private CancellationTokenSource cts;
 
-        private int _round;
+        public int Round { get; private set; }
         
         public EBattleState BattleState { get; private set; }
         public bool IsPause { get; private set; }
@@ -33,7 +33,7 @@ namespace MyGame
         
         public void RunBattle(Faction playerFaction,Faction enemyFaction)
         {
-            _round = 0;
+            Round = 1;
             _playerFaction = playerFaction;
             _enemyFaction = enemyFaction;
             PrepareBattle();
@@ -58,8 +58,6 @@ namespace MyGame
                 while (!token.IsCancellationRequested || (_playerFaction.HasEntityAlive && _enemyFaction.HasEntityAlive))
                 {
                     if (IsPause) continue;
-                    _round++;
-                    
                     // 玩家阵营 攻击 敌方阵营
                     await _playerFaction.StartBattle(_enemyFaction);
                     if (!_enemyFaction.HasEntityAlive)
@@ -75,7 +73,7 @@ namespace MyGame
                         EndBattle(false);
                         return;
                     }
-                    
+                    Round++;
                 }
             }
             catch (OperationCanceledException e)
@@ -90,6 +88,8 @@ namespace MyGame
             cts.Cancel();
             cts.Dispose();
             BattleState = EBattleState.Ended;
+            _playerFaction.Clear();
+            _enemyFaction.Clear();
         }
         
         public void ClearBattle()

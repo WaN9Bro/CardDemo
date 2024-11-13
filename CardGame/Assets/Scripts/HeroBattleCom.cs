@@ -9,6 +9,7 @@ namespace MyGame
         private Faction _selfFaction;
         private Faction _otherFaction;
         private IReference _referenceImplementation;
+        
 
         public void Initialize(HeroObj heroObj)
         {
@@ -20,7 +21,7 @@ namespace MyGame
             _otherFaction = otherFaction;
             // 要么是普攻、 要么是放技能
             // 首先是技能释放判断。没有可以释放的技能，就进入普攻完结
-            HeroObj.SkillCom.CastSkill();
+            await HeroObj.SkillCom.CastSkill();
         }
 
         public void Inactive()

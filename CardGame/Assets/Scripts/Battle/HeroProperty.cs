@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Spine;
+using UnityEngine;
 
 namespace MyGame
 {
@@ -47,55 +48,35 @@ namespace MyGame
 
     public class HeroResource
     {
-        public int Hp;
+        public int HP;
 
         public int Shield;
-
-        public HeroResource(int hp, int shield)
+        public bool Enough(CostResource requireResource)
         {
-            Hp = hp;
-            Shield = shield;
-        }
-
-        public bool Enought(HeroResource requireResource)
-        {
-            return Hp >= requireResource.Hp &&
+            return HP >= requireResource.HP && 
                    Shield >= requireResource.Shield;
         }
         
-        public static HeroResource Empty = new HeroResource(0, 0);
-        
-        public static HeroResource Normal = new HeroResource(0, 0);
-
-        public static HeroResource operator +(HeroResource a, HeroResource b)
+        public bool Enough(CastCondition condition)
         {
-            return new HeroResource(a.Hp + b.Hp,a.Shield + b.Shield);
+            return HP >= condition.HP && 
+                   Shield >= condition.Shield;
+        }
+
+        public HeroResource(int hp, int shield)
+        {
+            HP = hp;
+            Shield = shield;
         }
         
-        public static HeroResource operator -(HeroResource a, HeroResource b)
+        public static HeroResource operator +(HeroResource a, CostResource b)
         {
-            return new HeroResource(a.Hp - b.Hp,a.Shield - b.Shield);
+            return new HeroResource(a.HP + b.HP,a.Shield + b.Shield);
         }
-
-        public static HeroResource operator *(float a, HeroResource b)
+        
+        public static HeroResource operator -(HeroResource a, CostResource b)
         {
-            return new HeroResource(Mathf.FloorToInt(b.Hp * a), Mathf.FloorToInt(b.Shield * a));
-        }
-
- 
-    }
-
-    public struct SkillCastCondition
-    {
-        public int FirstRound;
-        public int CdRound;
-
-        public static SkillCastCondition Default = new SkillCastCondition(1, 2);
-
-        public SkillCastCondition(int firstRound, int cdRound)
-        {
-            FirstRound = firstRound;
-            CdRound = cdRound;
+            return new HeroResource(a.HP - b.HP,a.Shield - b.Shield);
         }
     }
 }

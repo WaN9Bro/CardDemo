@@ -15,34 +15,37 @@ using Newtonsoft.Json.Linq;
 namespace MyGame
 {
 
-public partial struct MObject
+public abstract partial class mObject : Luban.BeanBase
 {
-    public MObject(JToken _buf) 
+    public mObject(JToken _buf) 
     {
         JObject _obj = _buf as JObject;
-        Type = (string)_obj.GetValue("type");
-        Data = (string)_obj.GetValue("data");
     }
 
-    public static MObject DeserializeMObject(JToken _buf)
+    public static mObject DeserializemObject(JToken _buf)
     {
-        return new MObject(_buf);
+        var _obj=_buf as JObject;
+        switch (_obj.GetValue("$type").ToString())
+        {
+            case "mInt": return new mInt(_buf);
+            case "mFloat": return new mFloat(_buf);
+            case "mString": return new mString(_buf);
+            case "mCreateDamageWarp": return new mCreateDamageWarp(_buf);
+            case "mAddBuffWarp": return new mAddBuffWarp(_buf);
+            default: throw new SerializationException();
+        }
     }
 
-    public readonly string Type;
-    public readonly string Data;
 
 
 
-    public  void ResolveRef(Tables tables)
+    public virtual void ResolveRef(Tables tables)
     {
     }
 
     public override string ToString()
     {
         return "{ "
-        + "type:" + Type + ","
-        + "data:" + Data + ","
         + "}";
     }
 }

@@ -15,16 +15,16 @@ public partial class Tables
 {
     public TbHero TbHero {get; }
     public TbSkill TbSkill {get; }
-    public TbEffectTime TbEffectTime {get; }
-    public TbAoe TbAoe {get; }
+    public TbTimeline TbTimeline {get; }
+    public TbBuff TbBuff {get; }
 
 
       public Tables(System.Func<string, JArray> loader)
     {
         TbHero = new TbHero(loader("tbhero"));
         TbSkill = new TbSkill(loader("tbskill"));
-        TbEffectTime = new TbEffectTime(loader("tbeffecttime"));
-        TbAoe = new TbAoe(loader("tbaoe"));
+        TbTimeline = new TbTimeline(loader("tbtimeline"));
+        TbBuff = new TbBuff(loader("tbbuff"));
         ResolveRef();
     }
     
@@ -32,8 +32,8 @@ public partial class Tables
     {
         TbHero.ResolveRef(this);
         TbSkill.ResolveRef(this);
-        TbEffectTime.ResolveRef(this);
-        TbAoe.ResolveRef(this);
+        TbTimeline.ResolveRef(this);
+        TbBuff.ResolveRef(this);
     }
 }
 

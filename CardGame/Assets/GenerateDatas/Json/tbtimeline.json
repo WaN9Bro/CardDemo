@@ -1,0 +1,118 @@
+[
+  {
+    "Key": "Mozhate_Attack",
+    "Duration": 0,
+    "Node": [
+      {
+        "Elapsed": 0,
+        "EventWarp": {
+          "Event": "CasterPlayAnim",
+          "Params": []
+        }
+      },
+      {
+        "Elapsed": 0,
+        "EventWarp": {
+          "Event": "PlayEffectOnCaster",
+          "Params": []
+        }
+      },
+      {
+        "Elapsed": 0,
+        "EventWarp": {
+          "Event": "PlayMoveEffect",
+          "Params": []
+        }
+      },
+      {
+        "Elapsed": 0,
+        "EventWarp": {
+          "Event": "PlayEffectOnTarget",
+          "Params": []
+        }
+      },
+      {
+        "Elapsed": 0,
+        "EventWarp": {
+          "Event": "CreateDamage",
+          "Params": []
+        }
+      }
+    ]
+  },
+  {
+    "Key": "Shengtisong",
+    "Duration": 0,
+    "Node": [
+      {
+        "Elapsed": 0,
+        "EventWarp": {
+          "Event": "PlaySkillLihui",
+          "Params": [
+            {
+              "$type": "mString",
+              "data": "ShengtisongLihui"
+            }
+          ]
+        }
+      },
+      {
+        "Elapsed": 0,
+        "EventWarp": {
+          "Event": "PlayAnimOnCaster",
+          "Params": [
+            {
+              "$type": "mString",
+              "data": "Skill_01"
+            }
+          ]
+        }
+      },
+      {
+        "Elapsed": 0,
+        "EventWarp": {
+          "Event": "PlayEffectOnCaster",
+          "Params": [
+            {
+              "$type": "mString",
+              "data": "x1_mozhate_skill02_self"
+            }
+          ]
+        }
+      },
+      {
+        "Elapsed": 0,
+        "EventWarp": {
+          "Event": "PlayEffectOnTarget",
+          "Params": [
+            {
+              "$type": "mString",
+              "data": "x1_mozhate_skill02_hit"
+            }
+          ]
+        }
+      },
+      {
+        "Elapsed": 0,
+        "EventWarp": {
+          "Event": "CreateDamage",
+          "Params": []
+        }
+      },
+      {
+        "Elapsed": 0,
+        "EventWarp": {
+          "Event": "TransferBuff",
+          "Params": []
+        }
+      },
+      {
+        "Elapsed": 0,
+        "EventWarp": {
+          "Event": "RemoveBuff",
+          "Params": []
+        }
+      }
+    ]
+  }
+]

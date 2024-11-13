@@ -24,9 +24,9 @@ public sealed partial class Skill : Luban.BeanBase
         Group = (int)_obj.GetValue("Group");
         Rule = CastRule.DeserializeCastRule(_obj.GetValue("Rule"));
         Condition = CastCondition.DeserializeCastCondition(_obj.GetValue("Condition"));
-        Cost = CastResource.DeserializeCastResource(_obj.GetValue("Cost"));
-        EffectTimeKey = (string)_obj.GetValue("EffectTimeKey");
-        { var __json0 = _obj.GetValue("EffectTimeParams"); EffectTimeParams = new System.Collections.Generic.List<System.Object>((__json0 as JArray).Count); foreach(JToken __e0 in __json0) { System.Object __v0;  __v0 = ExternalTypeUtil.NewObject(MObject.DeserializeMObject(__e0));  EffectTimeParams.Add(__v0); }   }
+        Cost = CostResource.DeserializeCostResource(_obj.GetValue("Cost"));
+        EffectKey = (string)_obj.GetValue("EffectKey");
+        { var __json0 = _obj.GetValue("EffectValue"); int _n0 = (__json0 as JArray).Count; EffectValue = new EventWarp[_n0]; int __index0=0; foreach(JToken __e0 in __json0) { EventWarp __v0;  __v0 = EventWarp.DeserializeEventWarp(__e0);  EffectValue[__index0++] = __v0; }   }
     }
 
     public static Skill DeserializeSkill(JToken _buf)
@@ -43,7 +43,7 @@ public sealed partial class Skill : Luban.BeanBase
     /// </summary>
     public readonly int Group;
     /// <summary>
-    /// 技能释放规则
+    /// 释放回合，冷却回合
     /// </summary>
     public readonly CastRule Rule;
     /// <summary>
@@ -53,15 +53,15 @@ public sealed partial class Skill : Luban.BeanBase
     /// <summary>
     /// 技能消耗
     /// </summary>
-    public readonly CastResource Cost;
+    public readonly CostResource Cost;
     /// <summary>
-    /// 表现Key
+    /// 时间轴Key
     /// </summary>
-    public readonly string EffectTimeKey;
+    public readonly string EffectKey;
     /// <summary>
-    /// 参数
+    /// 时间轴里的方法参数
     /// </summary>
-    public readonly System.Collections.Generic.List<System.Object> EffectTimeParams;
+    public readonly EventWarp[] EffectValue;
 
 
     public const int __ID__ = 79944241;
@@ -79,8 +79,8 @@ public sealed partial class Skill : Luban.BeanBase
         + "Rule:" + Rule + ","
         + "Condition:" + Condition + ","
         + "Cost:" + Cost + ","
-        + "EffectTimeKey:" + EffectTimeKey + ","
-        + "EffectTimeParams:" + Luban.StringUtil.CollectionToString(EffectTimeParams) + ","
+        + "EffectKey:" + EffectKey + ","
+        + "EffectValue:" + Luban.StringUtil.CollectionToString(EffectValue) + ","
         + "}";
     }
 }

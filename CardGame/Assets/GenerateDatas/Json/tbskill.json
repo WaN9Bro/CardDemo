@@ -1,32 +1,5 @@
 [
   {
-    "Id": 10101,
-    "Group": 1010,
-    "Rule": {
-      "Cast": 1,
-      "CD": 0
-    },
-    "Condition": {
-      "HP": 0,
-      "Shield": 0
-    },
-    "Cost": {
-      "HP": 0,
-      "Shield": 0
-    },
-    "EffectTimeKey": "FarAttack",
-    "EffectTimeParams": [
-      {
-        "type": "int",
-        "data": "1"
-      },
-      {
-        "type": "string",
-        "data": "hahaha"
-      }
-    ]
-  },
-  {
     "Id": 10111,
     "Group": 1011,
     "Rule": {
@@ -41,8 +14,26 @@
       "HP": 0,
       "Shield": 0
     },
-    "EffectTimeKey": "Hua",
-    "EffectTimeParams": []
+    "EffectKey": "Shengtisong",
+    "EffectValue": [
+      {
+        "Event": "CreateDamage",
+        "Params": [
+          {
+            "$type": "mFloat",
+            "data": 1.26
+          },
+          {
+            "$type": "mFloat",
+            "data": 0.3
+          },
+          {
+            "$type": "mFloat",
+            "data": 0.3
+          }
+        ]
+      }
+    ]
   },
   {
     "Id": 10112,
@@ -59,8 +50,26 @@
       "HP": 0,
       "Shield": 0
     },
-    "EffectTimeKey": "",
-    "EffectTimeParams": []
+    "EffectKey": "Shengtisong",
+    "EffectValue": [
+      {
+        "Event": "CreateDamage",
+        "Params": [
+          {
+            "$type": "mFloat",
+            "data": 1.26
+          },
+          {
+            "$type": "mFloat",
+            "data": 0.3
+          },
+          {
+            "$type": "mFloat",
+            "data": 0.3
+          }
+        ]
+      }
+    ]
   },
   {
     "Id": 10113,
@@ -77,8 +86,26 @@
       "HP": 0,
       "Shield": 0
     },
-    "EffectTimeKey": "",
-    "EffectTimeParams": []
+    "EffectKey": "Shengtisong",
+    "EffectValue": [
+      {
+        "Event": "CreateDamage",
+        "Params": [
+          {
+            "$type": "mFloat",
+            "data": 1.26
+          },
+          {
+            "$type": "mFloat",
+            "data": 0.3
+          },
+          {
+            "$type": "mFloat",
+            "data": 0.3
+          }
+        ]
+      }
+    ]
   },
   {
     "Id": 10114,
@@ -95,8 +122,26 @@
       "HP": 0,
       "Shield": 0
     },
-    "EffectTimeKey": "",
-    "EffectTimeParams": []
+    "EffectKey": "Shengtisong",
+    "EffectValue": [
+      {
+        "Event": "CreateDamage",
+        "Params": [
+          {
+            "$type": "mFloat",
+            "data": 1.26
+          },
+          {
+            "$type": "mFloat",
+            "data": 0.3
+          },
+          {
+            "$type": "mFloat",
+            "data": 0.3
+          }
+        ]
+      }
+    ]
   },
   {
     "Id": 10115,
@@ -113,97 +158,25 @@
       "HP": 0,
       "Shield": 0
     },
-    "EffectTimeKey": "",
-    "EffectTimeParams": []
-  },
-  {
-    "Id": 10121,
-    "Group": 1012,
-    "Rule": {
-      "Cast": 1,
-      "CD": 3
-    },
-    "Condition": {
-      "HP": 0,
-      "Shield": 0
-    },
-    "Cost": {
-      "HP": 0,
-      "Shield": 0
-    },
-    "EffectTimeKey": "",
-    "EffectTimeParams": []
-  },
-  {
-    "Id": 10122,
-    "Group": 1012,
-    "Rule": {
-      "Cast": 1,
-      "CD": 3
-    },
-    "Condition": {
-      "HP": 0,
-      "Shield": 0
-    },
-    "Cost": {
-      "HP": 0,
-      "Shield": 0
-    },
-    "EffectTimeKey": "",
-    "EffectTimeParams": []
-  },
-  {
-    "Id": 10123,
-    "Group": 1012,
-    "Rule": {
-      "Cast": 1,
-      "CD": 3
-    },
-    "Condition": {
-      "HP": 0,
-      "Shield": 0
-    },
-    "Cost": {
-      "HP": 0,
-      "Shield": 0
-    },
-    "EffectTimeKey": "",
-    "EffectTimeParams": []
-  },
-  {
-    "Id": 10124,
-    "Group": 1012,
-    "Rule": {
-      "Cast": 1,
-      "CD": 3
-    },
-    "Condition": {
-      "HP": 0,
-      "Shield": 0
-    },
-    "Cost": {
-      "HP": 0,
-      "Shield": 0
-    },
-    "EffectTimeKey": "",
-    "EffectTimeParams": []
-  },
-  {
-    "Id": 10125,
-    "Group": 1012,
-    "Rule": {
-      "Cast": 1,
-      "CD": 3
-    },
-    "Condition": {
-      "HP": 0,
-      "Shield": 0
-    },
-    "Cost": {
-      "HP": 0,
-      "Shield": 0
-    },
-    "EffectTimeKey": "",
-    "EffectTimeParams": []
+    "EffectKey": "Shengtisong",
+    "EffectValue": [
+      {
+        "Event": "CreateDamage",
+        "Params": [
+          {
+            "$type": "mFloat",
+            "data": 1.26
+          },
+          {
+            "$type": "mFloat",
+            "data": 0.3
+          },
+          {
+            "$type": "mFloat",
+            "data": 0.3
+          }
+        ]
+      }
+    ]
   }
 ]

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace MyGame
@@ -12,12 +14,16 @@ namespace MyGame
             PlayerData = PlayerData.Default;
         }
 
-        public void AddHero(HeroModel hero)
+        public void AddHero(HeroData hero)
         {
+            if (PlayerData.Heroes.Exists(v => v.Uid == hero.Uid))
+            {
+                throw new Exception($"[PlayerManager]Hero Uid'{hero.Uid}' Already Exists");
+            }
             PlayerData.Heroes.Add(hero);
         }
 
-        public HeroModel GetHeroModel(int uid)
+        public HeroData GetHeroModel(int uid)
         {
             return PlayerData.Heroes.FirstOrDefault(model => model.Uid == uid);
         }

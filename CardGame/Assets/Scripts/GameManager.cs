@@ -3,49 +3,61 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Unity.VisualScripting;
 
 namespace MyGame
 {
     public class GameManager : MonoSingleton<GameManager>
     {
-        private IReadOnlyDictionary<Type,IPreGameService> preGameServices = new Dictionary<Type,IPreGameService>();
-        private IReadOnlyDictionary<Type,IPostGameService> postGameServices = new Dictionary<Type,IPostGameService>();
+        private IReadOnlyDictionary<Type,IPreGameService> _preGameServices = new Dictionary<Type,IPreGameService>();
+        private IReadOnlyDictionary<Type,IPostGameService> _postGameServices = new Dictionary<Type,IPostGameService>();
+        
+        private readonly List<IFixedUpdate> _fixedUpdateServices = new List<IFixedUpdate>();
         
         private void Awake()
         {
-            preGameServices = GetComponentsInChildren<IPreGameService>().ToDictionary(service => service.GetType(), service => service);
-            postGameServices = GetComponentsInChildren<IPostGameService>().ToDictionary(service => service.GetType(), service => service);
+            _preGameServices = GetComponentsInChildren<IPreGameService>().ToDictionary(service => service.GetType(), service => service);
+            _postGameServices = GetComponentsInChildren<IPostGameService>().ToDictionary(service => service.GetType(), service => service);
             
             // 初始化前服务
-            foreach (var service in preGameServices.Values)
+            foreach (var service in _preGameServices.Values)
             {
                 service.Init();
             }
             
             // 初始化后服务
-            foreach (var service in postGameServices.Values)
+            foreach (var service in _postGameServices.Values)
             {
                 service.Init();
             }
 
             GetService(out PlayerManager playerManager);
-            
+            HeroData testHero = Helper.Create(1001);
+            playerManager.AddHero(testHero);
             Faction playerFaction = FactionHelper.CreatePlayerFaction(playerManager.PlayerData.Faction);
             Faction enemyFaction = FactionHelper.CreateEnemyFaction(1);
 
             GetService(out BattleManager battleManager);
             battleManager.RunBattle(playerFaction, enemyFaction);
         }
-        
+
+        private void FixedUpdate()
+        {
+            foreach (IFixedUpdate service in _fixedUpdateServices)
+            {
+                service.FixedUpdate();
+            }
+        }
+
         public bool GetService<T>(out T service) where T : IGameService
         {
-            if (preGameServices.TryGetValue(typeof(T), out IPreGameService preGameService))
+            if (_preGameServices.TryGetValue(typeof(T), out IPreGameService preGameService))
             {
                 service = (T)preGameService;
                 return true;
             }
 
-            if (postGameServices.TryGetValue(typeof(T), out IPostGameService postGameService))
+            if (_postGameServices.TryGetValue(typeof(T), out IPostGameService postGameService))
             {
                 service = (T)postGameService;
                 return true;

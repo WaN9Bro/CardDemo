@@ -1,0 +1,15 @@
+[
+  {
+    "Id": "Ignite",
+    "Name": "点燃",
+    "Priority": 1,
+    "MaxStack": 1,
+    "TickTime": 0,
+    "Event": [
+      [
+        "OnRound",
+        "Ignite"
+      ]
+    ]
+  }
+]

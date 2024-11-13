@@ -10,16 +10,16 @@ using UnityEngine;
 
 namespace MyGame
 {
-    public class Faction
+    public class Faction : IReference
     {
         private class HeroWarp
         {
-            public HeroModel Model;
+            public HeroData Data;
             public HeroObj Obj;
 
-            public HeroWarp( HeroModel model, HeroObj obj)
+            public HeroWarp( HeroData data, HeroObj obj)
             {
-                Model = model;
+                Data = data;
                 Obj = obj;
             }
         }
@@ -33,7 +33,7 @@ namespace MyGame
             {
                 foreach (var kv in _heroObjs)
                 {
-                    if(kv.Value.Model == null) continue;
+                    if(kv.Value.Data == null) continue;
                     
                     if (kv.Value.Obj.IsDead == false)
                     {
@@ -45,7 +45,7 @@ namespace MyGame
             }
         }
 
-        public Faction(List<HeroModel> heroModels ,EFaction factionType)
+        public void Init(List<HeroData> heroModels ,EFaction factionType)
         {
             for (var i = 0; i < heroModels.Count; i++)
             {
@@ -63,14 +63,13 @@ namespace MyGame
         // 战前准备
         public void PrepareBattle()
         {
-            Clear();
             GameManager.Instance.GetService(out BattleManager battleManager);
             foreach (KeyValuePair<EStanding, HeroWarp> kv in _heroObjs)
             {
-                if (kv.Value.Model == null) continue;
-                HeroObj heroObj = HeroObjCreator.CreateHeroObj(kv.Value.Model);
+                if (kv.Value.Data == null) continue;
+                HeroObj heroObj = Helper.CreateHeroObj(kv.Value.Data);
                 kv.Value.Obj = heroObj;
-                heroObj.Init(kv.Value.Model,kv.Key);
+                heroObj.Init(kv.Value.Data,kv.Key);
             }
         }
 
@@ -94,7 +93,7 @@ namespace MyGame
                 if (!otherFaction.HasEntityAlive) return;
                 if (kv.Value == null) continue;
                 if(kv.Value.Obj.IsDead) continue;                                                         
-                await kv.Value.Obj.BattleCom.StartBattle(this,otherFaction);
+                await kv.Value.Obj.StartBattle(this,otherFaction);
             } 
         }
     }
