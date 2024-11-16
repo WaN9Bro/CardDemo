@@ -29,33 +29,74 @@ namespace MyGame
             }
         }
         
-        public HeroObj HeroObj { get; }
+        public HeroObj HeroObj { get; private set; }
 
         /// <summary>
-        /// 拥有的技能列表  0：普攻、1：主动技能1、2：被动技能1、3：主动技能2、4：被动技能2
+        /// 拥有的技能列表  0：普攻、1：主动技能1、2：被主动技能2
         /// </summary>
-        private readonly List<SkillWarp> SkillObjs = new List<SkillWarp>();
+        private readonly List<SkillWarp> _skillObjs = new List<SkillWarp>();
+        
+        private readonly List<PassiveSkill> _passiveSkillObjs = new List<PassiveSkill>();
         
         public void Initialize(HeroObj heroObj)
         {
-            foreach (SkillData skillData in heroObj.Data.Skill)
+            HeroObj = heroObj;
+            if (!heroObj.Data.Skill.IsNullOrEmpty())
             {
-                SkillModel model = skillData.GetSkillModel();
-                Skill config = model.Config();
+                foreach (SkillData skillData in heroObj.Data.Skill)
+                {
+                    SkillModel model = skillData.GetSkillModel();
+                    Skill config = model.Config();
                 
-                SkillObj skillObj = ReferencePool.Acquire<SkillObj>();
-                skillObj.Init(model);
+                    SkillObj skillObj = ReferencePool.Acquire<SkillObj>();
+                    skillObj.Init(model);
 
-                SkillWarp skillWarp = ReferencePool.Acquire<SkillWarp>();
-                skillWarp.Init(skillObj,config.Rule.Cast,config.Rule.CD,0);
+                    SkillWarp skillWarp = ReferencePool.Acquire<SkillWarp>();
+                    skillWarp.Init(skillObj,config.Rule.Cast,config.Rule.CD,0);
                 
-                SkillObjs.Add(skillWarp);
+                    _skillObjs.Add(skillWarp);
+                }
+            }
+
+            // 给玩家添加被动技能的buff
+            if (!heroObj.Data.PassiveSkill.IsNullOrEmpty())
+            {
+                foreach (PassiveSkillData passiveSkillData in heroObj.Data.PassiveSkill)
+                {
+                    PassiveSkillObj passiveSkillObj = ReferencePool.Acquire<PassiveSkillObj>();
+                    passiveSkillObj.Init(passiveSkillData.Id,passiveSkillData.Config().AutoAddBuff.ConvertWarpToAddBuffInfos());
+                    
+                    if (!passiveSkillObj.AddBuffInfos.IsNullOrEmpty())
+                    {
+                        for (var i = 0; i < passiveSkillObj.AddBuffInfos.Count; i++)
+                        {
+                            AddBuffInfo addBuffInfo = passiveSkillObj.AddBuffInfos[i];
+                            addBuffInfo.Caster = heroObj;
+                            addBuffInfo.Target = heroObj;
+                            HeroObj.BuffCom.AddBuff(addBuffInfo);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void RefreshSkillCDRound()
+        {
+            foreach (SkillWarp warp in _skillObjs)
+            {
+                if (warp.CdRound > 0)
+                {
+                    warp.CdRound -= 1;
+                }
             }
         }
 
         public async UniTask CastSkill()
         {
-            // 首先看有没有主动技能可以释放的，没有的话就放普攻，
+            // 新的回合需要刷新技能cd再开始放技能
+            RefreshSkillCDRound();
+            
+            // 再看有没有主动技能可以释放的，没有的话就放普攻，
             GameManager.Instance.GetService(out BattleManager battleManager);
             int curRound = battleManager.Round;
             int castSkillIndex = 0; //默认是普攻
@@ -65,42 +106,46 @@ namespace MyGame
                 {
                     castSkillIndex = 1;
                 }
-                else if (IsUsefulSkillByIndex(3, curRound) == true)
+                else if (IsUsefulSkillByIndex(2, curRound) == true)
                 {
-                    castSkillIndex = 3;
+                    castSkillIndex = 2;
                 }
             }
             
             // 创建技能TimelineObj
             GameManager.Instance.GetService(out TimelineManager timelineManager);
-            TimelineObj timelineObj = new TimelineObj(SkillObjs[castSkillIndex].SkillObj.Model.Effect, HeroObj, SkillObjs[castSkillIndex].SkillObj);
-            
+            TimelineObj timelineObj = ReferencePool.Acquire<TimelineObj>();
+            timelineObj.Init(_skillObjs[castSkillIndex].SkillObj.Model.Effect, HeroObj,true);
+            HeroObj.BuffCom.ExecuteBuff(EBuffEventType.OnCast,timelineObj);
+            HeroObj.ModifyHealth(_skillObjs[castSkillIndex].SkillObj.Model.Cost.ConvertToHeroHealth());
+            _skillObjs[castSkillIndex].CdRound = _skillObjs[castSkillIndex].FixedCdRound;
             timelineManager.AddTimeline(timelineObj);
+            await timelineObj.Await();
         }
 
         private bool IsUsefulSkillByIndex(int index,int curRound)
         {
-            if (index >= SkillObjs.Count)
+            if (index >= _skillObjs.Count)
             {
                 return false;
             }
             
-            if (curRound != SkillObjs[index].CastRound)
+            if (curRound != _skillObjs[index].CastRound)
             {
                 return false;
             }
             
-            if(SkillObjs[index].CdRound > 0)
+            if(_skillObjs[index].CdRound > 0)
             {
                 return false;
             }
             
-            if(HeroObj.Resource.Enough(SkillObjs[index].SkillObj.Model.Condition))
+            if(HeroObj.Health.Enough(_skillObjs[index].SkillObj.Model.Condition))
             {
                 return false;
             }
             
-            if(HeroObj.Resource.Enough(SkillObjs[index].SkillObj.Model.Cost))
+            if(HeroObj.Health.Enough(_skillObjs[index].SkillObj.Model.Cost))
             {
                 return false;
             }
@@ -115,13 +160,13 @@ namespace MyGame
 
         public void Clear()
         {
-            for (var i = 0; i < SkillObjs.Count; i++)
+            for (var i = 0; i < _skillObjs.Count; i++)
             {
-                SkillWarp skillWarp = SkillObjs[i];
+                SkillWarp skillWarp = _skillObjs[i];
                 ReferencePool.Release(skillWarp);
             }
 
-            SkillObjs.Clear();
+            _skillObjs.Clear();
         }
     }
 }

@@ -16,7 +16,9 @@
     "SkillGroupIds": [
       90001,
       1011,
-      1021,
+      1021
+    ],
+    "PassiveSkillGroupIds": [
       1031,
       1041
     ]

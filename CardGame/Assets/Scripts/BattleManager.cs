@@ -4,6 +4,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEditor.UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MyGame
 {
@@ -20,16 +21,42 @@ namespace MyGame
         public EBattleState BattleState { get; private set; }
         public bool IsPause { get; private set; }
 
-        public List<BattlePlace> PlayerBattlePlaces = new List<BattlePlace>();
-        
-        public List<BattlePlace> EnemtyBattlePlaces = new List<BattlePlace>();
+        public Transform[] PlayerPlaces;
+        public Transform[] EnemyPlaces;
+
+        private Transform[,] _playerPlaces;
+        private Transform[,] _enemyPlaces;
         
         
         public void Init()
         {
             cts = new CancellationTokenSource();
             BattleState = EBattleState.None;
+            
+            _playerPlaces = ConvertTo2DArray(PlayerPlaces, 3, 2);
+            _enemyPlaces = ConvertTo2DArray(EnemyPlaces, 3, 2);
         }
+
+        private Transform[,] ConvertTo2DArray(Transform[] array, int rows, int cols)
+        {
+            if (array.Length != rows * cols)
+            {
+                throw new ArgumentException("数组长度与指定的行列数不匹配");
+            }
+
+            Transform[,] result = new Transform[rows, cols];
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    result[i, j] = array[i * cols + j];
+                }
+            }
+
+            return result;
+        }
+
         
         public void RunBattle(Faction playerFaction,Faction enemyFaction)
         {
@@ -42,9 +69,7 @@ namespace MyGame
         private void PrepareBattle()
         {
             _playerFaction.PrepareBattle();
-            _playerFaction.SetHeroTransfrom(PlayerBattlePlaces);
             _enemyFaction.PrepareBattle();
-            _enemyFaction.SetHeroTransfrom(EnemtyBattlePlaces);
             
             BattleState = EBattleState.Running;
             InternalStartBattle(cts.Token).Forget();
@@ -66,7 +91,7 @@ namespace MyGame
                         return;
                     }
                     
-                    await _playerFaction.StartBattle(_enemyFaction);
+                    await _enemyFaction.StartBattle(_enemyFaction);
                     
                     if (!_enemyFaction.HasEntityAlive)
                     {
@@ -80,7 +105,6 @@ namespace MyGame
             {
                 EndBattle(false);
             }
-            
         }
 
         private void EndBattle(bool win)
@@ -90,6 +114,25 @@ namespace MyGame
             BattleState = EBattleState.Ended;
             _playerFaction.Clear();
             _enemyFaction.Clear();
+            
+            Debug.LogError("游戏结束！");
+        }
+
+        public List<HeroObj> GetFilterTargets(CreateDamageWarp warp,HeroObj caster)
+        {
+            Faction targetFaction = caster.FactionType == EFaction.Player ? _enemyFaction : _playerFaction;
+            return targetFaction.GetFilterHeroObjs(warp,caster);
+        }
+
+        public List<HeroObj> GetNoHasBuffHeroObjs(string key,EFaction faction)
+        {
+            List<HeroObj> heroObjs = new List<HeroObj>();
+            if (faction == EFaction.Player)
+            {
+                return _playerFaction.GetNoHasBuffHeroObjs(key);
+            }
+
+            return _enemyFaction.GetNoHasBuffHeroObjs(key);
         }
         
         public void ClearBattle()

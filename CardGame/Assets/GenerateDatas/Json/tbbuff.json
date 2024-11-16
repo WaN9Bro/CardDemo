@@ -2,14 +2,58 @@
   {
     "Id": "Ignite",
     "Name": "点燃",
+    "Tags": [
+      "Bad"
+    ],
+    "PropMod": [],
+    "ControlMod": [],
     "Priority": 1,
     "MaxStack": 1,
     "TickTime": 0,
     "Event": [
       [
-        "OnRound",
-        "Ignite"
+        8,
+        "EveryRoundDealDamge"
       ]
     ]
+  },
+  {
+    "Id": "AttackUp",
+    "Name": "攻击力提升",
+    "Tags": [
+      "Good,Property"
+    ],
+    "PropMod": [],
+    "ControlMod": [],
+    "Priority": 1,
+    "MaxStack": 1,
+    "TickTime": 0,
+    "Event": []
+  },
+  {
+    "Id": "PhysicsDefUp",
+    "Name": "物理防御力提升",
+    "Tags": [
+      "Good,Property"
+    ],
+    "PropMod": [],
+    "ControlMod": [],
+    "Priority": 1,
+    "MaxStack": 1,
+    "TickTime": 0,
+    "Event": []
+  },
+  {
+    "Id": "MagicDefUp",
+    "Name": "魔法防御力提升",
+    "Tags": [
+      "Good,Property"
+    ],
+    "PropMod": [],
+    "ControlMod": [],
+    "Priority": 1,
+    "MaxStack": 1,
+    "TickTime": 0,
+    "Event": []
   }
 ]

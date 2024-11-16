@@ -12,7 +12,7 @@ namespace MyGame
             
         }
         
-        public void FixedUpdate()
+        public void FixedUpdate(float deltaTime)
         {
             if (_timelines.Count <= 0) return;
 
@@ -34,7 +34,9 @@ namespace MyGame
                 //判断timeline是否终结
                 if (_timelines[idx].Model.Duration <= _timelines[idx].TimeElapsed)
                 {
+                    TimelineObj timelineObj = _timelines[idx];
                     _timelines.RemoveAt(idx);
+                    ReferencePool.Release(timelineObj);
                 }
                 else
                 {

@@ -12,12 +12,24 @@
             <var name="data" type="string"/>        
         </bean>
 
+        <bean name="mBool">
+            <var name="data" type="bool"/>        
+        </bean>
+
         <bean name="mCreateDamageWarp">
             <var name="data" type="CreateDamageWarp#sep=#"/>        
         </bean>
 
         <bean name="mAddBuffWarp">
             <var name="data" type="AddBuffWarp#sep=,"/>        
+        </bean>
+
+        <bean name="mTransferBuffWarp">
+            <var name="data" type="TransferBuffWarp#sep=#"/>        
+        </bean>
+
+        <bean name="mRemoveBuffWarp">
+            <var name="data" type="RemoveBuffWarp#sep=#"/>        
         </bean>
 
   </bean>

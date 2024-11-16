@@ -14,17 +14,13 @@ namespace MyGame
     public enum EDamageType
     {
         /// <summary>
-        /// 物理输出
+        /// 固定值
         /// </summary>
-        PhysicsDamage = 0,
+        Fixed = 0,
         /// <summary>
-        /// 魔法输出
+        /// 乘法
         /// </summary>
-        MagicDamage = 1,
-        /// <summary>
-        /// 生命回复
-        /// </summary>
-        Health = 2,
+        Mult = 1,
     }
 
 } 

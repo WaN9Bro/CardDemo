@@ -15,17 +15,6 @@ namespace MyGame
         Paused = 2,
         Ended = 3,
     }
-    
-    [Serializable]
-    public enum EStanding
-    {
-        L1,
-        L2,
-        L3,
-        R1,
-        R2,
-        R3
-    }
 
     [Serializable]
     public enum EFaction

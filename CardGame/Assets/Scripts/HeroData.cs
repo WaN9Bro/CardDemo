@@ -17,6 +17,8 @@ namespace MyGame
         
         public SkillData[] Skill;
         
+        public PassiveSkillData[] PassiveSkill;
+        
         [JsonIgnore]
         public HeroProperty BaseProperty
         {
@@ -39,17 +41,18 @@ namespace MyGame
                     magicDef += (Level - 1) * table.MagicDefenseDelta;
                 }
 
-                return new HeroProperty(hp, attack, pyDef, magicDef);
+                return new HeroProperty(hp, attack, pyDef, magicDef,0,0);
             }
         }
         
-        public HeroData(int id, long uid, int level,EquipmentData[] equipmentData,SkillData[] skillData)
+        public HeroData(int id, long uid, int level,EquipmentData[] equipmentData,SkillData[] skillData,PassiveSkillData[] passiveSkill)
         {
             Id = id;
             Uid = uid;
             Level = level;
             Equipment = equipmentData;
             Skill = skillData;
+            PassiveSkill = passiveSkill;
         }
     }
 
@@ -75,6 +78,20 @@ namespace MyGame
         public int Level;
 
         public SkillData(int id, int level)
+        {
+            Id = id;
+            Level = level;
+        }
+    }
+    
+    [Serializable]
+    public class PassiveSkillData
+    {
+        public int Id;
+        
+        public int Level;
+
+        public PassiveSkillData(int id, int level)
         {
             Id = id;
             Level = level;

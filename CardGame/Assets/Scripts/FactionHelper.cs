@@ -7,7 +7,7 @@ namespace MyGame
 {
     public static class FactionHelper
     {
-        public static Faction CreatePlayerFaction(int[] faction)
+        public static Faction CreatePlayerFaction(int[,] faction)
         {
             if (faction.IsNullOrEmpty())
             {
@@ -15,19 +15,25 @@ namespace MyGame
                 return null;
             }
 
-            List<HeroData> models = new List<HeroData>();
+            HeroData[,] models = new HeroData[3,2];
             GameManager.Instance.GetService(out PlayerManager playerManager);
-            for (int i = 0; i < faction.Length; i++)
+
+            for (int i = 0; i < faction.GetLength(0); i++)
             {
-                if (faction[i] == 0) continue;
-                HeroData heroData = playerManager.GetHeroModel(faction[i]);
-                if (heroData == null)
+                for (int j = 0; j < faction.GetLength(0); j++)
                 {
-                    Debug.LogErrorFormat("[FactionHelper] hero [{0}] is invalid", faction[i]);
-                    continue;
+                    if (faction[i,j] == 0) continue;
+                    HeroData heroData = playerManager.GetHeroModel(faction[i,j]);
+                    if (heroData == null)
+                    {
+                        Debug.LogErrorFormat("[FactionHelper] hero [{0}] is invalid", faction[i,j]);
+                        continue;
+                    }
+
+                    models[i, j] = playerManager.GetHeroModel(faction[i, j]);
                 }
-                models.Add(playerManager.GetHeroModel(faction[i]));
             }
+            
 
             Faction fa = ReferencePool.Acquire<Faction>();
             fa.Init(models, EFaction.Player);
@@ -36,8 +42,9 @@ namespace MyGame
 
         public static Faction CreateEnemyFaction(int stage)
         {
-            HeroData data = Helper.Create(1001);
-            List<HeroData> models = new List<HeroData> { data };
+            HeroData data = HeroHelper.Create(1001);
+            HeroData[,] models = new HeroData[3,2];
+            models[0,0] = data;
             Faction fa = ReferencePool.Acquire<Faction>();
             fa.Init(models, EFaction.Enemy);
             return fa;

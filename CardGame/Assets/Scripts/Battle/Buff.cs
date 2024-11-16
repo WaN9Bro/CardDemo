@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using MyGame;
 
 namespace MyGame
@@ -6,135 +7,116 @@ namespace MyGame
     public class BuffObj
     {
         public BuffModel Model { get; private set; }
-        
-        public float Duration { get; private set; }
-        
-        public bool Permanent { get; private set; }
-        
-        public int Stack { get; private set; }
-        
-        public HeroObj Caster { get; private set; }
 
-        public HeroObj Target { get; private set; }
+        public float Duration { get; set; }
+
+        public bool Permanent { get; set; }
+
+        public int Stack { get; set; }
+
+        public HeroObj Caster { get; set; }
+
+        public HeroObj Target { get; set; }
+
+        public float TimeElapsed { get; set; }
+
+        public int Ticked { get; set; }
+
+        public Dictionary<string, object> BuffParams { get; set; }
+
+        public BuffObj(BuffModel model, float duration, bool permanent, int stack, HeroObj caster, HeroObj target,
+            Dictionary<string, object> buffParams)
+        {
+            Model = model;
+            Duration = duration;
+            Permanent = permanent;
+            Stack = stack;
+            Caster = caster;
+            Target = target;
+            BuffParams = buffParams;
+        }
         
-        public float TimeElapsed { get; private set; }
-        
-        public int Ticked { get; private set; }
-        
-        public Dictionary<string,object> BuffParams { get; private set; }
+        public void ExecuteBuff(EBuffEventType type,BuffObj buff, params object[] args)
+        {
+            if (Model.EventWarps.TryGetValue(type,out BuffEventWarp warp))
+            {
+                warp.Event(buff,args);
+            }
+        }
+    }
+
+    public struct BuffEventWarp
+    {
+        public BuffEvent Event { get; set; }
+        public List<object> EventParameters { get; set; }
+
+        public BuffEventWarp(BuffEvent @event, List<object> eventParameters)
+        {
+            Event = @event;
+            EventParameters = eventParameters;
+        }
     }
 
     public struct BuffModel
     {
-        public string Id { get;private set; }
-        
-        public int Priority { get;private set; }
-        
-        public int MaxStack { get;private set; }
-        
-        public string[] Tags { get;private set; }
-        
-        public float TickTime { get;private set; }
-        
-        public HeroProperty PropMod { get;private set; }
-        
-        public ControlMod ModMod { get;private set; }
-        
-        public BuffOnOccur OnOccur { get;private set; }
-        
-        public object[] OnOccurParams { get;private set; }
-        
-        public BuffOnTick OnTick { get;private set; }
-        
-        public object[] OnTickParams { get;private set; }
-        
-        public BuffOnRemoved OnRemoved { get;private set; }
-        
-        public object[] OnRemovedParams { get;private set; }
-        
-        public BuffOnCast OnCast { get;private set; }
-        
-        public object[] OnCastParams { get;private set; }
-        
-        public BuffOnHit OnHit { get;private set; }
-        
-        public object[] OnHitParams { get;private set; }
-        
-        public BuffOnBeHurt OnBeHurt { get;private set; }
-        
-        public object[] OnBeHurtParams { get;private set; }
-        
-        public BuffOnKill OnKill { get;private set; }
-        
-        public object[] OnKillParams { get;private set; }
-        
-        public BuffOnBeKilled OnBeKilled { get;private set; }
-        
-        public object[] OnBeKilledParams { get;private set; }
-        
-        public BuffOnRound OnRound { get;private set; }
-        
-        public object[] OnRoundParams { get;private set; }
+        public string Id { get; private set; }
 
-        public BuffModel(string id, int priority, int maxStack, string[] tags, float tickTime, HeroProperty propMod, ControlMod modMod, 
-            string onOccur, object[] onOccurParams, 
-            string onTick, object[] onTickParams, 
-            string onRemoved, object[] onRemovedParams, 
-            string onCast, object[] onCastParams, 
-            string onHit, object[] onHitParams, 
-            string onBeHurt, object[] onBeHurtParams, 
-            string onKill, object[] onKillParams, 
-            string onBeKilled, object[] onBeKilledParams,
-            string onRound, object[] onRoundParams
-            )
+        public int Priority { get; private set; }
+
+        public int MaxStack { get; private set; }
+
+        public float TickTime { get; private set; }
+        
+        public string[] Tags { get; set; }
+
+        public HeroProperty PropMod { get; set; }
+        
+        public HeroControlMod ControlMod { get; set; }
+        
+        public Dictionary<EBuffEventType,BuffEventWarp> EventWarps { get; set; }
+        
+        public BuffModel(string id, int priority, int maxStack, float tickTime,string[] tags,HeroProperty propMod,
+            HeroControlMod controlMod, Dictionary<EBuffEventType,BuffEventWarp> @event)
         {
             Id = id;
             Priority = priority;
             MaxStack = maxStack;
-            Tags = tags;
             TickTime = tickTime;
+            Tags = tags;
             PropMod = propMod;
-            ModMod = modMod;
-            OnOccur = string.IsNullOrEmpty(onOccur) ? null : BuffFunction.OnOccurFunc[onOccur];
-            OnOccurParams = onOccurParams;
-            OnTick = string.IsNullOrEmpty(onTick) ? null : BuffFunction.OnTickFunc[onTick];
-            OnTickParams = onTickParams;
-            OnRemoved = string.IsNullOrEmpty(onRemoved) ? null : BuffFunction.OnRemovedFunc[onRemoved];
-            OnRemovedParams = onRemovedParams;
-            OnCast = string.IsNullOrEmpty(onCast) ? null : BuffFunction.OnCastFunc[onCast];
-            OnCastParams = onCastParams;
-            OnHit = string.IsNullOrEmpty(onHit) ? null : BuffFunction.OnHitFunc[onHit];
-            OnHitParams = onHitParams;
-            OnBeHurt = string.IsNullOrEmpty(onBeHurt) ? null : BuffFunction.OnBeHurtFunc[onBeHurt];
-            OnBeHurtParams = onBeHurtParams;
-            OnKill = string.IsNullOrEmpty(onKill) ? null : BuffFunction.OnKillFunc[onKill];
-            OnKillParams = onKillParams;
-            OnBeKilled = string.IsNullOrEmpty(onBeKilled) ? null : BuffFunction.OnBeKilledFunc[onBeKilled];
-            OnBeKilledParams = onBeKilledParams;
-            OnRound = string.IsNullOrEmpty(onRound) ? null : BuffFunction.OnRoundFunc[onBeKilled];
-            OnRoundParams = onRoundParams;
+            ControlMod = controlMod;
+            
+            EventWarps = new Dictionary<EBuffEventType, BuffEventWarp>();
+            if (!@event.IsNullOrEmpty())
+            {
+                foreach (KeyValuePair<EBuffEventType, BuffEventWarp> kv in @event)
+                {
+                    EventWarps.Add(kv.Key,kv.Value);
+                }
+            }
         }
     }
 
     public struct AddBuffInfo
     {
         public HeroObj Caster { get; set; }
-        
-        public HeroObj Target { get; set; }
-        
-        public BuffModel Model { get; private set; }
-        
-        public int AddStack { get; private set; }
-        
-        public bool TimeModify { get; private set; }
-        
-        public bool Permanent { get; private set; }
-        
-        public float Duration { get; private set; }
-        
-        public Dictionary<string,object> BuffParams { get; private set; }
 
-        public AddBuffInfo(HeroObj caster, HeroObj target, BuffModel model, int addStack, bool timeModify, bool permanent, float duration, Dictionary<string, object> buffParams)
+        public HeroObj Target { get; set; }
+
+        public BuffModel Model { get; private set; }
+
+        public int AddStack { get; private set; }
+
+        public bool TimeModify { get; private set; }
+
+        public bool Permanent { get; private set; }
+
+        public float Duration { get; private set; }
+
+        public Dictionary<string, object> BuffParams { get; private set; }
+
+        public AddBuffInfo(HeroObj caster, HeroObj target, BuffModel model, int addStack, bool timeModify,
+            bool permanent, float duration, Dictionary<string, object> buffParams)
         {
             Caster = caster;
             Target = target;
@@ -146,15 +128,15 @@ namespace MyGame
             BuffParams = buffParams;
         }
     }
-    
-    public delegate void BuffOnOccur(BuffObj buff, int modifyStack);
-    public delegate void BuffOnRemoved(BuffObj buff);
-    public delegate void BuffOnTick(BuffObj buff);
-    public delegate void BuffOnHit(BuffObj buff, ref DamageInfo damageInfo, HeroObj target);
-    public delegate void BuffOnBeHurt(BuffObj buff, ref DamageInfo damageInfo, HeroObj attacker);
-    public delegate void BuffOnKill(BuffObj buff, DamageInfo damageInfo, HeroObj target);
-    public delegate void BuffOnBeKilled(BuffObj buff, DamageInfo damageInfo, HeroObj attacker);
-    public delegate TimelineObj BuffOnCast(BuffObj buff, SkillObj skill, TimelineObj timeline);
-    public delegate void BuffOnRound(BuffObj buff);
-}
 
+    public delegate void BuffEvent(BuffObj buff, params object[] args);
+    
+    // public delegate void BuffOnOccur(BuffObj buff, int modifyStack);
+    // public delegate void BuffOnRemoved(BuffObj buff);
+    // public delegate void BuffOnTick(BuffObj buff);
+    // public delegate void BuffOnHit(BuffObj buff, ref DamageInfo damageInfo, GameObject target);
+    // public delegate void BuffOnBeHurt(BuffObj buff, ref DamageInfo damageInfo, GameObject attacker);
+    // public delegate void BuffOnKill(BuffObj buff, DamageInfo damageInfo, GameObject target);
+    // public delegate void BuffOnBeKilled(BuffObj buff, DamageInfo damageInfo, GameObject attacker);
+    // public delegate TimelineObj BuffOnCast(BuffObj buff, SkillObj skill, TimelineObj timeline);
+}

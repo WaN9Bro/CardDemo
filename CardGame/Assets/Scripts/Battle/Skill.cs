@@ -25,11 +25,11 @@
 
         public void Clear()
         {
-            Model = default;
+            Model = null;
         }
     }
 
-    public struct SkillModel
+    public class SkillModel
     {
         public int Id { get; private set; }
         
@@ -38,13 +38,14 @@
         public CostResource Cost { get; private set; }
         
         public TimelineModel Effect { get; private set; }
+        
 
         public SkillModel(int id, CastCondition condition, CostResource cost, string effect,EventWarp[] effectValue)
         {
             Id = id;
             Condition = condition;
             Cost = cost;
-            Effect = string.IsNullOrEmpty(effect) ? default : Helper.GetTimelineModel(effect,effectValue);
+            Effect = string.IsNullOrEmpty(effect) ? default : HeroHelper.GetTimelineModel(effect,effectValue);
         }
     }
 }

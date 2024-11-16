@@ -42,7 +42,7 @@
   },
   {
     "Key": "Shengtisong",
-    "Duration": 0,
+    "Duration": 1,
     "Node": [
       {
         "Elapsed": 0,
@@ -57,7 +57,7 @@
         }
       },
       {
-        "Elapsed": 0,
+        "Elapsed": 0.2,
         "EventWarp": {
           "Event": "PlayAnimOnCaster",
           "Params": [
@@ -69,7 +69,7 @@
         }
       },
       {
-        "Elapsed": 0,
+        "Elapsed": 0.3,
         "EventWarp": {
           "Event": "PlayEffectOnCaster",
           "Params": [
@@ -81,7 +81,7 @@
         }
       },
       {
-        "Elapsed": 0,
+        "Elapsed": 0.5,
         "EventWarp": {
           "Event": "PlayEffectOnTarget",
           "Params": [
@@ -93,21 +93,21 @@
         }
       },
       {
-        "Elapsed": 0,
+        "Elapsed": 0.6,
         "EventWarp": {
           "Event": "CreateDamage",
           "Params": []
         }
       },
       {
-        "Elapsed": 0,
+        "Elapsed": 0.7,
         "EventWarp": {
           "Event": "TransferBuff",
           "Params": []
         }
       },
       {
-        "Elapsed": 0,
+        "Elapsed": 1,
         "EventWarp": {
           "Event": "RemoveBuff",
           "Params": []

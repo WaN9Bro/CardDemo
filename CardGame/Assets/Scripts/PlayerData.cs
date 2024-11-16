@@ -37,11 +37,11 @@ namespace MyGame
         /// <summary>
         /// 阵营索引配置
         /// </summary>
-        public int[] Faction = new int[Enum.GetValues(typeof(EStanding)).Length];
+        public int[,] Faction = new int[3,2];
         
         public static PlayerData Default = new PlayerData("Default",0,0,100,100,100,null,null,null);
 
-        public PlayerData(string name, int level, int exp, int energy, int money, int coin, List<HeroData> heroes, List<ItemData> items,int[] faction)
+        public PlayerData(string name, int level, int exp, int energy, int money, int coin, List<HeroData> heroes, List<ItemData> items,int[,] faction)
         {
             Name = name;
             Level = level;
@@ -60,11 +60,14 @@ namespace MyGame
                 Items.AddRange(items);
             }
 
-            if (faction != null && faction.Length ==  Faction.Length)
+            if (faction != null)
             {
-                for (var i = 0; i < Faction.Length; i++)
+                for (int i = 0; i < faction.GetLength(0); i++)
                 {
-                    Faction[i] = faction[i];
+                    for (int j = 0; j < faction.GetLength(1); j++)
+                    {
+                        Faction[i,j] = faction[i, j];
+                    }
                 }
             }
         }

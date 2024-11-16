@@ -30,8 +30,11 @@ public abstract partial class mObject : Luban.BeanBase
             case "mInt": return new mInt(_buf);
             case "mFloat": return new mFloat(_buf);
             case "mString": return new mString(_buf);
+            case "mBool": return new mBool(_buf);
             case "mCreateDamageWarp": return new mCreateDamageWarp(_buf);
             case "mAddBuffWarp": return new mAddBuffWarp(_buf);
+            case "mTransferBuffWarp": return new mTransferBuffWarp(_buf);
+            case "mRemoveBuffWarp": return new mRemoveBuffWarp(_buf);
             default: throw new SerializationException();
         }
     }

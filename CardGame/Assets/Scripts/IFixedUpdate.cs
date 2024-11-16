@@ -2,6 +2,6 @@
 {
     public interface IFixedUpdate
     {
-        void FixedUpdate();
+        void FixedUpdate(float deltaTime);
     }
 }

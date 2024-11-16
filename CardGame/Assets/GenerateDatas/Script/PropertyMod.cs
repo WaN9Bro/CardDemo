@@ -15,15 +15,21 @@ using Newtonsoft.Json.Linq;
 namespace MyGame
 {
 
-public partial struct PropertyMod
+public sealed partial class PropertyMod : Luban.BeanBase
 {
     public PropertyMod(JToken _buf) 
     {
         JObject _obj = _buf as JObject;
         HP = (int)_obj.GetValue("HP");
+        HPRatio = (float)_obj.GetValue("HPRatio");
         Attack = (int)_obj.GetValue("Attack");
+        AttackRatio = (float)_obj.GetValue("AttackRatio");
         PhysicalDefense = (int)_obj.GetValue("PhysicalDefense");
+        PhysicalDefenseRatio = (float)_obj.GetValue("PhysicalDefenseRatio");
         MagicDefense = (int)_obj.GetValue("MagicDefense");
+        MagicDefenseRatio = (float)_obj.GetValue("MagicDefenseRatio");
+        CriticalRate = (float)_obj.GetValue("CriticalRate");
+        Shiled = (int)_obj.GetValue("Shiled");
     }
 
     public static PropertyMod DeserializePropertyMod(JToken _buf)
@@ -36,19 +42,45 @@ public partial struct PropertyMod
     /// </summary>
     public readonly int HP;
     /// <summary>
+    /// 生命值比例
+    /// </summary>
+    public readonly float HPRatio;
+    /// <summary>
     /// 攻击力
     /// </summary>
     public readonly int Attack;
+    /// <summary>
+    /// 攻击力比例
+    /// </summary>
+    public readonly float AttackRatio;
     /// <summary>
     /// 物理防御力
     /// </summary>
     public readonly int PhysicalDefense;
     /// <summary>
+    /// 物理防御力比例
+    /// </summary>
+    public readonly float PhysicalDefenseRatio;
+    /// <summary>
     /// 魔法防御力
     /// </summary>
     public readonly int MagicDefense;
+    /// <summary>
+    /// 魔法防御力比例
+    /// </summary>
+    public readonly float MagicDefenseRatio;
+    /// <summary>
+    /// 暴击率比例
+    /// </summary>
+    public readonly float CriticalRate;
+    /// <summary>
+    /// 护盾值
+    /// </summary>
+    public readonly int Shiled;
 
 
+    public const int __ID__ = -1269519155;
+    public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
@@ -58,9 +90,15 @@ public partial struct PropertyMod
     {
         return "{ "
         + "HP:" + HP + ","
+        + "HPRatio:" + HPRatio + ","
         + "Attack:" + Attack + ","
+        + "AttackRatio:" + AttackRatio + ","
         + "PhysicalDefense:" + PhysicalDefense + ","
+        + "PhysicalDefenseRatio:" + PhysicalDefenseRatio + ","
         + "MagicDefense:" + MagicDefense + ","
+        + "MagicDefenseRatio:" + MagicDefenseRatio + ","
+        + "CriticalRate:" + CriticalRate + ","
+        + "Shiled:" + Shiled + ","
         + "}";
     }
 }

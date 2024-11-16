@@ -15,7 +15,7 @@ using Newtonsoft.Json.Linq;
 namespace MyGame
 {
 
-public partial struct AddBuffWarp
+public sealed partial class AddBuffWarp : Luban.BeanBase
 {
     public AddBuffWarp(JToken _buf) 
     {
@@ -23,10 +23,12 @@ public partial struct AddBuffWarp
         Probability = (float)_obj.GetValue("Probability");
         BuffKey = (string)_obj.GetValue("BuffKey");
         AddStack = (int)_obj.GetValue("AddStack");
-        TimeChange = (bool)_obj.GetValue("TimeChange");
+        TimeModify = (bool)_obj.GetValue("TimeModify");
         Permanent = (bool)_obj.GetValue("Permanent");
         Duration = (float)_obj.GetValue("Duration");
-        { var __json0 = _obj.GetValue("Params"); Params = new System.Collections.Generic.Dictionary<string, mObject[]>((__json0 as JArray).Count); foreach(JToken __e0 in __json0) { string _k0;  _k0 = (string)__e0[0]; mObject[] _v0;  { var __json1 = __e0[1]; int _n1 = (__json1 as JArray).Count; _v0 = new mObject[_n1]; int __index1=0; foreach(JToken __e1 in __json1) { mObject __v1;  __v1 = mObject.DeserializemObject(__e1);  _v0[__index1++] = __v1; }   }  Params.Add(_k0, _v0); }   }
+        { var __json0 = _obj.GetValue("PropMod"); PropMod = new System.Collections.Generic.Dictionary<EPropertyModType, mObject>((__json0 as JArray).Count); foreach(JToken __e0 in __json0) { EPropertyModType _k0;  _k0 = (EPropertyModType)(int)__e0[0]; mObject _v0;  _v0 = mObject.DeserializemObject(__e0[1]);  PropMod.Add(_k0, _v0); }   }
+        { var __json0 = _obj.GetValue("ControlMod"); ControlMod = new System.Collections.Generic.Dictionary<EControlModType, mObject>((__json0 as JArray).Count); foreach(JToken __e0 in __json0) { EControlModType _k0;  _k0 = (EControlModType)(int)__e0[0]; mObject _v0;  _v0 = mObject.DeserializemObject(__e0[1]);  ControlMod.Add(_k0, _v0); }   }
+        { var __json0 = _obj.GetValue("EventValueWarp"); int _n0 = (__json0 as JArray).Count; EventValueWarp = new BuffEventValueWarp[_n0]; int __index0=0; foreach(JToken __e0 in __json0) { BuffEventValueWarp __v0;  __v0 = BuffEventValueWarp.DeserializeBuffEventValueWarp(__e0);  EventValueWarp[__index0++] = __v0; }   }
     }
 
     public static AddBuffWarp DeserializeAddBuffWarp(JToken _buf)
@@ -49,7 +51,7 @@ public partial struct AddBuffWarp
     /// <summary>
     /// Buff的持续时间修改，true是直接设置，flase是改变
     /// </summary>
-    public readonly bool TimeChange;
+    public readonly bool TimeModify;
     /// <summary>
     /// 是否永久Buff
     /// </summary>
@@ -58,15 +60,22 @@ public partial struct AddBuffWarp
     /// 持续时间
     /// </summary>
     public readonly float Duration;
+    public readonly System.Collections.Generic.Dictionary<EPropertyModType, mObject> PropMod;
+    public readonly System.Collections.Generic.Dictionary<EControlModType, mObject> ControlMod;
     /// <summary>
-    /// 参数
+    /// Buff的效果参数
     /// </summary>
-    public readonly System.Collections.Generic.Dictionary<string, mObject[]> Params;
+    public readonly BuffEventValueWarp[] EventValueWarp;
 
 
+    public const int __ID__ = -828880612;
+    public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
+        foreach (var _e in PropMod.Values) { _e?.ResolveRef(tables); }
+        foreach (var _e in ControlMod.Values) { _e?.ResolveRef(tables); }
+        foreach (var _e in EventValueWarp) { _e?.ResolveRef(tables); }
     }
 
     public override string ToString()
@@ -75,10 +84,12 @@ public partial struct AddBuffWarp
         + "Probability:" + Probability + ","
         + "BuffKey:" + BuffKey + ","
         + "AddStack:" + AddStack + ","
-        + "TimeChange:" + TimeChange + ","
+        + "TimeModify:" + TimeModify + ","
         + "Permanent:" + Permanent + ","
         + "Duration:" + Duration + ","
-        + "Params:" + Luban.StringUtil.CollectionToString(Params) + ","
+        + "PropMod:" + Luban.StringUtil.CollectionToString(PropMod) + ","
+        + "ControlMod:" + Luban.StringUtil.CollectionToString(ControlMod) + ","
+        + "EventValueWarp:" + Luban.StringUtil.CollectionToString(EventValueWarp) + ","
         + "}";
     }
 }

@@ -4,7 +4,7 @@
     "Group": 1011,
     "Rule": {
       "Cast": 1,
-      "CD": 1
+      "CD": 0
     },
     "Condition": {
       "HP": 0,
@@ -20,16 +20,42 @@
         "Event": "CreateDamage",
         "Params": [
           {
-            "$type": "mFloat",
-            "data": 1.26
-          },
+            "$type": "mCreateDamageWarp",
+            "data": {
+              "DamageType": 1,
+              "DamageAttr": 1,
+              "TargetFliter": 5,
+              "Count": 3,
+              "Ratio": 1.26,
+              "FixedValue": 0
+            }
+          }
+        ]
+      },
+      {
+        "Event": "TransferBuff",
+        "Params": [
           {
-            "$type": "mFloat",
-            "data": 0.3
-          },
+            "$type": "mTransferBuffWarp",
+            "data": {
+              "BuffKey": "Ignite",
+              "Probability": 0.3,
+              "Count": 1
+            }
+          }
+        ]
+      },
+      {
+        "Event": "RemoveBuff",
+        "Params": [
           {
-            "$type": "mFloat",
-            "data": 0.3
+            "$type": "mRemoveBuffWarp",
+            "data": {
+              "RemoveBuffType": 0,
+              "BuffKey": "NULL",
+              "Probability": 0.3,
+              "Count": 1
+            }
           }
         ]
       }
@@ -40,7 +66,7 @@
     "Group": 1011,
     "Rule": {
       "Cast": 1,
-      "CD": 1
+      "CD": 0
     },
     "Condition": {
       "HP": 0,
@@ -56,16 +82,42 @@
         "Event": "CreateDamage",
         "Params": [
           {
-            "$type": "mFloat",
-            "data": 1.26
-          },
+            "$type": "mCreateDamageWarp",
+            "data": {
+              "DamageType": 1,
+              "DamageAttr": 1,
+              "TargetFliter": 5,
+              "Count": 3,
+              "Ratio": 1.51,
+              "FixedValue": 0
+            }
+          }
+        ]
+      },
+      {
+        "Event": "TransferBuff",
+        "Params": [
           {
-            "$type": "mFloat",
-            "data": 0.3
-          },
+            "$type": "mTransferBuffWarp",
+            "data": {
+              "BuffKey": "Ignite",
+              "Probability": 0.4,
+              "Count": 1
+            }
+          }
+        ]
+      },
+      {
+        "Event": "RemoveBuff",
+        "Params": [
           {
-            "$type": "mFloat",
-            "data": 0.3
+            "$type": "mRemoveBuffWarp",
+            "data": {
+              "RemoveBuffType": 0,
+              "BuffKey": "NULL",
+              "Probability": 0.4,
+              "Count": 1
+            }
           }
         ]
       }
@@ -76,7 +128,7 @@
     "Group": 1011,
     "Rule": {
       "Cast": 1,
-      "CD": 1
+      "CD": 0
     },
     "Condition": {
       "HP": 0,
@@ -92,16 +144,42 @@
         "Event": "CreateDamage",
         "Params": [
           {
-            "$type": "mFloat",
-            "data": 1.26
-          },
+            "$type": "mCreateDamageWarp",
+            "data": {
+              "DamageType": 1,
+              "DamageAttr": 1,
+              "TargetFliter": 5,
+              "Count": 3,
+              "Ratio": 1.8,
+              "FixedValue": 0
+            }
+          }
+        ]
+      },
+      {
+        "Event": "TransferBuff",
+        "Params": [
           {
-            "$type": "mFloat",
-            "data": 0.3
-          },
+            "$type": "mTransferBuffWarp",
+            "data": {
+              "BuffKey": "Ignite",
+              "Probability": 0.5,
+              "Count": 1
+            }
+          }
+        ]
+      },
+      {
+        "Event": "RemoveBuff",
+        "Params": [
           {
-            "$type": "mFloat",
-            "data": 0.3
+            "$type": "mRemoveBuffWarp",
+            "data": {
+              "RemoveBuffType": 0,
+              "BuffKey": "NULL",
+              "Probability": 0.5,
+              "Count": 1
+            }
           }
         ]
       }
@@ -112,7 +190,7 @@
     "Group": 1011,
     "Rule": {
       "Cast": 1,
-      "CD": 1
+      "CD": 0
     },
     "Condition": {
       "HP": 0,
@@ -128,16 +206,42 @@
         "Event": "CreateDamage",
         "Params": [
           {
-            "$type": "mFloat",
-            "data": 1.26
-          },
+            "$type": "mCreateDamageWarp",
+            "data": {
+              "DamageType": 1,
+              "DamageAttr": 1,
+              "TargetFliter": 5,
+              "Count": 3,
+              "Ratio": 1.88,
+              "FixedValue": 0
+            }
+          }
+        ]
+      },
+      {
+        "Event": "TransferBuff",
+        "Params": [
           {
-            "$type": "mFloat",
-            "data": 0.3
-          },
+            "$type": "mTransferBuffWarp",
+            "data": {
+              "BuffKey": "Ignite",
+              "Probability": 0.55,
+              "Count": 1
+            }
+          }
+        ]
+      },
+      {
+        "Event": "RemoveBuff",
+        "Params": [
           {
-            "$type": "mFloat",
-            "data": 0.3
+            "$type": "mRemoveBuffWarp",
+            "data": {
+              "RemoveBuffType": 0,
+              "BuffKey": "NULL",
+              "Probability": 0.55,
+              "Count": 1
+            }
           }
         ]
       }
@@ -148,7 +252,7 @@
     "Group": 1011,
     "Rule": {
       "Cast": 1,
-      "CD": 1
+      "CD": 0
     },
     "Condition": {
       "HP": 0,
@@ -164,16 +268,42 @@
         "Event": "CreateDamage",
         "Params": [
           {
-            "$type": "mFloat",
-            "data": 1.26
-          },
+            "$type": "mCreateDamageWarp",
+            "data": {
+              "DamageType": 1,
+              "DamageAttr": 1,
+              "TargetFliter": 5,
+              "Count": 3,
+              "Ratio": 1.95,
+              "FixedValue": 0
+            }
+          }
+        ]
+      },
+      {
+        "Event": "TransferBuff",
+        "Params": [
           {
-            "$type": "mFloat",
-            "data": 0.3
-          },
+            "$type": "mTransferBuffWarp",
+            "data": {
+              "BuffKey": "Ignite",
+              "Probability": 0.6,
+              "Count": 1
+            }
+          }
+        ]
+      },
+      {
+        "Event": "RemoveBuff",
+        "Params": [
           {
-            "$type": "mFloat",
-            "data": 0.3
+            "$type": "mRemoveBuffWarp",
+            "data": {
+              "RemoveBuffType": 0,
+              "BuffKey": "NULL",
+              "Probability": 0.6,
+              "Count": 1
+            }
           }
         ]
       }

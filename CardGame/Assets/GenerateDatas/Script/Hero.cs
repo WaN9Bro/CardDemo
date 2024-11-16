@@ -34,6 +34,7 @@ public sealed partial class Hero : Luban.BeanBase
         PhysicalDefenseDelta = (int)_obj.GetValue("PhysicalDefenseDelta");
         MagicDefenseDelta = (int)_obj.GetValue("MagicDefenseDelta");
         { var __json0 = _obj.GetValue("SkillGroupIds"); int _n0 = (__json0 as JArray).Count; SkillGroupIds = new int[_n0]; int __index0=0; foreach(JToken __e0 in __json0) { int __v0;  __v0 = (int)__e0;  SkillGroupIds[__index0++] = __v0; }   }
+        { var __json0 = _obj.GetValue("PassiveSkillGroupIds"); int _n0 = (__json0 as JArray).Count; PassiveSkillGroupIds = new int[_n0]; int __index0=0; foreach(JToken __e0 in __json0) { int __v0;  __v0 = (int)__e0;  PassiveSkillGroupIds[__index0++] = __v0; }   }
     }
 
     public static Hero DeserializeHero(JToken _buf)
@@ -94,9 +95,13 @@ public sealed partial class Hero : Luban.BeanBase
     /// </summary>
     public readonly int MagicDefenseDelta;
     /// <summary>
-    /// 拥有的技能，1是普攻，2和4主动，3和5是被动
+    /// 拥有的技能，1是普攻
     /// </summary>
     public readonly int[] SkillGroupIds;
+    /// <summary>
+    /// 拥有的被动技能
+    /// </summary>
+    public readonly int[] PassiveSkillGroupIds;
 
 
     public const int __ID__ = 2245658;
@@ -123,6 +128,7 @@ public sealed partial class Hero : Luban.BeanBase
         + "PhysicalDefenseDelta:" + PhysicalDefenseDelta + ","
         + "MagicDefenseDelta:" + MagicDefenseDelta + ","
         + "SkillGroupIds:" + Luban.StringUtil.CollectionToString(SkillGroupIds) + ","
+        + "PassiveSkillGroupIds:" + Luban.StringUtil.CollectionToString(PassiveSkillGroupIds) + ","
         + "}";
     }
 }

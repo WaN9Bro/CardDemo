@@ -1,0 +1,85 @@
+[
+  {
+    "Id": 10311,
+    "Group": 1031,
+    "AutoAddBuff": [
+      {
+        "Probability": 1,
+        "BuffKey": "AttackUp",
+        "AddStack": 1,
+        "TimeModify": true,
+        "Permanent": true,
+        "Duration": 0,
+        "PropMod": [
+          [
+            3,
+            {
+              "$type": "mFloat",
+              "data": 0.5
+            }
+          ]
+        ],
+        "ControlMod": [],
+        "EventValueWarp": []
+      },
+      {
+        "Probability": 0,
+        "BuffKey": "",
+        "AddStack": 0,
+        "TimeModify": false,
+        "Permanent": false,
+        "Duration": 0,
+        "PropMod": [
+          [
+            3,
+            {
+              "$type": "mFloat",
+              "data": 0.6
+            }
+          ]
+        ],
+        "ControlMod": [],
+        "EventValueWarp": []
+      },
+      {
+        "Probability": 0,
+        "BuffKey": "",
+        "AddStack": 0,
+        "TimeModify": false,
+        "Permanent": false,
+        "Duration": 0,
+        "PropMod": [
+          [
+            3,
+            {
+              "$type": "mFloat",
+              "data": 0.7
+            }
+          ]
+        ],
+        "ControlMod": [],
+        "EventValueWarp": []
+      }
+    ]
+  },
+  {
+    "Id": 10312,
+    "Group": 1031,
+    "AutoAddBuff": []
+  },
+  {
+    "Id": 10313,
+    "Group": 1031,
+    "AutoAddBuff": []
+  },
+  {
+    "Id": 10314,
+    "Group": 1031,
+    "AutoAddBuff": []
+  },
+  {
+    "Id": 10315,
+    "Group": 1031,
+    "AutoAddBuff": []
+  }
+]

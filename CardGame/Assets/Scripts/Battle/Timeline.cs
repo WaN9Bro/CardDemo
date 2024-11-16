@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using UnityEditor.Build;
 using UnityEngine;
 
 namespace MyGame
@@ -14,17 +17,30 @@ namespace MyGame
         public object Param { get; private set; }
         
         public float TimeElapsed { get; set; }
-        
-        public Dictionary<string,object> LogicParams { get; private set; }
 
-        public TimelineObj(TimelineModel model, HeroObj caster, object param)
+        public readonly Dictionary<string, object> LogicParams = new Dictionary<string, object>();
+
+        private SemaphoreSlim _semaphore;
+
+        public void Init(TimelineModel model, HeroObj caster,bool needSemaphore)
         {
             Model = model;
             Caster = caster;
             TimeScale = 1.0f;
-            Param = param;
+            if (needSemaphore)
+                _semaphore = new SemaphoreSlim(1, 1);
         }
-
+        
+        public void Clear()
+        {
+            Caster = null;
+            LogicParams.Clear();
+            TimeElapsed = 0f;
+            Param = null;
+            _semaphore?.Release();
+            _semaphore = null;
+        }
+        
         public object GetParam(string key)
         {
             if (LogicParams.TryGetValue(key, out object param))
@@ -36,9 +52,10 @@ namespace MyGame
             return null;
         }
 
-        public void Clear()
+        public async UniTask Await()
         {
-            
+            if (_semaphore == null) return;
+            await _semaphore.WaitAsync();
         }
     }
     

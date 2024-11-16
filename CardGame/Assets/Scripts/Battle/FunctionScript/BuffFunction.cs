@@ -4,62 +4,60 @@ namespace MyGame
 {
     public class BuffFunction
     {
-        #region EventFunction
-        
-            public static Dictionary<string, BuffOnOccur> OnOccurFunc = new Dictionary<string, BuffOnOccur>
-            {
-                
-            };
-            
-            public static Dictionary<string, BuffOnRemoved> OnRemovedFunc = new Dictionary<string, BuffOnRemoved>
-            {
-                
-            };
+        public static readonly Dictionary<EBuffEventType, Dictionary<string,BuffEvent>> Functions = new Dictionary<EBuffEventType, Dictionary<string, BuffEvent>>()
+        {
+            { EBuffEventType.OnOccur , new Dictionary<string, BuffEvent>
+                {
+                    
+                }
+            },
+            { EBuffEventType.OnCast , new Dictionary<string, BuffEvent>
+                {
+                    
+                }
+            },
+            { EBuffEventType.OnTick , new Dictionary<string, BuffEvent>
+                {
+                    
+                }
+            },
+            { EBuffEventType.OnRemoved , new Dictionary<string, BuffEvent>
+                {
+                    
+                }
+            },
+            { EBuffEventType.OnHit , new Dictionary<string, BuffEvent>
+                {
+                    
+                }
+            },
+            { EBuffEventType.OnBeHurt , new Dictionary<string, BuffEvent>
+                {
+                    
+                }
+            },
+            { EBuffEventType.OnKill , new Dictionary<string, BuffEvent>
+                {
+                    
+                }
+            },
+            { EBuffEventType.OnBeKilled , new Dictionary<string, BuffEvent>
+                {
+                    
+                }
+            },
+            { EBuffEventType.OnRound , new Dictionary<string, BuffEvent>
+                {
+                    {"EveryRoundDealDamage",EveryRoundDealDamage}
+                }
+            },
+        };
 
-            public static Dictionary<string, BuffOnTick> OnTickFunc = new Dictionary<string, BuffOnTick>
-            {
-
-            };
-
-            public static Dictionary<string, BuffOnHit> OnHitFunc = new Dictionary<string, BuffOnHit>
-            {
-
-            };
-
-            public static Dictionary<string, BuffOnBeHurt> OnBeHurtFunc = new Dictionary<string, BuffOnBeHurt>
-            {
-
-            };
-
-            public static Dictionary<string, BuffOnKill> OnKillFunc = new Dictionary<string, BuffOnKill>
-            {
-
-            };
-
-            public static Dictionary<string, BuffOnBeKilled> OnBeKilledFunc = new Dictionary<string, BuffOnBeKilled>
-            {
-
-            };
-
-            public static Dictionary<string, BuffOnCast> OnCastFunc = new Dictionary<string, BuffOnCast>
-            {
-
-            };
-
-            public static Dictionary<string, BuffOnRound> OnRoundFunc = new Dictionary<string, BuffOnRound>
-            {
-                {"Ignite",IgniteOnRound}
-            };
-
-            #endregion
-
-        #region FunctionLogic
-
-            private static void IgniteOnRound(BuffObj buffObj)
-            {
-                
-            }
-
-        #endregion
+        private static void EveryRoundDealDamage(BuffObj buff, params object[] args)
+        {
+            CreateDamageWarp warp = (CreateDamageWarp)buff.Model.EventWarps[EBuffEventType.OnRound].EventParameters[0];
+            GameManager.Instance.GetService(out DamageManager dmgManager);
+            dmgManager.AddDamage(buff.Caster,buff.Target,warp.ConvertWarpToDamage(buff.Caster.Property.Attack),buff.Caster.Property.CriticalRate);
+        }
     }
 }

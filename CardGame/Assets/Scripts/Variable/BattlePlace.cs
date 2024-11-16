@@ -3,10 +3,17 @@ using UnityEngine;
 
 namespace MyGame
 {
+    
     [Serializable]
-    public struct BattlePlace
+    public struct Grid
     {
-        public EStanding Standing;
-        public Transform Trans;
+        public int X;
+        public int Y;
+        
+        public Grid(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
     }
 }

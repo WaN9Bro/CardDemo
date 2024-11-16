@@ -21,9 +21,11 @@ public partial struct CreateDamageWarp
     {
         JObject _obj = _buf as JObject;
         DamageType = (EDamageType)(int)_obj.GetValue("DamageType");
+        DamageAttr = (EDamageAttr)(int)_obj.GetValue("DamageAttr");
         TargetFliter = (ETargetFliter)(int)_obj.GetValue("TargetFliter");
         Count = (int)_obj.GetValue("Count");
         Ratio = (float)_obj.GetValue("Ratio");
+        FixedValue = (int)_obj.GetValue("FixedValue");
     }
 
     public static CreateDamageWarp DeserializeCreateDamageWarp(JToken _buf)
@@ -36,6 +38,10 @@ public partial struct CreateDamageWarp
     /// </summary>
     public readonly EDamageType DamageType;
     /// <summary>
+    /// 伤害属性
+    /// </summary>
+    public readonly EDamageAttr DamageAttr;
+    /// <summary>
     /// 目标过滤类型
     /// </summary>
     public readonly ETargetFliter TargetFliter;
@@ -47,6 +53,10 @@ public partial struct CreateDamageWarp
     /// 伤害比例
     /// </summary>
     public readonly float Ratio;
+    /// <summary>
+    /// 伤害固定值
+    /// </summary>
+    public readonly int FixedValue;
 
 
 
@@ -58,9 +68,11 @@ public partial struct CreateDamageWarp
     {
         return "{ "
         + "DamageType:" + DamageType + ","
+        + "DamageAttr:" + DamageAttr + ","
         + "TargetFliter:" + TargetFliter + ","
         + "Count:" + Count + ","
         + "Ratio:" + Ratio + ","
+        + "FixedValue:" + FixedValue + ","
         + "}";
     }
 }

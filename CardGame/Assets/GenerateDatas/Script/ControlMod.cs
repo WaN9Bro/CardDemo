@@ -15,7 +15,7 @@ using Newtonsoft.Json.Linq;
 namespace MyGame
 {
 
-public partial struct ControlMod
+public sealed partial class ControlMod : Luban.BeanBase
 {
     public ControlMod(JToken _buf) 
     {
@@ -49,6 +49,8 @@ public partial struct ControlMod
     public readonly bool CanBeHurt;
 
 
+    public const int __ID__ = -1664103291;
+    public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {

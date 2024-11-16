@@ -14,29 +14,33 @@ namespace MyGame
     public enum ETargetFliter
     {
         /// <summary>
+        /// 先打对位前排，没有前排了，打对位后排，没有后排了再打其他位置的前排
+        /// </summary>
+        Normal = 0,
+        /// <summary>
         /// 英雄数量最多的一排
         /// </summary>
-        LargestRow = 0,
+        LargestRow = 1,
         /// <summary>
         /// 攻击力最高的英雄
         /// </summary>
-        HighestAttack = 1,
+        HighestAttack = 2,
         /// <summary>
         /// 前排英雄
         /// </summary>
-        FrontRow = 2,
+        FrontRow = 3,
         /// <summary>
         /// 后排英雄
         /// </summary>
-        RearRow = 3,
+        RearRow = 4,
         /// <summary>
         /// 随机英雄
         /// </summary>
-        Random = 4,
+        Random = 5,
         /// <summary>
         /// 生命力最低的英雄
         /// </summary>
-        LowestHealth = 5,
+        LowestHealth = 6,
     }
 
 } 

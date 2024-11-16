@@ -8,54 +8,31 @@ namespace MyGame
 {
     public class HeroObj : MonoBehaviour
     {
-        public EStanding Standing { get; private set; }
-        
-        /// <summary>
-        /// 玩家当前资源
-        /// </summary>
-        private HeroResource _resource;
-        public HeroResource Resource
-        {
-            get => _resource;
-            private set => _resource = value;
-        }
+        public Grid Grid { get; private set; }
 
+        /// <summary>
+        /// 玩家当前状态
+        /// </summary>
+        public HeroHealth Health;
+        
         /// <summary>
         /// 当前总属性
         /// </summary>
-        private HeroProperty _property;
-        public HeroProperty Property
-        {
-            get => _property;
-            private set => _property = value;
-        }
+        public HeroProperty Property;
+
         /// <summary>
         /// 基础属性
         /// </summary>
-        public HeroProperty BaseProperty { get; private set; }
+        public HeroProperty BaseProperty;
 
         /// <summary>
         /// 当前行动状态
         /// </summary>
-        private HeroControlMod _controlMod;
-        public HeroControlMod ControlMod
-        {
-            get =>_controlMod; 
-            private set => _controlMod = value;
-        }
+        public HeroControlMod ControlMod;
 
-        private HeroData _data;
+        public HeroData Data;
 
-        public HeroData Data
-        {
-            get => _data;
-            private set => _data = value;
-        }
-        
-        /// <summary>
-        /// 战斗组件
-        /// </summary>
-        public HeroBattleCom BattleCom { get; private set; }
+        public float ImmuneTime = 0f;
 
         /// <summary>
         /// 技能组件
@@ -75,54 +52,121 @@ namespace MyGame
         public HeroUICom UiCom { get; private set; } 
         
         public HeroSpineCom SpineCom { get; private set; }
-
-
-        public bool IsDead => Property.Hp <= 0;
         
-        public void Init(HeroData data,EStanding standing)
+        public HeroBindCom BindCom { get; private set; }
+
+
+        public bool IsDead => ControlMod.CanDead && Property.Hp <= 0;
+        
+        public EFaction FactionType { get; private set; }
+
+        public bool IsFrontRowHero => Grid.Y == 1;
+
+        public bool IsRearRowHero => Grid.Y == 2;
+        
+        public void Init(HeroData data,Grid grid,EFaction faction)
         {
-            _data = data;
-            Standing = standing;
+            Data = data;
+            Grid = grid;
+            FactionType = faction;
             
-            BattleCom = ReferencePool.Acquire<HeroBattleCom>();
             SkillCom = ReferencePool.Acquire<HeroSkillCom>();
             BuffCom = ReferencePool.Acquire<HeroBuffCom>();
             EquipmentCom = ReferencePool.Acquire<HeroEquipmentCom>();
             UiCom = ReferencePool.Acquire<HeroUICom>();
             SpineCom = ReferencePool.Acquire<HeroSpineCom>();
+            BindCom = ReferencePool.Acquire<HeroBindCom>();
             
-            BattleCom.Initialize(this);
             SkillCom.Initialize(this);
             BuffCom.Initialize(this);
             EquipmentCom.Initialize(this);
             UiCom.Initialize(this);
             SpineCom.Initialize(this);
+            BindCom.Initialize(this);
             
-            InitProperty(_data.BaseProperty);
+            InitProperty(Data.BaseProperty);
+        }
+
+        private void FixedUpdate()
+        {
+            if (IsDead) return;
+            float time = Time.fixedDeltaTime;
+            if (ImmuneTime > 0)
+            {
+                ImmuneTime -= time;
+            }
+            
+            BuffCom.FixedUpdate(time);
         }
 
         public void InitProperty(HeroProperty baseProp)
         {
             BaseProperty = baseProp;
             RecheckProperty();
-            _resource.HP = Property.Hp;
-            Resource.Shield = 0;
+            Health.HP = Property.Hp;
+            Health.Shield = 0;
         }
 
-        public async UniTask StartBattle(Faction selfFaction, Faction otherFaction)
+        public void ModifyHealth(DamageInfo damageInfo)
         {
-            await BattleCom.StartBattle(selfFaction, otherFaction);
+            int calFinalTotalDamage = damageInfo.CalFinalTotalDamage();
+            Health.Shield -= calFinalTotalDamage;
+            if (Health.Shield < 0)
+            {
+                calFinalTotalDamage = -Health.Shield;
+                Health.Shield = 0;
+                Health.HP -= calFinalTotalDamage;
+            }
+            
+            if (Health.HP < 0)
+            {
+                Health.HP = 0;
+                OnKill();
+            }
         }
 
-        private void RecheckProperty()
+        public void ModifyHealth(HeroHealth health)
+        {
+            Health += health;
+            Health.HP = Mathf.Clamp(Health.HP, 0, Property.Hp);
+            Health.Shield = Mathf.Clamp(Health.Shield, 0, Property.Shield);
+        }
+
+        public bool CanBeKilledByDamageInfo(DamageInfo dmgInfo)
+        {
+            if (!ControlMod.CanDead || dmgInfo.IsHealDamage() || !ControlMod.CanBeHurt) return false;
+
+            //TODO: 伤害计算后续优化
+            float totalHP = Health.HP + Health.Shield;
+            int finalTotalDamage = dmgInfo.CalFinalTotalDamage();
+            if (finalTotalDamage >= totalHP)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public void OnKill()
+        {
+            // TODO:播放消融 过几秒Obj删除
+        }
+
+        public async UniTask StartBattle()
+        {
+            BuffCom.ExecuteBuff(EBuffEventType.OnRound);
+            await SkillCom.CastSkill();
+        }
+
+        public void RecheckProperty()
         {
             ControlMod = HeroControlMod.Default;
-            Property = HeroProperty.Default;
+            Property = HeroProperty.Empty;
             Property += GetPropertyFromBuff();
             Property += GetPropertyFromSkill();
             Property += GetPropertyFromEquipment();
         }
-
+        
         public HeroProperty GetPropertyFromBuff()
         {
             return BuffCom.GetProperty();
