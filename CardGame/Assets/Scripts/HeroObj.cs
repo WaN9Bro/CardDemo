@@ -30,9 +30,11 @@ namespace MyGame
         /// </summary>
         public HeroControlMod ControlMod;
 
-        public HeroData Data;
+        public HeroData Data { get; private set; }
 
         public float ImmuneTime = 0f;
+
+        public Transform SpineContainer;
 
         /// <summary>
         /// 技能组件
@@ -56,7 +58,7 @@ namespace MyGame
         public HeroBindCom BindCom { get; private set; }
 
 
-        public bool IsDead => ControlMod.CanDead && Property.Hp <= 0;
+        public bool IsDead => Health.HP <= 0;
         
         public EFaction FactionType { get; private set; }
 
@@ -64,21 +66,22 @@ namespace MyGame
 
         public bool IsRearRowHero => Grid.Y == 2;
         
+        
         public void Init(HeroData data,Grid grid,EFaction faction)
         {
             Data = data;
             Grid = grid;
             FactionType = faction;
             
-            SkillCom = ReferencePool.Acquire<HeroSkillCom>();
-            BuffCom = ReferencePool.Acquire<HeroBuffCom>();
-            EquipmentCom = ReferencePool.Acquire<HeroEquipmentCom>();
-            UiCom = ReferencePool.Acquire<HeroUICom>();
-            SpineCom = ReferencePool.Acquire<HeroSpineCom>();
-            BindCom = ReferencePool.Acquire<HeroBindCom>();
+            SkillCom = GetComponent<HeroSkillCom>();
+            BuffCom = GetComponent<HeroBuffCom>();
+            EquipmentCom = GetComponent<HeroEquipmentCom>();
+            UiCom = GetComponent<HeroUICom>();
+            SpineCom = GetComponent<HeroSpineCom>();
+            BindCom = GetComponent<HeroBindCom>();
             
-            SkillCom.Initialize(this);
             BuffCom.Initialize(this);
+            SkillCom.Initialize(this);
             EquipmentCom.Initialize(this);
             UiCom.Initialize(this);
             SpineCom.Initialize(this);
@@ -86,38 +89,36 @@ namespace MyGame
             
             InitProperty(Data.BaseProperty);
         }
-
-        private void FixedUpdate()
-        {
-            if (IsDead) return;
-            float time = Time.fixedDeltaTime;
-            if (ImmuneTime > 0)
-            {
-                ImmuneTime -= time;
-            }
-            
-            BuffCom.FixedUpdate(time);
-        }
-
+        
         public void InitProperty(HeroProperty baseProp)
         {
             BaseProperty = baseProp;
             RecheckProperty();
-            Health.HP = Property.Hp;
+            Health.HP = Property.TotalHp;
             Health.Shield = 0;
         }
 
         public void ModifyHealth(DamageInfo damageInfo)
         {
             int calFinalTotalDamage = damageInfo.CalFinalTotalDamage();
-            Health.Shield -= calFinalTotalDamage;
-            if (Health.Shield < 0)
+            
+            if (damageInfo.IsHealDamage())
             {
-                calFinalTotalDamage = -Health.Shield;
-                Health.Shield = 0;
-                Health.HP -= calFinalTotalDamage;
+                Health.HP += calFinalTotalDamage;
+                Health.HP = Mathf.Clamp(Health.HP, 0, Property.Hp);
+            }
+            else
+            {
+                Health.Shield -= calFinalTotalDamage;
+                if (Health.Shield < 0)
+                {
+                    calFinalTotalDamage = -Health.Shield;
+                    Health.Shield = 0;
+                    Health.HP -= calFinalTotalDamage;
+                }
             }
             
+            UiCom.Modify();
             if (Health.HP < 0)
             {
                 Health.HP = 0;
@@ -134,7 +135,7 @@ namespace MyGame
 
         public bool CanBeKilledByDamageInfo(DamageInfo dmgInfo)
         {
-            if (!ControlMod.CanDead || dmgInfo.IsHealDamage() || !ControlMod.CanBeHurt) return false;
+            if (!ControlMod.CanBeHurt || dmgInfo.IsHealDamage()) return false;
 
             //TODO: 伤害计算后续优化
             float totalHP = Health.HP + Health.Shield;
@@ -154,27 +155,37 @@ namespace MyGame
 
         public async UniTask StartBattle()
         {
-            BuffCom.ExecuteBuff(EBuffEventType.OnRound);
+            if (ImmuneTime > 0)
+            {
+                ImmuneTime --;
+
+                if (ImmuneTime <= 0)
+                {
+                    ControlMod.CanBeHurt = true;
+                }
+            }
+            
+            BuffCom.OnTick();
             await SkillCom.CastSkill();
         }
 
         public void RecheckProperty()
         {
             ControlMod = HeroControlMod.Default;
-            Property = HeroProperty.Empty;
+            // TODO: 敌人只能用普攻
+            if (FactionType == EFaction.Enemy)
+            {
+                ControlMod.CanUseSkill = false;
+            }
+
+            Property = BaseProperty;
             Property += GetPropertyFromBuff();
-            Property += GetPropertyFromSkill();
             Property += GetPropertyFromEquipment();
         }
         
         public HeroProperty GetPropertyFromBuff()
         {
             return BuffCom.GetProperty();
-        }
-
-        public HeroProperty GetPropertyFromSkill()
-        {
-            return SkillCom.GetProperty();
         }
 
         public HeroProperty GetPropertyFromEquipment()

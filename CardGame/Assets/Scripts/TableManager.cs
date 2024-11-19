@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MyGame
 {
-    public class TableManager : MonoBehaviour, IPreGameService
+    public class TableManager : IPreGameService
     {
         public string ConfigPath = Application.dataPath + "/GenerateDatas/Json";
         public Tables Tables { get; private set; }

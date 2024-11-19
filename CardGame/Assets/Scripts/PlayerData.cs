@@ -37,11 +37,11 @@ namespace MyGame
         /// <summary>
         /// 阵营索引配置
         /// </summary>
-        public int[,] Faction = new int[3,2];
+        public long[,] Faction = new long[3,2];
         
         public static PlayerData Default = new PlayerData("Default",0,0,100,100,100,null,null,null);
 
-        public PlayerData(string name, int level, int exp, int energy, int money, int coin, List<HeroData> heroes, List<ItemData> items,int[,] faction)
+        public PlayerData(string name, int level, int exp, int energy, int money, int coin, List<HeroData> heroes, List<ItemData> items,long[,] faction)
         {
             Name = name;
             Level = level;

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MyGame
 {
-    public class PlayerManager : MonoBehaviour, IPostGameService
+    public class PlayerManager : IPostGameService
     {
         public PlayerData PlayerData { get; private set; }
 
@@ -23,7 +23,12 @@ namespace MyGame
             PlayerData.Heroes.Add(hero);
         }
 
-        public HeroData GetHeroModel(int uid)
+        public void SetPlace(long uid, Grid grid)
+        {
+            PlayerData.Faction[grid.X, grid.Y] = uid;
+        }
+
+        public HeroData GetHeroModel(long uid)
         {
             return PlayerData.Heroes.FirstOrDefault(model => model.Uid == uid);
         }

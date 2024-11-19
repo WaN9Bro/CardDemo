@@ -22,7 +22,7 @@ public sealed partial class PassiveSkill : Luban.BeanBase
         JObject _obj = _buf as JObject;
         Id = (int)_obj.GetValue("Id");
         Group = (int)_obj.GetValue("Group");
-        { var __json0 = _obj.GetValue("AutoAddBuff"); int _n0 = (__json0 as JArray).Count; AutoAddBuff = new AutoAddBuffWarp[_n0]; int __index0=0; foreach(JToken __e0 in __json0) { AutoAddBuffWarp __v0;  __v0 = AutoAddBuffWarp.DeserializeAutoAddBuffWarp(__e0);  AutoAddBuff[__index0++] = __v0; }   }
+        { var __json0 = _obj.GetValue("AddBuff"); int _n0 = (__json0 as JArray).Count; AddBuff = new AddBuffWarp[_n0]; int __index0=0; foreach(JToken __e0 in __json0) { AddBuffWarp __v0;  __v0 = AddBuffWarp.DeserializeAddBuffWarp(__e0);  AddBuff[__index0++] = __v0; }   }
     }
 
     public static PassiveSkill DeserializePassiveSkill(JToken _buf)
@@ -41,7 +41,7 @@ public sealed partial class PassiveSkill : Luban.BeanBase
     /// <summary>
     /// 学习技能后自动添加的buff
     /// </summary>
-    public readonly AutoAddBuffWarp[] AutoAddBuff;
+    public readonly AddBuffWarp[] AddBuff;
 
 
     public const int __ID__ = -662757494;
@@ -49,7 +49,7 @@ public sealed partial class PassiveSkill : Luban.BeanBase
 
     public  void ResolveRef(Tables tables)
     {
-        foreach (var _e in AutoAddBuff) { _e?.ResolveRef(tables); }
+        foreach (var _e in AddBuff) { _e?.ResolveRef(tables); }
     }
 
     public override string ToString()
@@ -57,7 +57,7 @@ public sealed partial class PassiveSkill : Luban.BeanBase
         return "{ "
         + "Id:" + Id + ","
         + "Group:" + Group + ","
-        + "AutoAddBuff:" + Luban.StringUtil.CollectionToString(AutoAddBuff) + ","
+        + "AddBuff:" + Luban.StringUtil.CollectionToString(AddBuff) + ","
         + "}";
     }
 }

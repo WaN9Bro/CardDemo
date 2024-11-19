@@ -14,13 +14,19 @@ namespace MyGame
         public float CriticalRate;
         
         public Damage FinalDamage;
+
+        public string BehurtEffect;
+
+        public string Source;
         
-        public DamageInfo(HeroObj attacker, HeroObj defender, Damage damage, float criticalRate)
+        public DamageInfo(HeroObj attacker, HeroObj defender, Damage damage, float criticalRate,string behurtEffect,string source = "")
         {
             Attacker = attacker;
             Defender = defender;
             Damage = damage;
             CriticalRate = criticalRate;
+            BehurtEffect = behurtEffect;
+            Source = source;
         }
     }
 

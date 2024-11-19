@@ -15,7 +15,7 @@ using Newtonsoft.Json.Linq;
 namespace MyGame
 {
 
-public partial struct RemoveBuffWarp
+public sealed partial class RemoveBuffWarp : Luban.BeanBase
 {
     public RemoveBuffWarp(JToken _buf) 
     {
@@ -40,6 +40,8 @@ public partial struct RemoveBuffWarp
     public readonly int Count;
 
 
+    public const int __ID__ = 176052799;
+    public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {

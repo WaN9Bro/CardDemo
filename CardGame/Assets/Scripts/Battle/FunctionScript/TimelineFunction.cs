@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 using Random = Unity.Mathematics.Random;
 
 namespace MyGame
@@ -12,7 +13,7 @@ namespace MyGame
 
         public static readonly Dictionary<string, TimelineEvent> Functions = new Dictionary<string, TimelineEvent>
         {
-            { "PlaySkillLihui", PlaySkillLihui },
+            {"TargetInit", TargetInit},
             { "PlayAnimOnCaster", PlayAnimOnCaster },
             { "PlayEffectOnCaster", PlayEffectOnCaster },
             { "PlayEffectOnTarget", PlayEffectOnTarget },
@@ -25,16 +26,19 @@ namespace MyGame
         #endregion
 
         #region FunctionLogic
-
-        /// <summary>
-        /// 播放技能立绘
-        /// </summary>
-        private static void PlaySkillLihui(TimelineObj obj, params object[] args)
+        
+        
+        private static void TargetInit(TimelineObj obj, params object[] args)
         {
-            string param1 = (string)args[0];
-            Debug.Log($"播放立绘：{param1}");
+            TargetWarp warp = (TargetWarp)args[0];
+            GameManager.Instance.GetService(out BattleManager battleManager);
+            List<HeroObj> targets = battleManager.GetFilterTargets(warp, obj.Caster);
+            if (targets.Count > 0)
+            {
+                obj.LogicParams.Add("Targets", new List<HeroObj>(targets));
+            }
         }
-
+        
         /// <summary>
         /// 播放施法者指定动画
         /// </summary>
@@ -49,24 +53,20 @@ namespace MyGame
         /// </summary>
         private static void PlayEffectOnCaster(TimelineObj obj, params object[] args)
         {
-            string effectName = args.Length >= 1 ? (string)args[0] : "";
-            string bindPoint = args.Length >= 2 ? (string)args[1] : "Body";
-            bool loop = args.Length >= 2 ? (bool)args[2] : false;
-            obj.Caster.BindCom.AddBindGameObject(bindPoint, "Effects/" + effectName, effectName, loop);
+            PlayEffectWarp warp = (PlayEffectWarp)args[0];
+            obj.Caster.BindCom.AddBindGameObject(warp.BindPoint, "Effects/" + warp.EffectName, warp.EffectName);
         }
 
         private static void PlayEffectOnTarget(TimelineObj obj, params object[] args)
         {
-            string effectName = args.Length >= 1 ? (string)args[0] : "";
-            string bindPoint = args.Length >= 2 ? (string)args[1] : "Body";
-            bool loop = args.Length >= 3 ? (bool)args[2] : false;
+            PlayEffectWarp warp = (PlayEffectWarp)args[0];
 
-            List<HeroObj> targets = (List<HeroObj>)obj.GetParam("Targets");
-            if (!targets.IsNullOrEmpty())
+            if (obj.LogicParams.TryGetValue("Targets", out object targetObjs))
             {
+                List<HeroObj> targets = (List<HeroObj>)targetObjs;
                 for (int i = 0; i < targets.Count; i++)
                 {
-                    targets[i].BindCom.AddBindGameObject(bindPoint, "Effects/" + effectName, effectName, loop);
+                    targets[i].BindCom.AddBindGameObject(warp.BindPoint, "Effects/" + warp.EffectName, warp.EffectName);
                 }
             }
         }
@@ -74,32 +74,28 @@ namespace MyGame
         private static void CreateDamage(TimelineObj obj, params object[] args)
         {
             CreateDamageWarp damageWarp = (CreateDamageWarp)args[0];
-            GameManager.Instance.GetService(out BattleManager battleManager);
             GameManager.Instance.GetService(out DamageManager dmgManager);
 
-            List<HeroObj> targets = battleManager.GetFilterTargets(damageWarp, obj.Caster);
-            if (targets.Count > 0)
+            if (obj.LogicParams.TryGetValue("Targets",out object targetObjs))
             {
+                List<HeroObj> targets = (List<HeroObj>)targetObjs;
                 for (int i = 0; i < targets.Count; i++)
                 {
                     dmgManager.AddDamage(
                         obj.Caster,
                         targets[i],
                         damageWarp.ConvertWarpToDamage(obj.Caster.Property.Attack),
-                        obj.Caster.Property.CriticalRate);
+                        obj.Caster.Property.CriticalRate,damageWarp.BeHurtEffect,obj.Model.Id);
                 }
-
-                obj.LogicParams.Add("Targets", targets);
             }
         }
 
         private static void TransferBuff(TimelineObj obj, params object[] args)
         {
             TransferBuffWarp warp = (args.Length >= 1 ? (TransferBuffWarp)args[0] : default);
-            List<HeroObj> targets = (List<HeroObj>)obj.GetParam("Targets");
-
-            if (!targets.IsNullOrEmpty())
+            if (obj.LogicParams.TryGetValue("Targets", out object targetObjs))
             {
+                List<HeroObj> targets = (List<HeroObj>)targetObjs;
                 GameManager.Instance.GetService(out BattleManager battleManager);
 
                 EFaction faction = obj.Caster.FactionType == EFaction.Player ? EFaction.Enemy : EFaction.Player;
@@ -126,21 +122,25 @@ namespace MyGame
 
         private static void AddBuff(TimelineObj obj, params object[] args)
         {
-            AddBuffWarp warp = args.Length >= 1 ? (AddBuffWarp)args[0] : null;
-            if (warp == null) return;
-            
-            List<HeroObj> targets = (List<HeroObj>)obj.GetParam("Targets");
-            if (targets.IsNullOrEmpty()) return;
-            
-            foreach (HeroObj heroObj in targets)
+            mAddBuffTableIndex addBuffTableIndex = (mAddBuffTableIndex)args[0];
+            AddBuffDefine addBuffDefine = addBuffTableIndex.Config();
+
+            if (obj.LogicParams.TryGetValue("Targets", out object targetObjs))
             {
-                bool res = UnityEngine.Random.Range(0.00f, 1.00f) <= warp.Probability;
-                if (!res) continue;
-                
-                AddBuffInfo addBuffInfo = warp.ConvertWarpToAddBuffInfo();
-                addBuffInfo.Caster = obj.Caster;
-                addBuffInfo.Target = heroObj;
-                heroObj.BuffCom.AddBuff(addBuffInfo);
+                List<HeroObj> targets = (List<HeroObj>)targetObjs;
+                foreach (HeroObj heroObj in targets)
+                {
+                    foreach (AddBuffWarp warp in addBuffDefine.AddBuff)
+                    {
+                        bool res = UnityEngine.Random.Range(0.00f, 1.00f) <= warp.Probability;
+                        if (!res) continue;
+
+                        AddBuffInfo addBuffInfo = warp.ConvertWarpToAddBuffInfo();
+                        addBuffInfo.Caster = obj.Caster;
+                        addBuffInfo.Target = heroObj;
+                        heroObj.BuffCom.AddBuff(addBuffInfo);
+                    }
+                }
             }
         }
 
@@ -152,29 +152,28 @@ namespace MyGame
             }
             
             RemoveBuffWarp warp = (RemoveBuffWarp)args[0];
-            List<HeroObj> targets = (List<HeroObj>)obj.GetParam("Targets");
-            if (targets.IsNullOrEmpty())
-            { 
-                throw new Exception("[TimelineFunction] RemoveBuff targets was not found.");
-            }
-            
-            foreach (HeroObj heroObj in targets)
-            {
-                bool res = UnityEngine.Random.Range(0.00f, 1.00f) <= warp.Probability;
-                if (!res) continue;
 
-                switch (warp.RemoveBuffType)
+            if (obj.LogicParams.TryGetValue("Targets", out object targetObjs))
+            {
+                List<HeroObj> targets = (List<HeroObj>)targetObjs;
+                foreach (HeroObj heroObj in targets)
                 {
-                    // 指定buff
-                    case ERemoveBuffType.AssignBuff:
-                        heroObj.BuffCom.RemoveBuff(warp.BuffKey);
-                        break;
-                    case ERemoveBuffType.RandomBuff:
-                        heroObj.BuffCom.RemoveBuffByRandom(warp.Count);
-                        break;
-                    case ERemoveBuffType.RandomDebuff:
-                        heroObj.BuffCom.RemoveDebuffByRandom(warp.Count);
-                        break;
+                    bool res = UnityEngine.Random.Range(0.00f, 1.00f) <= warp.Probability;
+                    if (!res) continue;
+
+                    switch (warp.RemoveBuffType)
+                    {
+                        // 指定buff
+                        case ERemoveBuffType.AssignBuff:
+                            heroObj.BuffCom.RemoveBuff(warp.BuffKey);
+                            break;
+                        case ERemoveBuffType.RandomBuff:
+                            heroObj.BuffCom.RemoveBuffByRandom(warp.Count);
+                            break;
+                        case ERemoveBuffType.RandomDebuff:
+                            heroObj.BuffCom.RemoveDebuffByRandom(warp.Count);
+                            break;
+                    }
                 }
             }
         }

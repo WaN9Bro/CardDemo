@@ -35,6 +35,9 @@ public abstract partial class mObject : Luban.BeanBase
             case "mAddBuffWarp": return new mAddBuffWarp(_buf);
             case "mTransferBuffWarp": return new mTransferBuffWarp(_buf);
             case "mRemoveBuffWarp": return new mRemoveBuffWarp(_buf);
+            case "mPlayEffectWarp": return new mPlayEffectWarp(_buf);
+            case "mTargetWarp": return new mTargetWarp(_buf);
+            case "mAddBuffTableIndex": return new mAddBuffTableIndex(_buf);
             default: throw new SerializationException();
         }
     }

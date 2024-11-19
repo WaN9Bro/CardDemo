@@ -15,7 +15,7 @@ using Newtonsoft.Json.Linq;
 namespace MyGame
 {
 
-public partial struct TransferBuffWarp
+public sealed partial class TransferBuffWarp : Luban.BeanBase
 {
     public TransferBuffWarp(JToken _buf) 
     {
@@ -31,13 +31,12 @@ public partial struct TransferBuffWarp
     }
 
     public readonly string BuffKey;
-    /// <summary>
-    /// 概率
-    /// </summary>
     public readonly float Probability;
     public readonly int Count;
 
 
+    public const int __ID__ = -245155162;
+    public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {

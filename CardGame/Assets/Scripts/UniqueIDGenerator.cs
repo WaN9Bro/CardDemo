@@ -2,9 +2,9 @@
 
 namespace MyGame
 {
-    public class UniqueIDGenerator
+    public static class UniqueIDGenerator
     {
-        private static long lastTimestamp = DateTimeOffset.UnixEpoch.Ticks;
+        private static long lastTimestamp = DateTimeOffset.MinValue.ToUnixTimeMilliseconds();
         private static int sequence = 0;
         private static object lockObj = new object();
 

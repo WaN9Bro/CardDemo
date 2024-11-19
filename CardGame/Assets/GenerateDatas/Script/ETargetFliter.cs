@@ -41,6 +41,14 @@ namespace MyGame
         /// 生命力最低的英雄
         /// </summary>
         LowestHealth = 6,
+        /// <summary>
+        /// 自己
+        /// </summary>
+        Self = 8,
+        /// <summary>
+        /// 我方阵营以死亡的英雄或者生命最低的英雄
+        /// </summary>
+        MyDeadOrLowestHealth = 9,
     }
 
 } 

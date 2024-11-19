@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
 
 namespace MyGame
 {
-    public class HeroSkillCom : IHeroComponent
+    public class HeroSkillCom : MonoBehaviour
     {
         private class SkillWarp : IReference
         {
@@ -64,7 +66,7 @@ namespace MyGame
                 foreach (PassiveSkillData passiveSkillData in heroObj.Data.PassiveSkill)
                 {
                     PassiveSkillObj passiveSkillObj = ReferencePool.Acquire<PassiveSkillObj>();
-                    passiveSkillObj.Init(passiveSkillData.Id,passiveSkillData.Config().AutoAddBuff.ConvertWarpToAddBuffInfos());
+                    passiveSkillObj.Init(passiveSkillData.Id,passiveSkillData.Config().AddBuff.ConvertWarpToAddBuffInfos());
                     
                     if (!passiveSkillObj.AddBuffInfos.IsNullOrEmpty())
                     {
@@ -114,13 +116,15 @@ namespace MyGame
             
             // 创建技能TimelineObj
             GameManager.Instance.GetService(out TimelineManager timelineManager);
-            TimelineObj timelineObj = ReferencePool.Acquire<TimelineObj>();
-            timelineObj.Init(_skillObjs[castSkillIndex].SkillObj.Model.Effect, HeroObj,true);
+            TimelineObj timelineObj = new TimelineObj();
+            timelineObj.Init(_skillObjs[castSkillIndex].SkillObj.Model.Effect, HeroObj);
             HeroObj.BuffCom.ExecuteBuff(EBuffEventType.OnCast,timelineObj);
             HeroObj.ModifyHealth(_skillObjs[castSkillIndex].SkillObj.Model.Cost.ConvertToHeroHealth());
-            _skillObjs[castSkillIndex].CdRound = _skillObjs[castSkillIndex].FixedCdRound;
-            timelineManager.AddTimeline(timelineObj);
-            await timelineObj.Await();
+            _skillObjs[castSkillIndex].CdRound = _skillObjs[castSkillIndex].FixedCdRound + 1;
+            if (timelineManager.AddTimeline(timelineObj))
+            {
+                await timelineObj.AwaitRelease();
+            }
         }
 
         private bool IsUsefulSkillByIndex(int index,int curRound)
@@ -130,32 +134,22 @@ namespace MyGame
                 return false;
             }
             
-            if (curRound != _skillObjs[index].CastRound)
+            if(!HeroObj.Health.Enough(_skillObjs[index].SkillObj.Model.Condition))
             {
                 return false;
             }
             
-            if(_skillObjs[index].CdRound > 0)
+            if(!HeroObj.Health.Enough(_skillObjs[index].SkillObj.Model.Cost))
             {
                 return false;
             }
             
-            if(HeroObj.Health.Enough(_skillObjs[index].SkillObj.Model.Condition))
+            if (curRound == _skillObjs[index].CastRound)
             {
-                return false;
+                return true;
             }
             
-            if(HeroObj.Health.Enough(_skillObjs[index].SkillObj.Model.Cost))
-            {
-                return false;
-            }
-
-            return false;
-        }
-        
-        public HeroProperty GetProperty()
-        {
-            return default;
+            return _skillObjs[index].CdRound <= 0;
         }
 
         public void Clear()

@@ -8,18 +8,13 @@ namespace MyGame
     /// </summary>
     internal sealed class FsmManager : IPreGameService, IFsmManager
     {
-        private readonly Dictionary<TypeNamePair, FsmBase> m_Fsms;
-        private readonly List<FsmBase> m_TempFsms;
-
-        /// <summary>
-        /// 初始化有限状态机管理器的新实例。
-        /// </summary>
-        public FsmManager()
-        {
-            m_Fsms = new Dictionary<TypeNamePair, FsmBase>();
-            m_TempFsms = new List<FsmBase>();
-        }
+        private readonly Dictionary<TypeNamePair, FsmBase> m_Fsms = new Dictionary<TypeNamePair, FsmBase>();
+        private readonly List<FsmBase> m_TempFsms = new List<FsmBase>();
         
+        public void Init()
+        {
+            
+        }
 
         /// <summary>
         /// 获取有限状态机数量。
@@ -388,11 +383,6 @@ namespace MyGame
             }
 
             return false;
-        }
-
-        public void Init()
-        {
-            throw new NotImplementedException();
         }
     }
 }

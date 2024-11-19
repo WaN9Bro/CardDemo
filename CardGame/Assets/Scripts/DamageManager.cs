@@ -20,7 +20,7 @@ namespace MyGame
                 _damageInfos.RemoveAt(0);
             }
         }
-
+        
         private void DealWithDamage(DamageInfo dmgInfo)
         {
             if (!dmgInfo.Defender) return;
@@ -61,17 +61,34 @@ namespace MyGame
             }
 
             // 死不了的受伤要播放受伤动画
-            if (!dmgInfo.Defender.CanBeKilledByDamageInfo(dmgInfo) && dmgInfo.IsHealDamage())
+            if (!dmgInfo.Defender.CanBeKilledByDamageInfo(dmgInfo) || !dmgInfo.IsHealDamage())
             {
-                dmgInfo.Defender.SpineCom.PlayAnim("Injured");
+                if (!dmgInfo.IsHealDamage())
+                    dmgInfo.Defender.SpineCom.PlayAnim("Injured",false);
+                if (!string.IsNullOrEmpty(dmgInfo.BehurtEffect) && dmgInfo.BehurtEffect != "NULL")
+                {
+                    dmgInfo.Defender.BindCom.AddBindGameObject("Body","Effects/" + dmgInfo.BehurtEffect, dmgInfo.BehurtEffect);
+                }
             }
             
+            // 受伤和回复都要有特效，但是只有受伤要播放动画
             dmgInfo.Defender.ModifyHealth(dmgInfo);
+            string dmgText = dmgInfo.Source;
+            if (dmgInfo.IsHealDamage())
+            {
+                dmgText += "+" + dmgInfo.CalFinalTotalDamage();
+            }
+            else
+            {
+                dmgText += "-" + dmgInfo.CalFinalTotalDamage();
+            }
+            
+            dmgInfo.Defender.BindCom.AddPopText(dmgInfo.Defender.FactionType,"Body","UI/PopText",dmgText);
         }
 
-        public void AddDamage(HeroObj attacker, HeroObj defender, Damage damage, float criticalRate)
+        public void AddDamage(HeroObj attacker, HeroObj defender, Damage damage, float criticalRate,string beHurtEffect = "",string source = "")
         {
-            _damageInfos.Add(new DamageInfo(attacker, defender, damage, criticalRate));
+            _damageInfos.Add(new DamageInfo(attacker, defender, damage, criticalRate,beHurtEffect,source));
         }
     }
 }

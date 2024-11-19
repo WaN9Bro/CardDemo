@@ -55,7 +55,7 @@ namespace MyGame
             }
         }
 
-        public void AddBindGameObject(string goPath, string key, bool loop)
+        public void AddBindGameObject(string goPath, string key)
         {
             if (key != "" && _bindInfos.ContainsKey(key) == true) return; //已经存在，加不成
 
@@ -76,8 +76,8 @@ namespace MyGame
                 return;
             }
 
-            float duration = se.Duration * (loop == false ? 1 : -1);
-            BindInfo bindGameObjectInfo = new BindInfo(effectGO, duration);
+            se.Init();
+            BindInfo bindGameObjectInfo = new BindInfo(effectGO, se.Duration);
             if (key != "")
             {
                 _bindInfos.Add(key, bindGameObjectInfo);
@@ -87,6 +87,34 @@ namespace MyGame
                 _bindInfos.Add(Time.frameCount * Random.Range(1.00f, 9.99f) + "_" + Random.Range(1, 9999),
                     bindGameObjectInfo);
             }
+        }
+
+
+        public void AddPopText(EFaction faction,string goPath,string text)
+        {
+            PopText popText = Instantiate<PopText>(
+                Resources.Load<PopText>(goPath),
+                Vector3.zero,
+                Quaternion.identity,
+                this.gameObject.transform
+            );
+            if (!popText) return;
+            
+            popText.transform.localPosition = this.Offset;
+            popText.transform.localRotation = Quaternion.identity;
+
+            if (faction == EFaction.Player)
+            {
+                popText.transform.localScale = Vector3.one;
+            }
+            else
+            {
+                popText.transform.localScale = new Vector3(-1, 1, 1);
+            }
+            popText.InitText(text);
+            BindInfo bindGameObjectInfo = new BindInfo(popText.gameObject, popText.Duration);
+            _bindInfos.Add(Time.frameCount * Random.Range(1.00f, 9.99f) + "_" + Random.Range(1, 9999),
+                bindGameObjectInfo);
         }
         
         public void RemoveBindGameObject(string key){

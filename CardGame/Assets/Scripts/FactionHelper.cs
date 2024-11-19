@@ -7,7 +7,7 @@ namespace MyGame
 {
     public static class FactionHelper
     {
-        public static Faction CreatePlayerFaction(int[,] faction)
+        public static Faction CreatePlayerFaction(long[,] faction)
         {
             if (faction.IsNullOrEmpty())
             {
@@ -20,7 +20,7 @@ namespace MyGame
 
             for (int i = 0; i < faction.GetLength(0); i++)
             {
-                for (int j = 0; j < faction.GetLength(0); j++)
+                for (int j = 0; j < faction.GetLength(1); j++)
                 {
                     if (faction[i,j] == 0) continue;
                     HeroData heroData = playerManager.GetHeroModel(faction[i,j]);
@@ -42,9 +42,9 @@ namespace MyGame
 
         public static Faction CreateEnemyFaction(int stage)
         {
-            HeroData data = HeroHelper.Create(1001);
+            HeroData data = HeroHelper.CreateHeroData(1001);
             HeroData[,] models = new HeroData[3,2];
-            models[0,0] = data;
+            models[0,1] = data;
             Faction fa = ReferencePool.Acquire<Faction>();
             fa.Init(models, EFaction.Enemy);
             return fa;

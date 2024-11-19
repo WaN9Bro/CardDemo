@@ -22,17 +22,13 @@ namespace MyGame
         /// </summary>
         CanSkill = 1,
         /// <summary>
-        /// 死亡状态
-        /// </summary>
-        CanDead = 2,
-        /// <summary>
         /// 受伤状态
         /// </summary>
-        CanBeHurt = 3,
+        CanBeHurt = 2,
         /// <summary>
         /// 回复状态
         /// </summary>
-        CanHeal = 4,
+        CanHeal = 3,
     }
 
 } 

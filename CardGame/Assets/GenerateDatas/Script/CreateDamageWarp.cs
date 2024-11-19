@@ -15,17 +15,16 @@ using Newtonsoft.Json.Linq;
 namespace MyGame
 {
 
-public partial struct CreateDamageWarp
+public sealed partial class CreateDamageWarp : Luban.BeanBase
 {
     public CreateDamageWarp(JToken _buf) 
     {
         JObject _obj = _buf as JObject;
         DamageType = (EDamageType)(int)_obj.GetValue("DamageType");
         DamageAttr = (EDamageAttr)(int)_obj.GetValue("DamageAttr");
-        TargetFliter = (ETargetFliter)(int)_obj.GetValue("TargetFliter");
-        Count = (int)_obj.GetValue("Count");
         Ratio = (float)_obj.GetValue("Ratio");
         FixedValue = (int)_obj.GetValue("FixedValue");
+        BeHurtEffect = (string)_obj.GetValue("BeHurtEffect");
     }
 
     public static CreateDamageWarp DeserializeCreateDamageWarp(JToken _buf)
@@ -42,14 +41,6 @@ public partial struct CreateDamageWarp
     /// </summary>
     public readonly EDamageAttr DamageAttr;
     /// <summary>
-    /// 目标过滤类型
-    /// </summary>
-    public readonly ETargetFliter TargetFliter;
-    /// <summary>
-    /// 目标数量
-    /// </summary>
-    public readonly int Count;
-    /// <summary>
     /// 伤害比例
     /// </summary>
     public readonly float Ratio;
@@ -57,8 +48,14 @@ public partial struct CreateDamageWarp
     /// 伤害固定值
     /// </summary>
     public readonly int FixedValue;
+    /// <summary>
+    /// 被打的特效
+    /// </summary>
+    public readonly string BeHurtEffect;
 
 
+    public const int __ID__ = -792069933;
+    public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
@@ -69,10 +66,9 @@ public partial struct CreateDamageWarp
         return "{ "
         + "DamageType:" + DamageType + ","
         + "DamageAttr:" + DamageAttr + ","
-        + "TargetFliter:" + TargetFliter + ","
-        + "Count:" + Count + ","
         + "Ratio:" + Ratio + ","
         + "FixedValue:" + FixedValue + ","
+        + "BeHurtEffect:" + BeHurtEffect + ","
         + "}";
     }
 }

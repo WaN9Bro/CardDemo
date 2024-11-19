@@ -1,9 +1,10 @@
 ﻿using Spine;
 using Spine.Unity;
+using UnityEngine;
 
 namespace MyGame
 {
-    public class HeroSpineCom : IHeroComponent
+    public class HeroSpineCom : MonoBehaviour
     {
         public HeroObj HeroObj { get; private set; }
         private SkeletonAnimation _skeleton;
@@ -12,7 +13,7 @@ namespace MyGame
         public void Initialize(HeroObj heroObj)
         {
             HeroObj = heroObj;
-            _skeleton = heroObj.GetComponent<SkeletonAnimation>();
+            _skeleton = heroObj.GetComponentInChildren<SkeletonAnimation>();
             _skeleton.AnimationState.Complete += OnAnimCompleted;
             PlayAnim("Stand");
         }

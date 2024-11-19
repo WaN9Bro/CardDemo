@@ -1,11 +1,13 @@
-﻿namespace MyGame
+﻿using UnityEngine;
+
+namespace MyGame
 {
-    public class HeroEquipmentCom : IHeroComponent
+    public class HeroEquipmentCom : MonoBehaviour
     {
-        public HeroObj HeroObj { get; }
+        public HeroObj HeroObj { get; private set; }
         public void Initialize(HeroObj heroObj)
         {
-            throw new System.NotImplementedException();
+            HeroObj = heroObj;
         }
         
         public HeroProperty GetProperty()

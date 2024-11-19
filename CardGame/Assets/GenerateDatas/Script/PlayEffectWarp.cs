@@ -15,15 +15,13 @@ using Newtonsoft.Json.Linq;
 namespace MyGame
 {
 
-public partial struct PlayEffectWarp
+public sealed partial class PlayEffectWarp : Luban.BeanBase
 {
     public PlayEffectWarp(JToken _buf) 
     {
         JObject _obj = _buf as JObject;
         BindPoint = (string)_obj.GetValue("BindPoint");
         EffectName = (string)_obj.GetValue("EffectName");
-        Duration = (float)_obj.GetValue("Duration");
-        IsLoop = (bool)_obj.GetValue("IsLoop");
     }
 
     public static PlayEffectWarp DeserializePlayEffectWarp(JToken _buf)
@@ -39,16 +37,10 @@ public partial struct PlayEffectWarp
     /// 特效名称
     /// </summary>
     public readonly string EffectName;
-    /// <summary>
-    /// 持续时间
-    /// </summary>
-    public readonly float Duration;
-    /// <summary>
-    /// 循环
-    /// </summary>
-    public readonly bool IsLoop;
 
 
+    public const int __ID__ = 1544966701;
+    public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
@@ -59,8 +51,6 @@ public partial struct PlayEffectWarp
         return "{ "
         + "BindPoint:" + BindPoint + ","
         + "EffectName:" + EffectName + ","
-        + "Duration:" + Duration + ","
-        + "IsLoop:" + IsLoop + ","
         + "}";
     }
 }

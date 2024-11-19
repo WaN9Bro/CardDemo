@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Resources;
+using UnityEditor;
 
 namespace MyGame
 {
@@ -8,9 +9,22 @@ namespace MyGame
         public static List<object> ConvertMObjectToObject(List<mObject> self)
         {
             List<object> objects = new List<object>(self.Count);
-            for (int i = 0; i < objects.Count; i++)
+
+            foreach (mObject mObject in self)
             {
-                objects[i] = ConvertMObjectToObject(self[i]);
+                objects.Add(ConvertMObjectToObject(mObject));
+            }
+
+            return objects;
+        }
+        
+        public static List<object> ConvertMObjectToObject(this mObject[] self)
+        {
+            List<object> objects = new List<object>(self.Length);
+
+            foreach (mObject mObject in self)
+            {
+                objects.Add(ConvertMObjectToObject(mObject));
             }
 
             return objects;
@@ -56,6 +70,21 @@ namespace MyGame
             if (mObj is mRemoveBuffWarp mRemoveBuffWarp)
             {
                 return mRemoveBuffWarp.Data;
+            }
+            
+            if (mObj is mPlayEffectWarp mPlayEffectWarp)
+            {
+                return mPlayEffectWarp.Data;
+            }
+            
+            if (mObj is mTargetWarp mTargetWarp)
+            {
+                return mTargetWarp.Data;
+            }
+            
+            if (mObj is mAddBuffTableIndex mAddBuffTableIndex)
+            {
+                return mAddBuffTableIndex;
             }
 
             return null;

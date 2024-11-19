@@ -37,6 +37,7 @@ public sealed partial class mRemoveBuffWarp : mObject
     public override void ResolveRef(Tables tables)
     {
         base.ResolveRef(tables);
+        Data?.ResolveRef(tables);
     }
 
     public override string ToString()

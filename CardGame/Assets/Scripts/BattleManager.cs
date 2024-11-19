@@ -24,7 +24,9 @@ namespace MyGame
         public Transform[] PlayerPlaces;
         public Transform[] EnemyPlaces;
 
-        private Transform[,] _playerPlaces;
+        public Transform enemyCenterTrans;
+
+        private  Transform[,] _playerPlaces;
         private Transform[,] _enemyPlaces;
         
         
@@ -58,21 +60,26 @@ namespace MyGame
         }
 
         
-        public void RunBattle(Faction playerFaction,Faction enemyFaction)
+        public async UniTask RunBattle(Faction playerFaction,Faction enemyFaction)
         {
             Round = 1;
             _playerFaction = playerFaction;
             _enemyFaction = enemyFaction;
-            PrepareBattle();
+            await PrepareBattle();
         }
         
-        private void PrepareBattle()
+        private async UniTask PrepareBattle()
         {
             _playerFaction.PrepareBattle();
             _enemyFaction.PrepareBattle();
             
             BattleState = EBattleState.Running;
-            InternalStartBattle(cts.Token).Forget();
+            await InternalStartBattle(cts.Token);
+        }
+
+        public Transform GetPlace(EFaction faction,Grid grid)
+        {
+            return faction == EFaction.Player ? _playerPlaces[grid.X, grid.Y] : _enemyPlaces[grid.X, grid.Y];
         }
 
         private async UniTask InternalStartBattle(CancellationToken token)
@@ -82,6 +89,8 @@ namespace MyGame
                 //直到战斗结束才停止：  我方或者敌方 全部阵亡， 或者 点击跳过直接进行整体伤害计算，不走动画那一套
                 while (!token.IsCancellationRequested || (_playerFaction.HasEntityAlive && _enemyFaction.HasEntityAlive))
                 {
+                    GameManager.Instance.GetService(out UIManager uiManager);
+                    uiManager.Modify();
                     if (IsPause) continue;
                     // 玩家阵营 攻击 敌方阵营
                     await _playerFaction.StartBattle(_enemyFaction);
@@ -91,14 +100,14 @@ namespace MyGame
                         return;
                     }
                     
-                    await _enemyFaction.StartBattle(_enemyFaction);
-                    
-                    if (!_enemyFaction.HasEntityAlive)
+                    await _enemyFaction.StartBattle(_playerFaction);
+                    if (!_playerFaction.HasEntityAlive)
                     {
                         EndBattle(false);
                         return;
                     }
                     Round++;
+                    await UniTask.Yield();
                 }
             }
             catch (OperationCanceledException e)
@@ -118,26 +127,25 @@ namespace MyGame
             Debug.LogError("游戏结束！");
         }
 
-        public List<HeroObj> GetFilterTargets(CreateDamageWarp warp,HeroObj caster)
+        public List<HeroObj> GetFilterTargets(TargetWarp warp,HeroObj caster)
         {
-            Faction targetFaction = caster.FactionType == EFaction.Player ? _enemyFaction : _playerFaction;
+            Faction targetFaction = warp.TargetCamp == ETargetCamp.My ?
+                caster.FactionType == EFaction.Player ? _playerFaction : _enemyFaction
+                :
+                caster.FactionType == EFaction.Player
+                    ? _enemyFaction
+                    : _playerFaction;
             return targetFaction.GetFilterHeroObjs(warp,caster);
         }
 
         public List<HeroObj> GetNoHasBuffHeroObjs(string key,EFaction faction)
         {
-            List<HeroObj> heroObjs = new List<HeroObj>();
             if (faction == EFaction.Player)
             {
                 return _playerFaction.GetNoHasBuffHeroObjs(key);
             }
 
             return _enemyFaction.GetNoHasBuffHeroObjs(key);
-        }
-        
-        public void ClearBattle()
-        {
-            
         }
     }
 }

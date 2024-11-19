@@ -18,6 +18,7 @@ public partial class Tables
     public TbTimeline TbTimeline {get; }
     public TbBuff TbBuff {get; }
     public TbPassiveSkill TbPassiveSkill {get; }
+    public TbAddBuffDefine TbAddBuffDefine {get; }
 
 
       public Tables(System.Func<string, JArray> loader)
@@ -27,6 +28,7 @@ public partial class Tables
         TbTimeline = new TbTimeline(loader("tbtimeline"));
         TbBuff = new TbBuff(loader("tbbuff"));
         TbPassiveSkill = new TbPassiveSkill(loader("tbpassiveskill"));
+        TbAddBuffDefine = new TbAddBuffDefine(loader("tbaddbuffdefine"));
         ResolveRef();
     }
     
@@ -37,6 +39,7 @@ public partial class Tables
         TbTimeline.ResolveRef(this);
         TbBuff.ResolveRef(this);
         TbPassiveSkill.ResolveRef(this);
+        TbAddBuffDefine.ResolveRef(this);
     }
 }
 

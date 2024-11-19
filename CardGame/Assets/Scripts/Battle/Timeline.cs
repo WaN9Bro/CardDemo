@@ -20,15 +20,13 @@ namespace MyGame
 
         public readonly Dictionary<string, object> LogicParams = new Dictionary<string, object>();
 
-        private SemaphoreSlim _semaphore;
-
-        public void Init(TimelineModel model, HeroObj caster,bool needSemaphore)
+        private bool _isRelease;
+        public void Init(TimelineModel model, HeroObj caster)
         {
             Model = model;
             Caster = caster;
             TimeScale = 1.0f;
-            if (needSemaphore)
-                _semaphore = new SemaphoreSlim(1, 1);
+            _isRelease = false;
         }
         
         public void Clear()
@@ -37,8 +35,7 @@ namespace MyGame
             LogicParams.Clear();
             TimeElapsed = 0f;
             Param = null;
-            _semaphore?.Release();
-            _semaphore = null;
+            _isRelease = true;
         }
         
         public object GetParam(string key)
@@ -52,10 +49,9 @@ namespace MyGame
             return null;
         }
 
-        public async UniTask Await()
+        public async UniTask AwaitRelease()
         {
-            if (_semaphore == null) return;
-            await _semaphore.WaitAsync();
+            await UniTask.WaitUntil(() => _isRelease);
         }
     }
     

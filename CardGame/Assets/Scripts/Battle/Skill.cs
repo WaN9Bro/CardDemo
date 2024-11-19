@@ -45,7 +45,7 @@
             Id = id;
             Condition = condition;
             Cost = cost;
-            Effect = string.IsNullOrEmpty(effect) ? default : HeroHelper.GetTimelineModel(effect,effectValue);
+            Effect = string.IsNullOrEmpty(effect) ? default : TimelineHelper.GetTimelineModel(effect,effectValue);
         }
     }
 }

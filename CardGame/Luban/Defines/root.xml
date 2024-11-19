@@ -31,6 +31,18 @@
         <bean name="mRemoveBuffWarp">
             <var name="data" type="RemoveBuffWarp#sep=#"/>        
         </bean>
+        
+        <bean name="mPlayEffectWarp">
+            <var name="data" type="PlayEffectWarp#sep=#"/>        
+        </bean>
+
+        <bean name="mTargetWarp">
+            <var name="data" type="TargetWarp#sep=#"/>        
+        </bean>
+
+         <bean name="mAddBuffTableIndex">
+            <var name="data" type="int"/>        
+        </bean>
 
   </bean>
 </module>

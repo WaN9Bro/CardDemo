@@ -18,7 +18,7 @@ namespace MyGame
             },
             { EBuffEventType.OnTick , new Dictionary<string, BuffEvent>
                 {
-                    
+                    {"EveryRoundDealDamage",EveryRoundDealDamage}
                 }
             },
             { EBuffEventType.OnRemoved , new Dictionary<string, BuffEvent>
@@ -45,19 +45,14 @@ namespace MyGame
                 {
                     
                 }
-            },
-            { EBuffEventType.OnRound , new Dictionary<string, BuffEvent>
-                {
-                    {"EveryRoundDealDamage",EveryRoundDealDamage}
-                }
-            },
+            }
         };
 
         private static void EveryRoundDealDamage(BuffObj buff, params object[] args)
         {
-            CreateDamageWarp warp = (CreateDamageWarp)buff.Model.EventWarps[EBuffEventType.OnRound].EventParameters[0];
+            CreateDamageWarp warp = (CreateDamageWarp)buff.Model.EventWarps[EBuffEventType.OnTick].EventParameters[0];
             GameManager.Instance.GetService(out DamageManager dmgManager);
-            dmgManager.AddDamage(buff.Caster,buff.Target,warp.ConvertWarpToDamage(buff.Caster.Property.Attack),buff.Caster.Property.CriticalRate);
+            dmgManager.AddDamage(buff.Caster,buff.Target,warp.ConvertWarpToDamage(buff.Caster.Property.Attack),buff.Caster.Property.CriticalRate,source:"Ignite");
         }
     }
 }

@@ -1,63 +1,156 @@
 [
   {
     "Key": "Mozhate_Attack",
-    "Duration": 0,
+    "Duration": 1.23,
     "Node": [
       {
         "Elapsed": 0,
         "EventWarp": {
-          "Event": "CasterPlayAnim",
-          "Params": []
+          "Event": "TargetInit",
+          "Params": [
+            {
+              "$type": "mTargetWarp",
+              "data": {
+                "TargetCamp": 1,
+                "TargetFliter": 0,
+                "Count": 1
+              }
+            }
+          ]
+        }
+      },
+      {
+        "Elapsed": 0,
+        "EventWarp": {
+          "Event": "PlayAnimOnCaster",
+          "Params": [
+            {
+              "$type": "mString",
+              "data": "Attack"
+            }
+          ]
         }
       },
       {
         "Elapsed": 0,
         "EventWarp": {
           "Event": "PlayEffectOnCaster",
-          "Params": []
+          "Params": [
+            {
+              "$type": "mPlayEffectWarp",
+              "data": {
+                "BindPoint": "Origin",
+                "EffectName": "mozhate_atk_self"
+              }
+            }
+          ]
         }
       },
       {
-        "Elapsed": 0,
-        "EventWarp": {
-          "Event": "PlayMoveEffect",
-          "Params": []
-        }
-      },
-      {
-        "Elapsed": 0,
-        "EventWarp": {
-          "Event": "PlayEffectOnTarget",
-          "Params": []
-        }
-      },
-      {
-        "Elapsed": 0,
+        "Elapsed": 0.7,
         "EventWarp": {
           "Event": "CreateDamage",
-          "Params": []
+          "Params": [
+            {
+              "$type": "mCreateDamageWarp",
+              "data": {
+                "DamageType": 0,
+                "DamageAttr": 1,
+                "Ratio": 0,
+                "FixedValue": 100,
+                "BeHurtEffect": "mozhate_atk_hit"
+              }
+            }
+          ]
         }
       }
     ]
   },
   {
     "Key": "Shengtisong",
-    "Duration": 1,
+    "Duration": 4.45,
     "Node": [
       {
         "Elapsed": 0,
         "EventWarp": {
-          "Event": "PlaySkillLihui",
+          "Event": "TargetInit",
           "Params": [
             {
-              "$type": "mString",
-              "data": "ShengtisongLihui"
+              "$type": "mTargetWarp",
+              "data": {
+                "TargetCamp": 1,
+                "TargetFliter": 5,
+                "Count": 3
+              }
             }
           ]
         }
       },
       {
-        "Elapsed": 0.2,
+        "Elapsed": 0,
+        "EventWarp": {
+          "Event": "PlayAnimOnCaster",
+          "Params": [
+            {
+              "$type": "mString",
+              "data": "Skill_02"
+            }
+          ]
+        }
+      },
+      {
+        "Elapsed": 0,
+        "EventWarp": {
+          "Event": "PlayEffectOnCaster",
+          "Params": [
+            {
+              "$type": "mPlayEffectWarp",
+              "data": {
+                "BindPoint": "Origin",
+                "EffectName": "mozhate_skill02_self"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "Elapsed": 3.88,
+        "EventWarp": {
+          "Event": "CreateDamage",
+          "Params": []
+        }
+      },
+      {
+        "Elapsed": 4,
+        "EventWarp": {
+          "Event": "AddBuff",
+          "Params": []
+        }
+      }
+    ]
+  },
+  {
+    "Key": "Anhunqu",
+    "Duration": 2.2,
+    "Node": [
+      {
+        "Elapsed": 0,
+        "EventWarp": {
+          "Event": "TargetInit",
+          "Params": [
+            {
+              "$type": "mTargetWarp",
+              "data": {
+                "TargetCamp": 0,
+                "TargetFliter": 9,
+                "Count": 1
+              }
+            }
+          ]
+        }
+      },
+      {
+        "Elapsed": 0,
         "EventWarp": {
           "Event": "PlayAnimOnCaster",
           "Params": [
@@ -69,47 +162,24 @@
         }
       },
       {
-        "Elapsed": 0.3,
+        "Elapsed": 0,
         "EventWarp": {
           "Event": "PlayEffectOnCaster",
           "Params": [
             {
-              "$type": "mString",
-              "data": "x1_mozhate_skill02_self"
+              "$type": "mPlayEffectWarp",
+              "data": {
+                "BindPoint": "Origin",
+                "EffectName": "mozhate_skill01_self"
+              }
             }
           ]
         }
       },
       {
-        "Elapsed": 0.5,
-        "EventWarp": {
-          "Event": "PlayEffectOnTarget",
-          "Params": [
-            {
-              "$type": "mString",
-              "data": "x1_mozhate_skill02_hit"
-            }
-          ]
-        }
-      },
-      {
-        "Elapsed": 0.6,
+        "Elapsed": 1.8,
         "EventWarp": {
           "Event": "CreateDamage",
-          "Params": []
-        }
-      },
-      {
-        "Elapsed": 0.7,
-        "EventWarp": {
-          "Event": "TransferBuff",
-          "Params": []
-        }
-      },
-      {
-        "Elapsed": 1,
-        "EventWarp": {
-          "Event": "RemoveBuff",
           "Params": []
         }
       }

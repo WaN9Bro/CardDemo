@@ -5,16 +5,20 @@ using UnityEngine.Pool;
 
 namespace MyGame
 {
-    public class HeroBuffCom : IHeroComponent
+    public class HeroBuffCom : MonoBehaviour
     {
+        public readonly List<BuffObj> Buffs = new List<BuffObj>();
         public HeroObj HeroObj { get; private set; }
 
         public void Initialize(HeroObj heroObj)
         {
             HeroObj = heroObj;
         }
-
-        public readonly List<BuffObj> Buffs = new List<BuffObj>();
+        
+        public void Clear()
+        {
+            Buffs.Clear();
+        }
 
         public HeroProperty GetProperty()
         {
@@ -38,7 +42,10 @@ namespace MyGame
             }
         }
 
-        public void FixedUpdate(float fixedDeltaTime)
+        /// <summary>
+        /// 每回合的Tick
+        /// </summary>
+        public void OnTick()
         {
             //对身上的buff进行管理
             List<BuffObj> removeBuffObjs = ListPool<BuffObj>.Get();
@@ -46,23 +53,20 @@ namespace MyGame
             {
                 if (Buffs[i].Permanent == false)
                 {
-                    Buffs[i].Duration -= fixedDeltaTime;
+                    Buffs[i].Times += 1;
                 }
                 
-                Buffs[i].TimeElapsed += fixedDeltaTime;
-
-                if (Buffs[i].Model.TickTime > 0)
+                // 每多少回合检测
+                if (Buffs[i].Model.TickTimes > 0 && Buffs[i].Times > 0)
                 {
-                    //float取模不精准，所以用x1000后的整数来
-                    if (Mathf.RoundToInt(Buffs[i].TimeElapsed * 1000) % Mathf.RoundToInt(Buffs[i].Model.TickTime * 1000) == 0)
+                    if (Buffs[i].Times % Buffs[i].Model.TickTimes  == 0)
                     {
                         Buffs[i].ExecuteBuff(EBuffEventType.OnTick,Buffs[i]);
-                        Buffs[i].Ticked += 1;
-                    }
+                    } 
                 }
-
-                //只要duration <= 0，不管是否是permanent都移除掉
-                if (Buffs[i].Duration <= 0 || Buffs[i].Stack <= 0)
+                
+                // 删除检测
+                if (Buffs[i].Times > Buffs[i].Duration || Buffs[i].Stack <= 0)
                 {
                     Buffs[i].ExecuteBuff(EBuffEventType.OnRemoved,Buffs[i]);
                     removeBuffObjs.Add(Buffs[i]);
@@ -132,7 +136,7 @@ namespace MyGame
             {
                 addBuffObj.ExecuteBuff(EBuffEventType.OnOccur,addBuffObj, modStack);
             }
-
+            
             HeroObj.RecheckProperty();
         }
 
@@ -213,11 +217,6 @@ namespace MyGame
 
             HeroObj.RecheckProperty();
             ListPool<BuffObj>.Release(buffObjs);
-        }
-
-        public void Clear()
-        {
-            Buffs.Clear();
         }
     }
 }

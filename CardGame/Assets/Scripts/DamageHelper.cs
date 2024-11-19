@@ -44,9 +44,20 @@ namespace MyGame
 
         public static int CalFinalTotalDamage(this DamageInfo self)
         {
-            float pyDmg = self.FinalDamage.Physical - self.FinalDamage.Physical * self.Defender.Property.PhysicalDefense;
-            float mgDmg = self.FinalDamage.Magic - self.FinalDamage.Magic * self.Defender.Property.MagicDefense;
-            return Mathf.RoundToInt(pyDmg + mgDmg - self.FinalDamage.Heal);
+            float pyDmg = 0;
+            if (self.FinalDamage.Physical > 0)
+            {
+                pyDmg = Mathf.Abs(self.FinalDamage.Physical - self.Defender.Property.TotalPhysicalDefense);
+            }
+
+            float mgDmg = 0;
+            if (self.FinalDamage.Magic > 0)
+            {
+                mgDmg = Mathf.Abs(self.FinalDamage.Magic - self.Defender.Property.TotalMagicDefense);
+            }
+            
+            
+            return Mathf.Abs(Mathf.RoundToInt(pyDmg + mgDmg - self.FinalDamage.Heal));
         }
     }
 }

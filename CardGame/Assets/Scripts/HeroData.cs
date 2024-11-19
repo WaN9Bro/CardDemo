@@ -24,7 +24,6 @@ namespace MyGame
         {
             get
             {
-                //TODO:读配置表内容进行生成
                 GameManager.Instance.GetService(out TableManager tableManager);
                 Hero table = tableManager.Tables.TbHero.Get(Id);
                 
@@ -41,7 +40,7 @@ namespace MyGame
                     magicDef += (Level - 1) * table.MagicDefenseDelta;
                 }
 
-                return new HeroProperty(hp, attack, pyDef, magicDef,0,0);
+                return new HeroProperty(hp, attack, pyDef, magicDef,0,500);
             }
         }
         

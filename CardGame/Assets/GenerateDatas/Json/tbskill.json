@@ -1,10 +1,28 @@
 [
   {
+    "Id": 90011,
+    "Group": 9001,
+    "Rule": {
+      "Cast": 1,
+      "CD": 0
+    },
+    "Condition": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "Cost": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "EffectKey": "Mozhate_Attack",
+    "EffectValue": []
+  },
+  {
     "Id": 10111,
     "Group": 1011,
     "Rule": {
       "Cast": 1,
-      "CD": 0
+      "CD": 1
     },
     "Condition": {
       "HP": 0,
@@ -24,38 +42,19 @@
             "data": {
               "DamageType": 1,
               "DamageAttr": 1,
-              "TargetFliter": 5,
-              "Count": 3,
               "Ratio": 1.26,
-              "FixedValue": 0
+              "FixedValue": 0,
+              "BeHurtEffect": "NULL"
             }
           }
         ]
       },
       {
-        "Event": "TransferBuff",
+        "Event": "AddBuff",
         "Params": [
           {
-            "$type": "mTransferBuffWarp",
-            "data": {
-              "BuffKey": "Ignite",
-              "Probability": 0.3,
-              "Count": 1
-            }
-          }
-        ]
-      },
-      {
-        "Event": "RemoveBuff",
-        "Params": [
-          {
-            "$type": "mRemoveBuffWarp",
-            "data": {
-              "RemoveBuffType": 0,
-              "BuffKey": "NULL",
-              "Probability": 0.3,
-              "Count": 1
-            }
+            "$type": "mAddBuffTableIndex",
+            "data": 1001
           }
         ]
       }
@@ -66,7 +65,7 @@
     "Group": 1011,
     "Rule": {
       "Cast": 1,
-      "CD": 0
+      "CD": 1
     },
     "Condition": {
       "HP": 0,
@@ -86,38 +85,19 @@
             "data": {
               "DamageType": 1,
               "DamageAttr": 1,
-              "TargetFliter": 5,
-              "Count": 3,
               "Ratio": 1.51,
-              "FixedValue": 0
+              "FixedValue": 0,
+              "BeHurtEffect": "NULL"
             }
           }
         ]
       },
       {
-        "Event": "TransferBuff",
+        "Event": "AddBuff",
         "Params": [
           {
-            "$type": "mTransferBuffWarp",
-            "data": {
-              "BuffKey": "Ignite",
-              "Probability": 0.4,
-              "Count": 1
-            }
-          }
-        ]
-      },
-      {
-        "Event": "RemoveBuff",
-        "Params": [
-          {
-            "$type": "mRemoveBuffWarp",
-            "data": {
-              "RemoveBuffType": 0,
-              "BuffKey": "NULL",
-              "Probability": 0.4,
-              "Count": 1
-            }
+            "$type": "mAddBuffTableIndex",
+            "data": 1002
           }
         ]
       }
@@ -128,7 +108,7 @@
     "Group": 1011,
     "Rule": {
       "Cast": 1,
-      "CD": 0
+      "CD": 1
     },
     "Condition": {
       "HP": 0,
@@ -148,38 +128,19 @@
             "data": {
               "DamageType": 1,
               "DamageAttr": 1,
-              "TargetFliter": 5,
-              "Count": 3,
               "Ratio": 1.8,
-              "FixedValue": 0
+              "FixedValue": 0,
+              "BeHurtEffect": "NULL"
             }
           }
         ]
       },
       {
-        "Event": "TransferBuff",
+        "Event": "AddBuff",
         "Params": [
           {
-            "$type": "mTransferBuffWarp",
-            "data": {
-              "BuffKey": "Ignite",
-              "Probability": 0.5,
-              "Count": 1
-            }
-          }
-        ]
-      },
-      {
-        "Event": "RemoveBuff",
-        "Params": [
-          {
-            "$type": "mRemoveBuffWarp",
-            "data": {
-              "RemoveBuffType": 0,
-              "BuffKey": "NULL",
-              "Probability": 0.5,
-              "Count": 1
-            }
+            "$type": "mAddBuffTableIndex",
+            "data": 1003
           }
         ]
       }
@@ -190,7 +151,7 @@
     "Group": 1011,
     "Rule": {
       "Cast": 1,
-      "CD": 0
+      "CD": 1
     },
     "Condition": {
       "HP": 0,
@@ -210,38 +171,19 @@
             "data": {
               "DamageType": 1,
               "DamageAttr": 1,
-              "TargetFliter": 5,
-              "Count": 3,
               "Ratio": 1.88,
-              "FixedValue": 0
+              "FixedValue": 0,
+              "BeHurtEffect": "NULL"
             }
           }
         ]
       },
       {
-        "Event": "TransferBuff",
+        "Event": "AddBuff",
         "Params": [
           {
-            "$type": "mTransferBuffWarp",
-            "data": {
-              "BuffKey": "Ignite",
-              "Probability": 0.55,
-              "Count": 1
-            }
-          }
-        ]
-      },
-      {
-        "Event": "RemoveBuff",
-        "Params": [
-          {
-            "$type": "mRemoveBuffWarp",
-            "data": {
-              "RemoveBuffType": 0,
-              "BuffKey": "NULL",
-              "Probability": 0.55,
-              "Count": 1
-            }
+            "$type": "mAddBuffTableIndex",
+            "data": 1004
           }
         ]
       }
@@ -252,7 +194,7 @@
     "Group": 1011,
     "Rule": {
       "Cast": 1,
-      "CD": 0
+      "CD": 1
     },
     "Condition": {
       "HP": 0,
@@ -272,37 +214,188 @@
             "data": {
               "DamageType": 1,
               "DamageAttr": 1,
-              "TargetFliter": 5,
-              "Count": 3,
               "Ratio": 1.95,
-              "FixedValue": 0
+              "FixedValue": 0,
+              "BeHurtEffect": "NULL"
             }
           }
         ]
       },
       {
-        "Event": "TransferBuff",
+        "Event": "AddBuff",
         "Params": [
           {
-            "$type": "mTransferBuffWarp",
+            "$type": "mAddBuffTableIndex",
+            "data": 1005
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": 10211,
+    "Group": 1021,
+    "Rule": {
+      "Cast": 2,
+      "CD": 2
+    },
+    "Condition": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "Cost": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "EffectKey": "Anhunqu",
+    "EffectValue": [
+      {
+        "Event": "CreateDamage",
+        "Params": [
+          {
+            "$type": "mCreateDamageWarp",
             "data": {
-              "BuffKey": "Ignite",
-              "Probability": 0.6,
-              "Count": 1
+              "DamageType": 0,
+              "DamageAttr": 2,
+              "Ratio": 0,
+              "FixedValue": 50,
+              "BeHurtEffect": "mozhate_skill01_hit"
             }
           }
         ]
-      },
+      }
+    ]
+  },
+  {
+    "Id": 10212,
+    "Group": 1021,
+    "Rule": {
+      "Cast": 2,
+      "CD": 2
+    },
+    "Condition": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "Cost": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "EffectKey": "Anhunqu",
+    "EffectValue": [
       {
-        "Event": "RemoveBuff",
+        "Event": "CreateDamage",
         "Params": [
           {
-            "$type": "mRemoveBuffWarp",
+            "$type": "mCreateDamageWarp",
             "data": {
-              "RemoveBuffType": 0,
-              "BuffKey": "NULL",
-              "Probability": 0.6,
-              "Count": 1
+              "DamageType": 0,
+              "DamageAttr": 2,
+              "Ratio": 0,
+              "FixedValue": 60,
+              "BeHurtEffect": "mozhate_skill01_hit"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": 10213,
+    "Group": 1021,
+    "Rule": {
+      "Cast": 2,
+      "CD": 2
+    },
+    "Condition": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "Cost": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "EffectKey": "Anhunqu",
+    "EffectValue": [
+      {
+        "Event": "CreateDamage",
+        "Params": [
+          {
+            "$type": "mCreateDamageWarp",
+            "data": {
+              "DamageType": 0,
+              "DamageAttr": 2,
+              "Ratio": 0,
+              "FixedValue": 70,
+              "BeHurtEffect": "mozhate_skill01_hit"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": 10214,
+    "Group": 1021,
+    "Rule": {
+      "Cast": 2,
+      "CD": 2
+    },
+    "Condition": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "Cost": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "EffectKey": "Anhunqu",
+    "EffectValue": [
+      {
+        "Event": "CreateDamage",
+        "Params": [
+          {
+            "$type": "mCreateDamageWarp",
+            "data": {
+              "DamageType": 0,
+              "DamageAttr": 2,
+              "Ratio": 0,
+              "FixedValue": 80,
+              "BeHurtEffect": "mozhate_skill01_hit"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": 10215,
+    "Group": 1021,
+    "Rule": {
+      "Cast": 2,
+      "CD": 2
+    },
+    "Condition": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "Cost": {
+      "HP": 0,
+      "Shield": 0
+    },
+    "EffectKey": "Anhunqu",
+    "EffectValue": [
+      {
+        "Event": "CreateDamage",
+        "Params": [
+          {
+            "$type": "mCreateDamageWarp",
+            "data": {
+              "DamageType": 0,
+              "DamageAttr": 2,
+              "Ratio": 0,
+              "FixedValue": 90,
+              "BeHurtEffect": "mozhate_skill01_hit"
             }
           }
         ]

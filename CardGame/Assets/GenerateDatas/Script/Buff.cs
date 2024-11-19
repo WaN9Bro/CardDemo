@@ -27,7 +27,7 @@ public sealed partial class Buff : Luban.BeanBase
         { var __json0 = _obj.GetValue("ControlMod"); ControlMod = new System.Collections.Generic.Dictionary<EControlModType, mObject>((__json0 as JArray).Count); foreach(JToken __e0 in __json0) { EControlModType _k0;  _k0 = (EControlModType)(int)__e0[0]; mObject _v0;  _v0 = mObject.DeserializemObject(__e0[1]);  ControlMod.Add(_k0, _v0); }   }
         Priority = (int)_obj.GetValue("Priority");
         MaxStack = (int)_obj.GetValue("MaxStack");
-        TickTime = (float)_obj.GetValue("TickTime");
+        TickTime = (int)_obj.GetValue("TickTime");
         { var __json0 = _obj.GetValue("Event"); Event = new System.Collections.Generic.Dictionary<EBuffEventType, string>((__json0 as JArray).Count); foreach(JToken __e0 in __json0) { EBuffEventType _k0;  _k0 = (EBuffEventType)(int)__e0[0]; string _v0;  _v0 = (string)__e0[1];  Event.Add(_k0, _v0); }   }
     }
 
@@ -59,9 +59,9 @@ public sealed partial class Buff : Luban.BeanBase
     /// </summary>
     public readonly int MaxStack;
     /// <summary>
-    /// 工作周期，单位秒
+    /// 工作周期，单位回合
     /// </summary>
-    public readonly float TickTime;
+    public readonly int TickTime;
     /// <summary>
     /// 时机方法
     /// </summary>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Reflection;
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 
 namespace MyGame
@@ -22,8 +23,22 @@ namespace MyGame
             
             _postGameServices.AddRange(GetComponentsInChildren<IPostGameService>().ToDictionary(service => service.GetType(), service => service));
             _postGameServices.AddRange(CreateInstance<IPostGameService>());
+
+            foreach (IPreGameService service in _preGameServices.Values.ToList())
+            {
+                if (service is IFixedUpdate)
+                {
+                    _fixedUpdateServices.Add((IFixedUpdate)service);
+                }
+            }
             
-            _fixedUpdateServices.AddRange(CreateInstance<IFixedUpdate>());
+            foreach (IPostGameService service in _postGameServices.Values.ToList())
+            {
+                if (service is IFixedUpdate)
+                {
+                    _fixedUpdateServices.Add((IFixedUpdate)service);
+                }
+            }
             
             // 初始化前服务
             foreach (var service in _preGameServices.Values)
@@ -38,20 +53,22 @@ namespace MyGame
             }
 
             GetService(out PlayerManager playerManager);
-            HeroData testHero = HeroHelper.Create(1001);
+            HeroData testHero = HeroHelper.CreateHeroData(1001);
             playerManager.AddHero(testHero);
+            playerManager.SetPlace(testHero.Uid,new Grid(0,1));
             Faction playerFaction = FactionHelper.CreatePlayerFaction(playerManager.PlayerData.Faction);
             Faction enemyFaction = FactionHelper.CreateEnemyFaction(1);
 
             GetService(out BattleManager battleManager);
-            battleManager.RunBattle(playerFaction, enemyFaction);
+            battleManager.RunBattle(playerFaction, enemyFaction).Forget();
         }
 
         private void FixedUpdate()
         {
+            float deltaTime = Time.fixedDeltaTime;
             foreach (IFixedUpdate service in _fixedUpdateServices)
             {
-                service.FixedUpdate(Time.fixedDeltaTime);
+                service.FixedUpdate(deltaTime);
             }
         }
 

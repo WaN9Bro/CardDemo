@@ -8,12 +8,12 @@
     "PropMod": [],
     "ControlMod": [],
     "Priority": 1,
-    "MaxStack": 1,
-    "TickTime": 0,
+    "MaxStack": 5,
+    "TickTime": 2,
     "Event": [
       [
-        8,
-        "EveryRoundDealDamge"
+        2,
+        "EveryRoundDealDamage"
       ]
     ]
   },

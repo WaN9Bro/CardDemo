@@ -2,7 +2,7 @@
 
 namespace MyGame
 {
-    public class HeroBindCom : IHeroComponent
+    public class HeroBindCom : MonoBehaviour
     {
         public HeroObj HeroObj { get; private set; }
         
@@ -26,10 +26,17 @@ namespace MyGame
             return null;
         }
         
-        public void AddBindGameObject(string bindPointKey, string go, string key, bool loop){
+        public void AddBindGameObject(string bindPointKey, string go, string key){
             BindPoint bp = GetBindPointByKey(bindPointKey);
             if (bp == null) return;
-            bp.AddBindGameObject(go, key, loop);
+            bp.AddBindGameObject(go, key);
+        }
+
+        public void AddPopText(EFaction faction,string bindPointKey, string go,string text)
+        {
+            BindPoint bp = GetBindPointByKey(bindPointKey);
+            if (bp == null) return;
+            bp.AddPopText(faction,go,text);
         }
         
         public void RemoveBindGameObject(string bindPointKey, string key){

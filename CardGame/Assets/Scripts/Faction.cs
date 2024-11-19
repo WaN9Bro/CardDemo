@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.Pool;
 using Random = UnityEngine.Random;
 
 
@@ -75,9 +77,26 @@ namespace MyGame
                     HeroWarp heroWarp = _heroObjs[i,j];
                     if (heroWarp.Data == null) continue;
                 
+                    // 创建HeroObj对象到游戏中
                     HeroObj heroObj = HeroHelper.CreateHeroObj(heroWarp.Data);
-                    heroWarp.Obj = heroObj;
-                    heroObj.Init(heroWarp.Data,new Grid(i,j), _factionType);
+                    heroWarp.Obj = heroObj; ;
+                    Grid grid = new Grid(i, j);
+                    
+                    // 设置位置
+                    heroObj.transform.SetParent(battleManager.GetPlace(_factionType,grid));
+                    heroObj.transform.localPosition = Vector3.zero;
+                    heroObj.transform.localRotation = Quaternion.identity;
+                    heroObj.transform.localScale = Vector3.one;
+                    
+                    // 创建Hero的Spine
+                    GameObject spineObj = HeroHelper.CreateHeroSpine(heroWarp.Data);
+                    spineObj.transform.SetParent(heroObj.SpineContainer);
+                    spineObj.transform.localPosition = Vector3.zero;
+                    spineObj.transform.localRotation = Quaternion.identity;
+                    spineObj.transform.localScale = Vector3.one;
+
+                    // 初始化
+                    heroObj.Init(heroWarp.Data, grid, _factionType);
                 }
             }
         }
@@ -98,7 +117,7 @@ namespace MyGame
             List<HeroObj> aliveHeroObjs = GetAliveHeroObjs();
             if (!aliveHeroObjs.IsNullOrEmpty())
             {
-                List<HeroObj> result = new List<HeroObj>();
+                List<HeroObj> result = ListPool<HeroObj>.Get();
                 foreach (HeroObj heroObj in aliveHeroObjs)
                 {
                     if (!heroObj.BuffCom.HasBuff(key, out var _))
@@ -107,6 +126,7 @@ namespace MyGame
                     }
                 }
 
+                ListPool<HeroObj>.Release(aliveHeroObjs);
                 return result;
             }
 
@@ -129,7 +149,7 @@ namespace MyGame
             return aliveHeroObjs;
         }
 
-        public List<HeroObj> GetFilterHeroObjs(CreateDamageWarp warp,HeroObj caster)
+        public List<HeroObj> GetFilterHeroObjs(TargetWarp warp,HeroObj caster)
         {
             List<HeroObj> aliveHeroObjs = GetAliveHeroObjs();
             
@@ -149,6 +169,8 @@ namespace MyGame
                     return GetFilterHeroObjsByRearRow(aliveHeroObjs);
                 case ETargetFliter.LowestHealth:
                     return GetFilterHeroObjsByLowestHealth(aliveHeroObjs);
+                case ETargetFliter.MyDeadOrLowestHealth:
+                    return GetFilterHeroObjsByMyDeadOrLowestHealth(aliveHeroObjs);
             }
 
             return null;
@@ -160,7 +182,7 @@ namespace MyGame
             Grid grid = caster.Grid;
             HeroWarp[,] temp = null;
             // 先找对位的那一行
-            for (int i = 1; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 if (_heroObjs[grid.X, i].Data != null && !_heroObjs[grid.X, i].Obj.IsDead)
                 {
@@ -210,7 +232,7 @@ namespace MyGame
             for (int i = 0; i < targetCount; i++)
             {
                 int random = Random.Range(0, temp.Count);
-                result[i] = temp[random];
+                result.Add(temp[random]);
                 temp.RemoveAt(random);
             }
 
@@ -310,6 +332,24 @@ namespace MyGame
             }
 
             return result;
+        }
+
+        private List<HeroObj> GetFilterHeroObjsByMyDeadOrLowestHealth(List<HeroObj> aliveHeroObjs)
+        {
+            for (int i = 0; i < _heroObjs.GetLength(0); i++)
+            {
+                for (int j = 0; j < _heroObjs.GetLength(1); j++)
+                {
+                    if (_heroObjs[i,j].Data != null && _heroObjs[i,j].Obj.IsDead)
+                    {
+                        List<HeroObj> result = new List<HeroObj>(1);
+                        result.Add(_heroObjs[i,j].Obj);
+                        return result;
+                    }
+                }
+            }
+
+            return GetFilterHeroObjsByLowestHealth(aliveHeroObjs);
         }
     }
 }

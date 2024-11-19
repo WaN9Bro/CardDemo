@@ -1,0 +1,167 @@
+[
+  {
+    "Id": 1001,
+    "AddBuff": [
+      {
+        "Probability": 1,
+        "BuffKey": "Ignite",
+        "AddStack": 1,
+        "TimeModify": true,
+        "Permanent": false,
+        "Duration": 2,
+        "PropMod": [],
+        "ControlMod": [],
+        "EventValueWarp": [
+          {
+            "BuffEventType": 2,
+            "Event": "EveryRoundDealDamage",
+            "Params": [
+              {
+                "$type": "mCreateDamageWarp",
+                "data": {
+                  "DamageType": 0,
+                  "DamageAttr": 1,
+                  "Ratio": 0,
+                  "FixedValue": 100,
+                  "BeHurtEffect": "NULL"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": 1002,
+    "AddBuff": [
+      {
+        "Probability": 1,
+        "BuffKey": "Ignite",
+        "AddStack": 1,
+        "TimeModify": true,
+        "Permanent": false,
+        "Duration": 2,
+        "PropMod": [],
+        "ControlMod": [],
+        "EventValueWarp": [
+          {
+            "BuffEventType": 2,
+            "Event": "EveryRoundDealDamage",
+            "Params": [
+              {
+                "$type": "mCreateDamageWarp",
+                "data": {
+                  "DamageType": 0,
+                  "DamageAttr": 1,
+                  "Ratio": 0,
+                  "FixedValue": 200,
+                  "BeHurtEffect": "NULL"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": 1003,
+    "AddBuff": [
+      {
+        "Probability": 1,
+        "BuffKey": "Ignite",
+        "AddStack": 1,
+        "TimeModify": true,
+        "Permanent": false,
+        "Duration": 2,
+        "PropMod": [],
+        "ControlMod": [],
+        "EventValueWarp": [
+          {
+            "BuffEventType": 2,
+            "Event": "EveryRoundDealDamage",
+            "Params": [
+              {
+                "$type": "mCreateDamageWarp",
+                "data": {
+                  "DamageType": 0,
+                  "DamageAttr": 1,
+                  "Ratio": 0,
+                  "FixedValue": 300,
+                  "BeHurtEffect": "NULL"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": 1004,
+    "AddBuff": [
+      {
+        "Probability": 1,
+        "BuffKey": "Ignite",
+        "AddStack": 1,
+        "TimeModify": true,
+        "Permanent": false,
+        "Duration": 2,
+        "PropMod": [],
+        "ControlMod": [],
+        "EventValueWarp": [
+          {
+            "BuffEventType": 2,
+            "Event": "EveryRoundDealDamage",
+            "Params": [
+              {
+                "$type": "mCreateDamageWarp",
+                "data": {
+                  "DamageType": 0,
+                  "DamageAttr": 1,
+                  "Ratio": 0,
+                  "FixedValue": 400,
+                  "BeHurtEffect": "NULL"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": 1005,
+    "AddBuff": [
+      {
+        "Probability": 1,
+        "BuffKey": "Ignite",
+        "AddStack": 1,
+        "TimeModify": true,
+        "Permanent": false,
+        "Duration": 2,
+        "PropMod": [],
+        "ControlMod": [],
+        "EventValueWarp": [
+          {
+            "BuffEventType": 2,
+            "Event": "EveryRoundDealDamage",
+            "Params": [
+              {
+                "$type": "mCreateDamageWarp",
+                "data": {
+                  "DamageType": 0,
+                  "DamageAttr": 1,
+                  "Ratio": 0,
+                  "FixedValue": 500,
+                  "BeHurtEffect": "NULL"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

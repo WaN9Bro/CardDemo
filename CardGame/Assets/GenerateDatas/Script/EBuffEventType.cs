@@ -45,10 +45,6 @@ namespace MyGame
         /// 在伤害流程中，持有这个buff的人被杀死了，会触发的事情
         /// </summary>
         OnBeKilled = 7,
-        /// <summary>
-        /// buff在每一回合会执行的函数
-        /// </summary>
-        OnRound = 8,
     }
 
 } 

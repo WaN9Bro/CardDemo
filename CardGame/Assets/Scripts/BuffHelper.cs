@@ -11,50 +11,20 @@ namespace MyGame
             GameManager.Instance.GetService(out TableManager tableManager);
             Buff config = tableManager.Tables.TbBuff.Get(self.BuffKey);
             Dictionary<EBuffEventType, BuffEventWarp> eventWarps = new Dictionary<EBuffEventType, BuffEventWarp>();
-            
+
             if (self.EventValueWarp != null)
             {
                 foreach (BuffEventValueWarp warp in self.EventValueWarp)
                 {
-                    eventWarps.Add(warp.BuffEventType,new BuffEventWarp(BuffFunction.Functions[warp.BuffEventType][warp.Event],new List<object>()));
+                    eventWarps.Add(warp.BuffEventType,
+                        new BuffEventWarp(BuffFunction.Functions[warp.BuffEventType][warp.Event], warp.Params.ConvertMObjectToObject()));
                 }
             }
 
             return new BuffModel(config.Id, config.Priority, config.MaxStack, config.TickTime, config.Tags,
                 config.PropMod.ConvertWarpToHeroProperty() + self.PropMod.ConvertWarpToHeroProperty(),
-                config.ControlMod.ConvertWarpToHeroControlMod() + self.ControlMod.ConvertWarpToHeroControlMod(), eventWarps);
-        }
-
-        public static List<BuffModel> ConvertWarpToModel(this AutoAddBuffWarp[] self)
-        {
-            List<BuffModel> models = new List<BuffModel>(self.Length);
-            foreach (AutoAddBuffWarp war in self)
-            {
-                models.Add(war.ConvertWarpToModel());
-            }
-
-            return models;
-        }
-        
-
-        // 学习技能后自动学的buff属于被动技能buff
-        public static BuffModel ConvertWarpToModel(this AutoAddBuffWarp self)
-        {
-            GameManager.Instance.GetService(out TableManager tableManager);
-            Buff config = tableManager.Tables.TbBuff.Get(self.BuffKey);
-            Dictionary<EBuffEventType,BuffEventWarp> eventWarps = new Dictionary<EBuffEventType, BuffEventWarp>();
-
-            if (self.EventValueWarp != null)
-            {
-                foreach (BuffEventValueWarp warp in self.EventValueWarp)
-                {
-                    eventWarps.Add(warp.BuffEventType,new BuffEventWarp(BuffFunction.Functions[warp.BuffEventType][warp.Event],new List<object>()));
-                }
-            }
-
-            return new BuffModel(config.Id, config.Priority, config.MaxStack, config.TickTime, config.Tags,
-                self.PropMod.ConvertWarpToHeroProperty() + self.PropMod.ConvertWarpToHeroProperty(),
-                self.ControlMod.ConvertWarpToHeroControlMod() + self.ControlMod.ConvertWarpToHeroControlMod(), eventWarps);
+                config.ControlMod.ConvertWarpToHeroControlMod() + self.ControlMod.ConvertWarpToHeroControlMod(),
+                eventWarps);
         }
 
         public static AddBuffInfo ConvertWarpToAddBuffInfo(this AddBuffWarp self)
@@ -119,9 +89,6 @@ namespace MyGame
                     case EControlModType.CanSkill:
                         heroControlMod.CanUseSkill = ((mBool)kv.Value).Data;
                         break;
-                    case EControlModType.CanDead:
-                        heroControlMod.CanDead = ((mBool)kv.Value).Data;
-                        break;
                     case EControlModType.CanBeHurt:
                         heroControlMod.CanBeHurt = ((mBool)kv.Value).Data;
                         break;
@@ -135,10 +102,10 @@ namespace MyGame
         }
 
 
-        public static List<AddBuffInfo> ConvertWarpToAddBuffInfos(this AutoAddBuffWarp[] self)
+        public static List<AddBuffInfo> ConvertWarpToAddBuffInfos(this AddBuffWarp[] self)
         {
             List<AddBuffInfo> addBuffInfos = new List<AddBuffInfo>(self.Length);
-            foreach (AutoAddBuffWarp warp in self)
+            foreach (AddBuffWarp warp in self)
             {
                 addBuffInfos.Add(warp.ConvertWarpToAddBuffInfo());
             }
@@ -146,10 +113,15 @@ namespace MyGame
             return addBuffInfos;
         }
 
-        public static AddBuffInfo ConvertWarpToAddBuffInfo(this AutoAddBuffWarp self)
+        public static AddBuffDefine Config(this mAddBuffTableIndex self)
         {
-            return new AddBuffInfo(null,null,self.ConvertWarpToModel(),self.AddStack,
-                self.TimeModify,self.Permanent,self.Duration,new Dictionary<string, object>());
+            GameManager.Instance.GetService(out TableManager tableManager);
+            return tableManager.Tables.TbAddBuffDefine.Get(self.Data);
+        }
+
+        public static List<AddBuffInfo> ConvertToAddBuffInfo(this AddBuffDefine self)
+        {
+            return self.AddBuff.ConvertWarpToAddBuffInfos();
         }
     }
 }

@@ -25,7 +25,7 @@ public sealed partial class AddBuffWarp : Luban.BeanBase
         AddStack = (int)_obj.GetValue("AddStack");
         TimeModify = (bool)_obj.GetValue("TimeModify");
         Permanent = (bool)_obj.GetValue("Permanent");
-        Duration = (float)_obj.GetValue("Duration");
+        Duration = (int)_obj.GetValue("Duration");
         { var __json0 = _obj.GetValue("PropMod"); PropMod = new System.Collections.Generic.Dictionary<EPropertyModType, mObject>((__json0 as JArray).Count); foreach(JToken __e0 in __json0) { EPropertyModType _k0;  _k0 = (EPropertyModType)(int)__e0[0]; mObject _v0;  _v0 = mObject.DeserializemObject(__e0[1]);  PropMod.Add(_k0, _v0); }   }
         { var __json0 = _obj.GetValue("ControlMod"); ControlMod = new System.Collections.Generic.Dictionary<EControlModType, mObject>((__json0 as JArray).Count); foreach(JToken __e0 in __json0) { EControlModType _k0;  _k0 = (EControlModType)(int)__e0[0]; mObject _v0;  _v0 = mObject.DeserializemObject(__e0[1]);  ControlMod.Add(_k0, _v0); }   }
         { var __json0 = _obj.GetValue("EventValueWarp"); int _n0 = (__json0 as JArray).Count; EventValueWarp = new BuffEventValueWarp[_n0]; int __index0=0; foreach(JToken __e0 in __json0) { BuffEventValueWarp __v0;  __v0 = BuffEventValueWarp.DeserializeBuffEventValueWarp(__e0);  EventValueWarp[__index0++] = __v0; }   }
@@ -57,13 +57,19 @@ public sealed partial class AddBuffWarp : Luban.BeanBase
     /// </summary>
     public readonly bool Permanent;
     /// <summary>
-    /// 持续时间
+    /// 持续回合
     /// </summary>
-    public readonly float Duration;
+    public readonly int Duration;
+    /// <summary>
+    /// 修改的属性
+    /// </summary>
     public readonly System.Collections.Generic.Dictionary<EPropertyModType, mObject> PropMod;
+    /// <summary>
+    /// 修改的行为
+    /// </summary>
     public readonly System.Collections.Generic.Dictionary<EControlModType, mObject> ControlMod;
     /// <summary>
-    /// Buff的效果参数
+    /// 触发时机参数
     /// </summary>
     public readonly BuffEventValueWarp[] EventValueWarp;
 
